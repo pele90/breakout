@@ -26,11 +26,30 @@ bool Game::initialize()
 		}
 		else
 		{
+			renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+
+			if (renderer == nullptr)
+			{
+				std::cout << "Failed to create renderer : " << SDL_GetError() << std::endl;
+				return false;
+			}
+			else
+			{
+				// Set size of renderer to the same as window
+				SDL_RenderSetLogicalSize(renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
+
+				// Set color of renderer to red
+				SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+			}
+
+			gameGUI = new GameGUI();
+			gameGUI->initialize(renderer);
+
 			//Get window surface 
-			screenSurface = SDL_GetWindowSurface(window);
+			//screenSurface = SDL_GetWindowSurface(window);
 
 			//Fill the surface white 
-			SDL_FillRect(screenSurface, NULL, SDL_MapRGB(screenSurface->format, 0xFF, 0xFF, 0xFF));
+			//SDL_FillRect(screenSurface, NULL, SDL_MapRGB(screenSurface->format, 0xFF, 0xFF, 0xFF));
 
 			////Update the surface 
 			//SDL_UpdateWindowSurface(window);
@@ -45,6 +64,7 @@ void Game::start()
 	int frame = 0;
 	unsigned int lastTime = 0;
 	float deltaTime;
+	unsigned int capTimer = 0;
 
 	if (!this->initialize())
 	{
@@ -54,14 +74,22 @@ void Game::start()
 	{
 		while (isRunning)
 		{
+			capTimer = SDL_GetTicks();
 			deltaTime = SDL_GetTicks() - lastTime;
 			lastTime += deltaTime;
 
-			std::cout << frame / (SDL_GetTicks() / 1000.f) << std::endl;
+			this->update(frame / (SDL_GetTicks() / 1000.f));
 
-			this->update(deltaTime);
+			this->render();
 
 			frame++;
+
+			//If frame finished early 
+			if((SDL_GetTicks() - capTimer) < SCREEN_TICKS_PER_FRAME )
+			{ 
+				//Wait remaining time 
+				SDL_Delay( SCREEN_TICKS_PER_FRAME - (SDL_GetTicks() - capTimer));
+			}
 		}
 	}
 }
@@ -82,14 +110,15 @@ void Game::update(float deltaTime)
 	// update physics
 
 	// update gui
-
-	// draw
-
-
+	gameGUI->update(renderer, deltaTime);
 }
 
 void Game::render()
 {
+	gameGUI->render(renderer);
+
+	// Render the changes above
+	SDL_RenderPresent(renderer);
 }
 
 void Game::destroy()
@@ -101,6 +130,12 @@ void Game::destroy()
 	//Destroy window 
 	SDL_DestroyWindow(window); 
 	window = NULL;
+
+	SDL_DestroyRenderer(renderer);
+	renderer = NULL;
+
+	gameGUI->destroy();
+	gameGUI = NULL;
 	
 	//Quit SDL subsystems 
 	SDL_Quit();
