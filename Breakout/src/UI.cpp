@@ -6,7 +6,7 @@ UI::UI()
 
 UI::~UI(){}
 
-bool UI::initialize()
+bool UI::initialize(const char* layout)
 {
 	//Initialize SDL_ttf
 	if (TTF_Init() == -1)
@@ -15,7 +15,7 @@ bool UI::initialize()
 	}
 
 	dataset = new Dataset();
-	dataset->parseLayout("main_menu");
+	dataset->parseLayout(layout);
 
 	for (auto it : dataset->getButtons())
 	{

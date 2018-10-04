@@ -53,7 +53,7 @@ Label::~Label() {}
 bool Label::initialize()
 {
 	std::string fontFilename = DEFAULT_FONT_PATH;
-	fontFilename.append(this->fontName);
+	fontFilename.append(this->fontName).append(".ttf");
 	this->font = TTF_OpenFont(fontFilename.c_str(), this->fontSize);
 	if (this->font == NULL)
 	{
@@ -69,7 +69,7 @@ void Label::update()
 
 void Label::render(SDL_Renderer* renderer)
 {
-	this->surface = TTF_RenderText_Solid(this->font, this->text.c_str(), this->fontColor);
+	this->surface = TTF_RenderText_Blended(this->font, this->text.c_str(), this->fontColor);
 	this->texture = SDL_CreateTextureFromSurface(renderer, this->surface);
 
 	SDL_RenderCopy(renderer, this->texture, nullptr, &this->transform);

@@ -8,7 +8,8 @@
 
 #include "UIObject.h"
 
-
+#define PRESSED_ALPHA 128
+#define FULL_ALPHA 255
 
 class Button : public UIObject
 {
@@ -24,11 +25,13 @@ public:
 	void destroy();
 
 	void setTextureFilename(const char* filename);
+	bool mouseHover();
 
 private:
 	SDL_Surface* surface;
 	SDL_Texture* texture;
 	std::string textureFilename;
+	bool hover;
 };
 
 #endif // !BUTTON_H

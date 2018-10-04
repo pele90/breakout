@@ -40,6 +40,39 @@ bool Button::initialize()
 
 void Button::update()
 {
+	if (mouseHover())
+	{
+		SDL_SetSurfaceAlphaMod(this->surface, PRESSED_ALPHA);
+
+		if (!this->hover)
+		{
+			int w = this->transform.w + 5;
+			int h = this->transform.h + 5;
+
+			SDL_Rect newRect = { this->transform.x, this->transform.y, w, h };
+
+			this->transform = newRect;
+
+			this->hover = true;
+		}
+	}
+	else
+	{
+		SDL_SetSurfaceAlphaMod(this->surface, FULL_ALPHA);
+
+		if (this->hover)
+		{
+			int w = this->transform.w - 5;
+			int h = this->transform.h - 5;
+
+			SDL_Rect newRect = { this->transform.x, this->transform.y, w, h };
+
+			this->transform = newRect;
+
+			this->hover = false;
+		}
+	}
+
 	if (this->child != NULL)
 	{
 		this->child->update();
@@ -69,4 +102,13 @@ void Button::destroy()
 void Button::setTextureFilename(const char* filename)
 {
 	this->textureFilename = filename;
+}
+
+bool Button::mouseHover()
+{
+	int x, y;
+	Input::getInstance()->getMouse(x, y);
+	SDL_Point point = { x, y };
+
+	return SDL_PointInRect(&point, &this->transform);
 }

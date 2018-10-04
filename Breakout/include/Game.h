@@ -3,9 +3,12 @@
 
 #include <iostream>
 
-#include "UI.h"
-
 #include "SDL.h"
+
+#include "UI.h"
+#include "SceneManager.h"
+#include "Input.h"
+
 
 //Screen dimension constants 
 const int SCREEN_WIDTH = 1024;
@@ -27,7 +30,7 @@ public:
 private:
 	SDL_Window* window;
 	SDL_Renderer* renderer;
-	UI* ui;
+	SceneManager* sceneManager;
 	bool isRunning;
 
 };

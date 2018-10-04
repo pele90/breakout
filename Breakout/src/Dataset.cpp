@@ -8,7 +8,6 @@ Dataset::~Dataset()
 {
 }
 
-
 bool Dataset::parseLayout(const char* filename)
 {
 	std::string xmlFilename = DEFAULT_LAYOUT_PATH;

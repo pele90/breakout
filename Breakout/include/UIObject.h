@@ -6,6 +6,7 @@
 #include "SDL.h"
 
 #include "Resources.h"
+#include "Input.h"
 
 class UIObject
 {
