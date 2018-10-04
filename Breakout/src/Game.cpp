@@ -1,6 +1,6 @@
 #include "Game.h"
 
-Game::Game() : window(NULL), screenSurface(NULL){}
+Game::Game() : window(NULL){}
 
 Game::~Game()
 {
@@ -18,17 +18,17 @@ bool Game::initialize()
 	else 
 	{
 		//Create window 
-		window = SDL_CreateWindow("Breakout", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
+		this->window = SDL_CreateWindow("Breakout", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
 
-		if (window == NULL)
+		if (this->window == NULL)
 		{
 			std::cout << "Window could not be created! SDL_Error: " << SDL_GetError() << std::endl;
 		}
 		else
 		{
-			renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+			this->renderer = SDL_CreateRenderer(this->window, -1, SDL_RENDERER_ACCELERATED);
 
-			if (renderer == nullptr)
+			if (this->renderer == nullptr)
 			{
 				std::cout << "Failed to create renderer : " << SDL_GetError() << std::endl;
 				return false;
@@ -36,29 +36,26 @@ bool Game::initialize()
 			else
 			{
 				// Set size of renderer to the same as window
-				SDL_RenderSetLogicalSize(renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
+				SDL_RenderSetLogicalSize(this->renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
 
-				// Set color of renderer to red
-				SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+				// Set color of renderer to white
+				SDL_SetRenderDrawColor(this->renderer, 255, 255, 255, 255);
+
+				int imgFlags = IMG_INIT_PNG;
+				if (!(IMG_Init(imgFlags) & imgFlags))
+				{
+					std::cout << "SDL_image could not initialize! SDL_image Error: " << IMG_GetError() << std::endl;
+				}
 			}
 
-			gameGUI = new GameGUI();
-			gameGUI->initialize(renderer);
-
-			//Get window surface 
-			//screenSurface = SDL_GetWindowSurface(window);
-
-			//Fill the surface white 
-			//SDL_FillRect(screenSurface, NULL, SDL_MapRGB(screenSurface->format, 0xFF, 0xFF, 0xFF));
-
-			////Update the surface 
-			//SDL_UpdateWindowSurface(window);
+			this->ui = new UI();
+			this->ui->initialize();
 		}
 	}
 	return true;
 }
 
-void Game::start()
+void Game::run()
 {
 	this->isRunning = true;
 	int frame = 0;
@@ -110,32 +107,30 @@ void Game::update(float deltaTime)
 	// update physics
 
 	// update gui
-	gameGUI->update(renderer, deltaTime);
+	this->ui->update(deltaTime);
 }
 
 void Game::render()
 {
-	gameGUI->render(renderer);
+	SDL_RenderClear(renderer);
+
+	this->ui->render(this->renderer);
 
 	// Render the changes above
-	SDL_RenderPresent(renderer);
+	SDL_RenderPresent(this->renderer);
 }
 
 void Game::destroy()
 {
-	//Deallocate surface 
-	SDL_FreeSurface(screenSurface); 
-	screenSurface = NULL;
-	
 	//Destroy window 
-	SDL_DestroyWindow(window); 
-	window = NULL;
+	SDL_DestroyWindow(this->window);
+	this->window = NULL;
 
-	SDL_DestroyRenderer(renderer);
-	renderer = NULL;
+	SDL_DestroyRenderer(this->renderer);
+	this->renderer = NULL;
 
-	gameGUI->destroy();
-	gameGUI = NULL;
+	this->ui->destroy();
+	this->ui = NULL;
 	
 	//Quit SDL subsystems 
 	SDL_Quit();

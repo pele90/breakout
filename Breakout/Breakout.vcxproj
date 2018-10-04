@@ -19,13 +19,27 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="lib\TinyXML2\tinyxml2.cpp" />
     <ClCompile Include="src\Breakout.cpp" />
+    <ClCompile Include="src\Button.cpp" />
+    <ClCompile Include="src\Dataset.cpp" />
     <ClCompile Include="src\Game.cpp" />
-    <ClCompile Include="src\GameGUI.cpp" />
+    <ClCompile Include="src\Image.cpp" />
+    <ClCompile Include="src\Label.cpp" />
+    <ClCompile Include="src\UI.cpp" />
+    <ClCompile Include="src\Scene.cpp" />
+    <ClCompile Include="src\UIObject.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\Button.h" />
+    <ClInclude Include="include\Dataset.h" />
     <ClInclude Include="include\Game.h" />
-    <ClInclude Include="include\GameGUI.h" />
+    <ClInclude Include="include\Image.h" />
+    <ClInclude Include="include\Label.h" />
+    <ClInclude Include="include\Resources.h" />
+    <ClInclude Include="include\UI.h" />
+    <ClInclude Include="include\Scene.h" />
+    <ClInclude Include="include\UIObject.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
@@ -85,11 +99,11 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\Gamepires_project\Breakout\Breakout\lib\SDL2_image-2.0.2\include;D:\Gamepires_project\Breakout\Breakout\lib\SDL2_ttf-2.0.14\include;D:\Gamepires_project\Breakout\Breakout\include;D:\Gamepires_project\Breakout\Breakout\lib\SDL2-development\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)lib\TinyXML2;$(ProjectDir)lib\SDL2_image-2.0.2\include;$(ProjectDir)lib\SDL2_ttf-2.0.14\include;$(ProjectDir)include;$(ProjectDir)lib\SDL2-development\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>D:\Gamepires_project\Breakout\Breakout\lib\SDL2_image-2.0.2\lib\x86;D:\Gamepires_project\Breakout\Breakout\lib\SDL2_ttf-2.0.14\lib\x86;D:\Gamepires_project\Breakout\Breakout\lib\SDL2-development\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)lib\SDL2_image-2.0.2\lib\x86;$(ProjectDir)lib\SDL2_ttf-2.0.14\lib\x86;$(ProjectDir)lib\SDL2-development\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_ttf.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Windows</SubSystem>
     </Link>
   </ItemDefinitionGroup>

@@ -1,0 +1,108 @@
+#include "Label.h"
+
+#define DEFAULT_LABEL_WIDTH 100
+#define DEFAULT_LABEL_HEIGHT 50
+
+constexpr SDL_Color default_font_color = { 0, 0, 0, 0 };
+
+Label::Label() {}
+
+Label::Label(const char* text)
+{
+	this->text = text;
+	this->transform = { 0, 0, DEFAULT_LABEL_WIDTH, DEFAULT_LABEL_HEIGHT };
+	this->fontName = DEFAULT_FONT_NAME;
+	this->fontSize = DEFAULT_FONT_SIZE;
+	this->fontColor = default_font_color;
+}
+
+Label::Label(const char * text, SDL_Rect transform) : UIObject(transform)
+{
+	this->text = text;
+	this->fontName = DEFAULT_FONT_NAME;
+	this->fontSize = DEFAULT_FONT_SIZE;
+	this->fontColor = default_font_color;
+}
+
+Label::Label(const char* text, SDL_Rect transform, const char* fontName) : UIObject(transform)
+{
+	this->text = text;
+	this->fontName = fontName;
+	this->fontSize = DEFAULT_FONT_SIZE;
+	this->fontColor = default_font_color;
+}
+
+Label::Label(const char* text, SDL_Rect transform, const char* fontName, int fontSize) : UIObject(transform)
+{
+	this->text = text;
+	this->fontName = fontName;
+	this->fontSize = fontSize;
+	this->fontColor = default_font_color;
+}
+
+Label::Label(const char * text, SDL_Rect transform, const char * fontName, int fontSize, SDL_Color fontColor) : UIObject(transform)
+{
+	this->text = text;
+	this->fontName = fontName;
+	this->fontSize = fontSize;
+	this->fontColor = fontColor;
+}
+
+Label::~Label() {}
+
+bool Label::initialize()
+{
+	std::string fontFilename = DEFAULT_FONT_PATH;
+	fontFilename.append(this->fontName);
+	this->font = TTF_OpenFont(fontFilename.c_str(), this->fontSize);
+	if (this->font == NULL)
+	{
+		return false;
+	}
+
+	return true;
+}
+
+void Label::update()
+{
+}
+
+void Label::render(SDL_Renderer* renderer)
+{
+	this->surface = TTF_RenderText_Solid(this->font, this->text, this->fontColor);
+	this->texture = SDL_CreateTextureFromSurface(renderer, this->surface);
+
+	SDL_RenderCopy(renderer, this->texture, nullptr, &this->transform);
+}
+
+void Label::destroy()
+{
+	TTF_CloseFont(this->font);
+	this->font = NULL;
+
+	SDL_DestroyTexture(this->texture);
+	this->texture = NULL;
+
+	SDL_FreeSurface(this->surface);
+	this->surface = NULL;
+}
+
+void Label::setText(const char* text)
+{
+	this->text = text;
+}
+
+void Label::setFontName(const char* fontName)
+{
+	this->setFontName(fontName);
+}
+
+void Label::setFontColor(SDL_Color color)
+{
+	this->setFontColor(color);
+}
+
+void Label::setFontSize(int size)
+{
+	this->setFontSize(size);
+}
