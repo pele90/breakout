@@ -28,7 +28,7 @@ public:
 private:
 	SDL_Surface* surface;
 	SDL_Texture* texture;
-	const char* textureFilename;
+	std::string textureFilename;
 };
 
 #endif // !BUTTON_H

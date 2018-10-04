@@ -14,23 +14,18 @@ bool UI::initialize()
 		return false;
 	}
 
-	Dataset* dataset = new Dataset();
+	dataset = new Dataset();
 	dataset->parseLayout("main_menu");
 
-	SDL_Rect labelRect = { 100, 100, 200, 100 };
-	this->label = Label("Hello world", labelRect);
-	if (!label.initialize())
+	for (auto it : dataset->getButtons())
 	{
-		return false;
+		it->initialize();
 	}
 
-	SDL_Rect playRect = { 175, 150, 50, 50 };
-	this->button = Button("playButton", playRect);
-	if (!button.initialize())
+	for (auto it : dataset->getLabels())
 	{
-		return false;
+		it->initialize();
 	}
-	this->button.addChild((UIObject*)&label);
 
 	return true;
 }
@@ -40,14 +35,28 @@ void UI::update(float deltaTime)
 	std::stringstream fpsText;
 	fpsText << (int)deltaTime;
 
-	//this->label.update();
-	this->button.update();
+	for (auto it : dataset->getButtons())
+	{
+		it->update();
+	}
+
+	for (auto it : dataset->getLabels())
+	{
+		it->update();
+	}
 }
 
 void UI::render(SDL_Renderer* renderer)
 {
-	//this->label.render(renderer);
-	this->button.render(renderer);
+	for (auto it : dataset->getButtons())
+	{
+		it->render(renderer);
+	}
+
+	for (auto it : dataset->getLabels())
+	{
+		it->render(renderer);
+	}
 }
 
 void UI::destroy()

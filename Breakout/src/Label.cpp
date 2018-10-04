@@ -7,7 +7,7 @@ constexpr SDL_Color default_font_color = { 0, 0, 0, 0 };
 
 Label::Label() {}
 
-Label::Label(const char* text)
+Label::Label(std::string text)
 {
 	this->text = text;
 	this->transform = { 0, 0, DEFAULT_LABEL_WIDTH, DEFAULT_LABEL_HEIGHT };
@@ -16,7 +16,7 @@ Label::Label(const char* text)
 	this->fontColor = default_font_color;
 }
 
-Label::Label(const char * text, SDL_Rect transform) : UIObject(transform)
+Label::Label(std::string text, SDL_Rect transform) : UIObject(transform)
 {
 	this->text = text;
 	this->fontName = DEFAULT_FONT_NAME;
@@ -24,7 +24,7 @@ Label::Label(const char * text, SDL_Rect transform) : UIObject(transform)
 	this->fontColor = default_font_color;
 }
 
-Label::Label(const char* text, SDL_Rect transform, const char* fontName) : UIObject(transform)
+Label::Label(std::string text, SDL_Rect transform, std::string fontName) : UIObject(transform)
 {
 	this->text = text;
 	this->fontName = fontName;
@@ -32,7 +32,7 @@ Label::Label(const char* text, SDL_Rect transform, const char* fontName) : UIObj
 	this->fontColor = default_font_color;
 }
 
-Label::Label(const char* text, SDL_Rect transform, const char* fontName, int fontSize) : UIObject(transform)
+Label::Label(std::string text, SDL_Rect transform, std::string fontName, int fontSize) : UIObject(transform)
 {
 	this->text = text;
 	this->fontName = fontName;
@@ -40,7 +40,7 @@ Label::Label(const char* text, SDL_Rect transform, const char* fontName, int fon
 	this->fontColor = default_font_color;
 }
 
-Label::Label(const char * text, SDL_Rect transform, const char * fontName, int fontSize, SDL_Color fontColor) : UIObject(transform)
+Label::Label(std::string text, SDL_Rect transform, std::string fontName, int fontSize, SDL_Color fontColor) : UIObject(transform)
 {
 	this->text = text;
 	this->fontName = fontName;
@@ -69,7 +69,7 @@ void Label::update()
 
 void Label::render(SDL_Renderer* renderer)
 {
-	this->surface = TTF_RenderText_Solid(this->font, this->text, this->fontColor);
+	this->surface = TTF_RenderText_Solid(this->font, this->text.c_str(), this->fontColor);
 	this->texture = SDL_CreateTextureFromSurface(renderer, this->surface);
 
 	SDL_RenderCopy(renderer, this->texture, nullptr, &this->transform);
@@ -87,22 +87,22 @@ void Label::destroy()
 	this->surface = NULL;
 }
 
-void Label::setText(const char* text)
+void Label::setText(std::string text)
 {
 	this->text = text;
 }
 
-void Label::setFontName(const char* fontName)
+void Label::setFontName(std::string fontName)
 {
-	this->setFontName(fontName);
+	this->fontName = fontName;
 }
 
 void Label::setFontColor(SDL_Color color)
 {
-	this->setFontColor(color);
+	this->fontColor = color;
 }
 
 void Label::setFontSize(int size)
 {
-	this->setFontSize(size);
+	this->fontSize = size;
 }

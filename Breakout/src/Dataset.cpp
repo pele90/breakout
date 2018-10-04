@@ -27,11 +27,10 @@ bool Dataset::parseLayout(const char* filename)
 		return false;
 	}
 
+	//---------------BUTTON-----------------------------
 	tinyxml2::XMLElement* pElement = pRoot->FirstChildElement("Button");
-
 	while (pElement != nullptr)
 	{
-		tinyxml2::XMLElement* pElement = pRoot->FirstChildElement("Button");
 		Button* button = new Button();
 
 		tinyxml2::XMLError eResult;
@@ -40,9 +39,8 @@ bool Dataset::parseLayout(const char* filename)
 		eResult = pElement->QueryStringAttribute("texture_name", &texture_name);
 		if (!checkXmlResult(eResult))
 		{
-			texture_name = NULL;
+			texture_name = "";
 		}
-
 		button->setTextureFilename(texture_name);
 
 		const char* rect;
@@ -61,6 +59,7 @@ bool Dataset::parseLayout(const char* filename)
 		pElement = pElement->NextSiblingElement("Button");
 	}
 
+	//---------------LABEL-----------------------------
 	pElement = pRoot->FirstChildElement("Label");
 	while (pElement != nullptr)
 	{
@@ -74,8 +73,34 @@ bool Dataset::parseLayout(const char* filename)
 		{
 			text = NULL;
 		}
-
 		label->setText(text);
+
+		const char* fontName;
+		eResult = pElement->QueryStringAttribute("font_name", &fontName);
+		if (!checkXmlResult(eResult))
+		{
+			fontName = NULL;
+		}
+		label->setFontName(fontName);
+
+		const char* fontColor;
+		eResult = pElement->QueryStringAttribute("font_color", &fontColor);
+		if (!checkXmlResult(eResult))
+		{
+			fontColor = NULL;
+		}
+		std::vector<std::string> fontColorTokens = splitString(fontColor);
+		SDL_Color fColor = { std::stoi(fontColorTokens[0]), std::stoi(fontColorTokens[1]), std::stoi(fontColorTokens[2]), std::stoi(fontColorTokens[3]) };
+		label->setFontColor(fColor);
+
+		int fontSize;
+		eResult = pElement->QueryIntAttribute("font_size", &fontSize);
+		if (!checkXmlResult(eResult))
+		{
+			text = NULL;
+		}
+		label->setFontSize(fontSize);
+
 
 		const char* rect;
 		eResult = pElement->QueryStringAttribute("rect", &rect);
@@ -84,15 +109,14 @@ bool Dataset::parseLayout(const char* filename)
 			rect = NULL;
 		}
 
-		std::vector<std::string> tokens = splitString(rect);
-		SDL_Rect transform = { stoi(tokens[0]), stoi(tokens[1]), stoi(tokens[2]), stoi(tokens[3]) };
+		std::vector<std::string> rectTokens = splitString(rect);
+		SDL_Rect transform = { std::stoi(rectTokens[0]), std::stoi(rectTokens[1]), std::stoi(rectTokens[2]), std::stoi(rectTokens[3]) };
 		label->setTransform(transform);
 
 		labels.push_back(label);
 
 		pElement = pElement->NextSiblingElement("Label");
 	}
-
 
 	return true;
 }
@@ -128,4 +152,14 @@ std::vector<std::string> Dataset::splitString(const char* input)
 	} while (0 != *input++);
 
 	return result;
+}
+
+std::vector<Button*> Dataset::getButtons() const
+{
+	return this->buttons;
+}
+
+std::vector<Label*> Dataset::getLabels() const
+{
+	return this->labels;
 }

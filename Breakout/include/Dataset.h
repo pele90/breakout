@@ -26,10 +26,14 @@ public:
 	bool checkXmlResult(tinyxml2::XMLError error);
 	std::vector<std::string> splitString(const char* input);
 
+	std::vector<Button*> getButtons() const;
+	std::vector<Label*> getLabels() const;
+	//std::vector<Image*> getImages() const;
+
 private:
 	std::vector<Label*> labels;
 	std::vector<Button*> buttons;
-	//std::vector<Image*> labels;
+	//std::vector<Image*> images;
 };
 
 #endif // !DATASET_H

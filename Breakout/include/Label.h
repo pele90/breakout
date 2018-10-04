@@ -12,11 +12,11 @@ class Label : public UIObject
 {
 public:
 	Label();
-	Label(const char* text);
-	Label(const char* text, SDL_Rect transform);
-	Label(const char* text, SDL_Rect transform, const char* fontName);
-	Label(const char* text, SDL_Rect transform, const char* fontName, int fontSize);
-	Label(const char* text, SDL_Rect transform, const char* fontName, int fontSize, SDL_Color fontColor);
+	Label(std::string text);
+	Label(std::string text, SDL_Rect transform);
+	Label(std::string text, SDL_Rect transform, std::string fontName);
+	Label(std::string text, SDL_Rect transform, std::string fontName, int fontSize);
+	Label(std::string text, SDL_Rect transform, std::string fontName, int fontSize, SDL_Color fontColor);
 	~Label();
 
 	bool initialize();
@@ -24,8 +24,8 @@ public:
 	virtual void render(SDL_Renderer* renderer);
 	void destroy();
 
-	void setText(const char* text);
-	void setFontName(const char* fontName);
+	void setText(std::string text);
+	void setFontName(std::string fontName);
 	void setFontColor(SDL_Color color);
 	void setFontSize(int size);
 
@@ -33,8 +33,8 @@ private:
 	TTF_Font* font;
 	SDL_Surface* surface;
 	SDL_Texture* texture;
-	const char* text;
-	const char* fontName;
+	std::string text;
+	std::string fontName;
 	SDL_Color fontColor;
 	int fontSize;
 };

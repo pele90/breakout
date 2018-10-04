@@ -22,9 +22,7 @@ public:
 	void destroy();
 
 private:
-	Label label;
-	Button button;
-	SDL_PixelFormat fmt;
+	Dataset* dataset;
 };
 
 #endif // !UI_H

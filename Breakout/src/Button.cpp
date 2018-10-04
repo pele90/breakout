@@ -14,7 +14,7 @@ bool Button::initialize()
 {
 	// LOAD PNG FROM FILE TO SURFACE
 	std::string filename = DEFAULT_TEXTURE_PATH;
-	filename.append(textureFilename).append(".png");
+	filename.append(this->textureFilename).append(".png");
 	SDL_Surface* tempSurface = IMG_Load(filename.c_str());
 	if (tempSurface == NULL)
 	{
