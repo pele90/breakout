@@ -23,8 +23,6 @@ void MainMenuScene::update(float deltaTime)
 
 void MainMenuScene::render(SDL_Renderer* renderer)
 {
-	// Render player, ball and level
-
 	// Render UI
 	ui->render(renderer);
 }

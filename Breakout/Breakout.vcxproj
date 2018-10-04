@@ -25,7 +25,7 @@
     <ClCompile Include="src\Dataset.cpp" />
     <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="src\GlobalState.cpp" />
-    <ClCompile Include="src\Image.cpp" />
+    <ClCompile Include="src\ImageObject.cpp" />
     <ClCompile Include="src\Input.cpp" />
     <ClCompile Include="src\Label.cpp" />
     <ClCompile Include="src\Level.cpp" />
@@ -41,7 +41,7 @@
     <ClInclude Include="include\Dataset.h" />
     <ClInclude Include="include\Game.h" />
     <ClInclude Include="include\GlobalState.h" />
-    <ClInclude Include="include\Image.h" />
+    <ClInclude Include="include\ImageObject.h" />
     <ClInclude Include="include\Input.h" />
     <ClInclude Include="include\Label.h" />
     <ClInclude Include="include\Level.h" />

@@ -69,8 +69,11 @@ void Label::update()
 
 void Label::render(SDL_Renderer* renderer)
 {
-	this->surface = TTF_RenderText_Blended(this->font, this->text.c_str(), this->fontColor);
-	this->texture = SDL_CreateTextureFromSurface(renderer, this->surface);
+	if (this->texture == NULL or this->dirty)
+	{
+		this->surface = TTF_RenderText_Blended(this->font, this->text.c_str(), this->fontColor);
+		this->texture = SDL_CreateTextureFromSurface(renderer, this->surface);
+	}
 
 	SDL_RenderCopy(renderer, this->texture, nullptr, &this->transform);
 }

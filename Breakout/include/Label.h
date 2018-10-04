@@ -17,7 +17,7 @@ public:
 	Label(std::string text, SDL_Rect transform, std::string fontName);
 	Label(std::string text, SDL_Rect transform, std::string fontName, int fontSize);
 	Label(std::string text, SDL_Rect transform, std::string fontName, int fontSize, SDL_Color fontColor);
-	~Label();
+	virtual ~Label();
 
 	bool initialize();
 	virtual void update();
@@ -37,6 +37,7 @@ private:
 	std::string fontName;
 	SDL_Color fontColor;
 	int fontSize;
+	bool dirty; // flag to mark when some property is changed so that the new texture with chaned properties can be created
 };
 
 #endif // !LABEL_H

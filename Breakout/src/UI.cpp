@@ -17,6 +17,11 @@ bool UI::initialize(const char* layout)
 	dataset = new Dataset();
 	dataset->parseLayout(layout);
 
+	for (auto it : dataset->getImages())
+	{
+		it->initialize();
+	}
+
 	for (auto it : dataset->getButtons())
 	{
 		it->initialize();
@@ -35,6 +40,11 @@ void UI::update(float deltaTime)
 	std::stringstream fpsText;
 	fpsText << (int)deltaTime;
 
+	for (auto it : dataset->getImages())
+	{
+		it->update();
+	}
+
 	for (auto it : dataset->getButtons())
 	{
 		it->update();
@@ -48,6 +58,11 @@ void UI::update(float deltaTime)
 
 void UI::render(SDL_Renderer* renderer)
 {
+	for (auto it : dataset->getImages())
+	{
+		it->render(renderer);
+	}
+
 	for (auto it : dataset->getButtons())
 	{
 		it->render(renderer);
@@ -61,5 +76,8 @@ void UI::render(SDL_Renderer* renderer)
 
 void UI::destroy()
 {
+	dataset->destroy();
+	dataset = NULL;
+
 	TTF_Quit();
 }

@@ -8,6 +8,30 @@ Dataset::~Dataset()
 {
 }
 
+void Dataset::destroy()
+{
+	for (auto it : buttons)
+	{
+		it->destroy();
+		delete it;
+		buttons.clear();
+	}
+
+	for (auto it : labels)
+	{
+		it->destroy();
+		delete it;
+		labels.clear();
+	}
+
+	for (auto it : images)
+	{
+		it->destroy();
+		delete it;
+		images.clear();
+	}
+}
+
 bool Dataset::parseLayout(const char* filename)
 {
 	std::string xmlFilename = DEFAULT_LAYOUT_PATH;
@@ -19,7 +43,7 @@ bool Dataset::parseLayout(const char* filename)
 		return false;
 	}
 
-	tinyxml2::XMLNode * pRoot = xmlDoc.FirstChild();
+	tinyxml2::XMLNode* pRoot = xmlDoc.FirstChild();
 	if (pRoot == nullptr)
 	{
 		std::cout << "Error creating ROOT NODE!" << std::endl;
@@ -27,7 +51,20 @@ bool Dataset::parseLayout(const char* filename)
 	}
 
 	//---------------BUTTON-----------------------------
-	tinyxml2::XMLElement* pElement = pRoot->FirstChildElement("Button");
+	extractButtonAttributes(pRoot);
+
+	//---------------LABEL-----------------------------
+	extractLabelAttributes(pRoot);
+
+	//---------------IMAGE-----------------------------
+	extractImageAttributes(pRoot);
+
+	return true;
+}
+
+void Dataset::extractButtonAttributes(tinyxml2::XMLNode* root)
+{
+	tinyxml2::XMLElement* pElement = root->FirstChildElement("Button");
 	while (pElement != nullptr)
 	{
 		Button* button = new Button();
@@ -57,9 +94,11 @@ bool Dataset::parseLayout(const char* filename)
 
 		pElement = pElement->NextSiblingElement("Button");
 	}
+}
 
-	//---------------LABEL-----------------------------
-	pElement = pRoot->FirstChildElement("Label");
+void Dataset::extractLabelAttributes(tinyxml2::XMLNode* root)
+{
+	tinyxml2::XMLElement* pElement = root->FirstChildElement("Label");
 	while (pElement != nullptr)
 	{
 		Label* label = new Label();
@@ -116,13 +155,40 @@ bool Dataset::parseLayout(const char* filename)
 
 		pElement = pElement->NextSiblingElement("Label");
 	}
-
-	return true;
 }
 
-void Dataset::extractAttributes(tinyxml2::XMLElement* element, UIObject* object)
+void Dataset::extractImageAttributes(tinyxml2::XMLNode* root)
 {
-	
+	tinyxml2::XMLElement* pElement = root->FirstChildElement("Image");
+	while (pElement != nullptr)
+	{
+		ImageObject* imageObject = new ImageObject();
+
+		tinyxml2::XMLError eResult;
+
+		const char* texture_name;
+		eResult = pElement->QueryStringAttribute("texture_name", &texture_name);
+		if (!checkXmlResult(eResult))
+		{
+			texture_name = nullptr;
+		}
+		imageObject->setTextureFilename(texture_name);
+
+		const char* rect;
+		eResult = pElement->QueryStringAttribute("rect", &rect);
+		if (!checkXmlResult(eResult))
+		{
+			rect = nullptr;
+		}
+
+		std::vector<std::string> tokens = splitString(rect);
+		SDL_Rect transform = { std::stoi(tokens[0]), std::stoi(tokens[1]), std::stoi(tokens[2]), std::stoi(tokens[3]) };
+		imageObject->setTransform(transform);
+
+		images.push_back(imageObject);
+
+		pElement = pElement->NextSiblingElement("Image");
+	}
 }
 
 bool Dataset::checkXmlResult(tinyxml2::XMLError error)
@@ -161,4 +227,9 @@ std::vector<Button*> Dataset::getButtons() const
 std::vector<Label*> Dataset::getLabels() const
 {
 	return this->labels;
+}
+
+std::vector<ImageObject*> Dataset::getImages() const
+{
+	return this->images;
 }

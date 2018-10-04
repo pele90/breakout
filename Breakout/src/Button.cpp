@@ -6,9 +6,7 @@ Button::Button(const char* filename) : textureFilename(filename){}
 
 Button::Button(const char* filename, SDL_Rect transform) : UIObject(transform), textureFilename(filename){}
 
-Button::~Button()
-{
-}
+Button::~Button(){}
 
 bool Button::initialize()
 {
@@ -42,10 +40,12 @@ void Button::update()
 {
 	if (mouseHover())
 	{
-		SDL_SetSurfaceAlphaMod(this->surface, PRESSED_ALPHA);
-
 		if (!this->hover)
 		{
+			this->dirty = true;
+
+			SDL_SetSurfaceAlphaMod(this->surface, PRESSED_ALPHA);
+
 			int w = this->transform.w + 5;
 			int h = this->transform.h + 5;
 
@@ -58,10 +58,12 @@ void Button::update()
 	}
 	else
 	{
-		SDL_SetSurfaceAlphaMod(this->surface, FULL_ALPHA);
-
 		if (this->hover)
 		{
+			this->dirty = true;
+
+			SDL_SetSurfaceAlphaMod(this->surface, FULL_ALPHA);
+
 			int w = this->transform.w - 5;
 			int h = this->transform.h - 5;
 
@@ -81,7 +83,16 @@ void Button::update()
 
 void Button::render(SDL_Renderer* renderer)
 {
-	this->texture = SDL_CreateTextureFromSurface(renderer, this->surface);
+	if (this->texture == NULL or this->dirty)
+	{
+		this->texture = SDL_CreateTextureFromSurface(renderer, this->surface);
+
+		SDL_FreeSurface(this->surface);
+		this->surface = NULL;
+
+		this->dirty = false;
+	}
+
 	SDL_RenderCopy(renderer, this->texture, nullptr, &this->transform);
 
 	if (this->child != NULL)

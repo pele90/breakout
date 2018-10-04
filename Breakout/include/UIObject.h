@@ -2,6 +2,7 @@
 #define UI_OBJECT_H
 
 #include <iostream>
+#include <string>
 
 #include "SDL.h"
 
@@ -17,6 +18,7 @@ public:
 
 	virtual void update() = 0;
 	virtual void render(SDL_Renderer* renderer) = 0;
+	virtual void destroy() = 0;
 	void addChild(UIObject* child);
 	void setTransform(SDL_Rect rect);
 

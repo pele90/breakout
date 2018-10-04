@@ -36,9 +36,6 @@
     <ClCompile Include="src\Button.cpp">
       <Filter>Source Files\UI</Filter>
     </ClCompile>
-    <ClCompile Include="src\Image.cpp">
-      <Filter>Source Files\UI</Filter>
-    </ClCompile>
     <ClCompile Include="src\Label.cpp">
       <Filter>Source Files\UI</Filter>
     </ClCompile>
@@ -69,6 +66,9 @@
     <ClCompile Include="src\Input.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\ImageObject.cpp">
+      <Filter>Source Files\UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Game.h">
@@ -84,9 +84,6 @@
       <Filter>Header Files\UI</Filter>
     </ClInclude>
     <ClInclude Include="include\Label.h">
-      <Filter>Header Files\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Image.h">
       <Filter>Header Files\UI</Filter>
     </ClInclude>
     <ClInclude Include="include\UIObject.h">
@@ -115,6 +112,9 @@
     </ClInclude>
     <ClInclude Include="include\Input.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ImageObject.h">
+      <Filter>Header Files\UI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
