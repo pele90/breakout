@@ -21,11 +21,12 @@
   <ItemGroup>
     <ClCompile Include="lib\TinyXML2\tinyxml2.cpp" />
     <ClCompile Include="src\Breakout.cpp" />
+    <ClCompile Include="src\Brick.cpp" />
     <ClCompile Include="src\Button.cpp" />
     <ClCompile Include="src\Dataset.cpp" />
+    <ClCompile Include="src\Entity.cpp" />
     <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="src\GlobalState.cpp" />
-    <ClCompile Include="src\Image.cpp" />
     <ClCompile Include="src\Input.cpp" />
     <ClCompile Include="src\Label.cpp" />
     <ClCompile Include="src\Level.cpp" />
@@ -37,11 +38,12 @@
     <ClCompile Include="src\UIObject.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\Brick.h" />
     <ClInclude Include="include\Button.h" />
     <ClInclude Include="include\Dataset.h" />
+    <ClInclude Include="include\Entity.h" />
     <ClInclude Include="include\Game.h" />
     <ClInclude Include="include\GlobalState.h" />
-    <ClInclude Include="include\Image.h" />
     <ClInclude Include="include\Input.h" />
     <ClInclude Include="include\Label.h" />
     <ClInclude Include="include\Level.h" />

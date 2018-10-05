@@ -2,6 +2,8 @@
 #define MAIN_MENU_SCENE_H
 
 #include "Scene.h"
+#include "Level.h"
+#include "Brick.h"
 
 class MainMenuScene : public Scene
 {
@@ -15,6 +17,7 @@ public:
 	virtual void destroy();
 
 private:
+	Level* level;
 	UI* ui;
 };
 

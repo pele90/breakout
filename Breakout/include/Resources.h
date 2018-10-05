@@ -4,6 +4,7 @@
 #define DEFAULT_FONT_PATH "assets/font/";
 #define DEFAULT_TEXTURE_PATH "assets/texture/";
 #define DEFAULT_LAYOUT_PATH "assets/layout/";
+#define DEFAULT_LEVEL_PATH "assets/level/";
 #define DEFAULT_FONT_NAME "Lato-Regular.ttf"
 #define DEFAULT_FONT_SIZE 28
 

@@ -1,6 +1,6 @@
 #include "Button.h"
 
-Button::Button(){}
+Button::Button() : surface(NULL){}
 
 Button::Button(const char* filename) : textureFilename(filename){}
 
@@ -42,14 +42,16 @@ void Button::update()
 {
 	if (mouseHover())
 	{
-		SDL_SetSurfaceAlphaMod(this->surface, PRESSED_ALPHA);
+		SDL_SetSurfaceAlphaMod(this->surface, HOVERED_ALPHA);
 
 		if (!this->hover)
 		{
+			int x = this->transform.x - 2.5f;
+			int y = this->transform.y - 2.5f;
 			int w = this->transform.w + 5;
 			int h = this->transform.h + 5;
 
-			SDL_Rect newRect = { this->transform.x, this->transform.y, w, h };
+			SDL_Rect newRect = { x, y, w, h };
 
 			this->transform = newRect;
 
@@ -62,10 +64,12 @@ void Button::update()
 
 		if (this->hover)
 		{
+			int x = this->transform.x + 2.5f;
+			int y = this->transform.y + 2.5f;
 			int w = this->transform.w - 5;
 			int h = this->transform.h - 5;
 
-			SDL_Rect newRect = { this->transform.x, this->transform.y, w, h };
+			SDL_Rect newRect = { x, y, w, h };
 
 			this->transform = newRect;
 
@@ -81,8 +85,15 @@ void Button::update()
 
 void Button::render(SDL_Renderer* renderer)
 {
-	this->texture = SDL_CreateTextureFromSurface(renderer, this->surface);
+	if (this->texture == NULL)
+	{
+		this->texture = SDL_CreateTextureFromSurface(renderer, this->surface);
+	}
+	
 	SDL_RenderCopy(renderer, this->texture, nullptr, &this->transform);
+
+	SDL_DestroyTexture(this->texture);
+	this->texture = NULL;
 
 	if (this->child != NULL)
 	{
