@@ -1,6 +1,6 @@
 #include "Button.h"
 
-Button::Button(){}
+Button::Button() : surface(NULL){}
 
 Button::Button(const char* filename) : textureFilename(filename){}
 
@@ -44,12 +44,14 @@ void Button::update()
 		{
 			this->dirty = true;
 
-			SDL_SetSurfaceAlphaMod(this->surface, PRESSED_ALPHA);
+			SDL_SetSurfaceAlphaMod(this->surface, HOVERED_ALPHA);
 
+			int x = this->transform.x - 2.5f;
+			int y = this->transform.y - 2.5f;
 			int w = this->transform.w + 5;
 			int h = this->transform.h + 5;
 
-			SDL_Rect newRect = { this->transform.x, this->transform.y, w, h };
+			SDL_Rect newRect = { x, y, w, h };
 
 			this->transform = newRect;
 
@@ -63,11 +65,14 @@ void Button::update()
 			this->dirty = true;
 
 			SDL_SetSurfaceAlphaMod(this->surface, FULL_ALPHA);
+			
+			int x = this->transform.x + 2.5f;
+			int y = this->transform.y + 2.5f;
 
 			int w = this->transform.w - 5;
 			int h = this->transform.h - 5;
 
-			SDL_Rect newRect = { this->transform.x, this->transform.y, w, h };
+			SDL_Rect newRect = { x, y, w, h };
 
 			this->transform = newRect;
 
@@ -92,7 +97,7 @@ void Button::render(SDL_Renderer* renderer)
 
 		this->dirty = false;
 	}
-
+	
 	SDL_RenderCopy(renderer, this->texture, nullptr, &this->transform);
 
 	if (this->child != NULL)

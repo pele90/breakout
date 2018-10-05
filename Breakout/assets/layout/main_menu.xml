@@ -1,6 +1,4 @@
 <Layout>
-	<!-- <Image texture_name="background" rect="0,0,1024,768"  /> -->
-	<Button texture_name="playButton" rect="200,100,50,50" />
-	<!-- <Button texture_name="playButton" rect="400,100,50,50" /> -->
-	<!-- <Label text="Hello World" font_name="Lato-Regular" font_color="128,99,220,255" font_size="28" rect="500,400,500,300"/> -->
+	<Button texture_name="playButton" rect="400,350,50,50" />
+	<Label text="Welcome to the world of nonsense" font_name="Lato-Regular" font_color="128,99,220,255" font_size="28" rect="300,400,300,50"/>
 </Layout>

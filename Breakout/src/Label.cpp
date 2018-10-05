@@ -76,6 +76,9 @@ void Label::render(SDL_Renderer* renderer)
 	}
 
 	SDL_RenderCopy(renderer, this->texture, nullptr, &this->transform);
+
+	SDL_DestroyTexture(this->texture);
+	this->texture = NULL;
 }
 
 void Label::destroy()

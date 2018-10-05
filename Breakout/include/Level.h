@@ -3,6 +3,14 @@
 
 #include <string>
 #include <vector>
+#include <map>
+
+#include "tinyxml2.h"
+
+#include "Resources.h"
+#include "Brick.h"
+#include "Ball.h"
+#include "Player.h"
 
 struct LevelDefinition
 {
@@ -13,16 +21,6 @@ struct LevelDefinition
 	std::string backgroundTexture;
 };
 
-struct BrickType
-{
-	char id;
-	std::string texture;
-	int hitPoints;
-	std::string hitSound;
-	std::string breakSound;
-	int breakScore;
-};
-
 class Level
 {
 public:
@@ -30,14 +28,23 @@ public:
 	~Level();
 
 	bool initialize();
-	void update();
+	void update(float deltaTime);
 	bool loadLevel(std::string filename);
+	bool createLevel();
+	bool checkXmlResult(tinyxml2::XMLError error);
+	void render(SDL_Renderer* renderer);
 	void destroy();
 
 private:
-	LevelDefinition levelDefinition;
-	std::vector<BrickType> brickTypes;
-	std::vector< std::vector<char> > bricks;
+	void extractBricks(const char* text);
+
+private:
+	LevelDefinition* levelDefinition;
+	std::map<std::string, BrickType*> brickTypes;
+	std::vector< std::vector<std::string> > bricks;
+	std::vector<Brick*> bricksObjects;
+	std::vector<Ball*> balls;
+	Player* player;
 };
 
 #endif // !LEVEL_H
