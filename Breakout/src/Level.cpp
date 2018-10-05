@@ -117,9 +117,12 @@ bool Level::createLevel()
 			
 			std::string brickTypeId = *col;
 
-			BrickType* type = this->brickTypes.find(brickTypeId)->second;
-			brick->setBrickType(*type);
-			brick->setTextureFilename(type->texture);
+			if (brickTypeId != "_")
+			{
+				BrickType* type = this->brickTypes.find(brickTypeId)->second;
+				brick->setBrickType(*type);
+				brick->setTextureFilename(type->texture);
+			}
 
 			SDL_Rect rect = { (cnt * offsetX) + columnSpacingOffset, (y * offsetY) + rowSpacingOffset, w, h };
 			brick->setTransform(rect);
