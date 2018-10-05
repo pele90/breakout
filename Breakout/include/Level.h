@@ -9,6 +9,8 @@
 
 #include "Resources.h"
 #include "Brick.h"
+#include "Ball.h"
+#include "Player.h"
 
 struct LevelDefinition
 {
@@ -41,6 +43,8 @@ private:
 	std::map<std::string, BrickType*> brickTypes;
 	std::vector< std::vector<std::string> > bricks;
 	std::vector<Brick*> bricksObjects;
+	std::vector<Ball*> balls;
+	Player* player;
 };
 
 #endif // !LEVEL_H

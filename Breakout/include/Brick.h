@@ -22,7 +22,7 @@ public:
 	virtual ~Brick();
 	
 	virtual bool initialize();
-	virtual void update();
+	virtual void update(float deltaTime);
 	virtual void render(SDL_Renderer* renderer);
 	virtual void destroy();
 

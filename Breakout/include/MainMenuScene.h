@@ -3,7 +3,6 @@
 
 #include "Scene.h"
 #include "Level.h"
-#include "Brick.h"
 
 class MainMenuScene : public Scene
 {

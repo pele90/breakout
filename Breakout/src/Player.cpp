@@ -1,12 +1,12 @@
-#include "Brick.h"
+#include "Player.h"
 
-Brick::Brick(){}
+Player::Player() {}
 
-Brick::Brick(std::string filename) : Entity(filename) {}
+Player::Player(std::string filename) : Entity(filename) {}
 
-Brick::~Brick(){}
+Player::~Player() {}
 
-bool Brick::initialize()
+bool Player::initialize()
 {
 	// LOAD PNG FROM FILE TO SURFACE
 	std::string filename = DEFAULT_TEXTURE_PATH;
@@ -29,19 +29,28 @@ bool Brick::initialize()
 
 		//Get rid of old loaded surface
 		SDL_FreeSurface(tempSurface);
-	}
 
-	// Load sounds i guess
+		SDL_Rect rect = { 400, 650, 200, 30 };
+		this->setTransform(rect);
+	}
 
 	return true;
 }
 
-void Brick::update(float deltaTime)
+void Player::update(float deltaTime)
 {
-	// LOGIC and PHYSICS
+	if (Input::getInstance()->isLeftArrowPressed())
+	{
+		this->transform.x -= 10;
+	}
+
+	if (Input::getInstance()->isRightArrowPressed())
+	{
+		this->transform.x += 10;
+	}
 }
 
-void Brick::render(SDL_Renderer * renderer)
+void Player::render(SDL_Renderer* renderer)
 {
 	if (this->texture == NULL)
 	{
@@ -51,16 +60,6 @@ void Brick::render(SDL_Renderer * renderer)
 	SDL_RenderCopy(renderer, this->texture, nullptr, &this->transform);
 }
 
-void Brick::destroy()
+void Player::destroy()
 {
-	SDL_DestroyTexture(this->texture);
-	this->texture = NULL;
-
-	SDL_FreeSurface(this->surface);
-	this->surface = NULL;
-}
-
-void Brick::setBrickType(BrickType type)
-{
-	this->brickType = type;
 }

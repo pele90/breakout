@@ -1,16 +1,16 @@
-#include "Brick.h"
+#include "Ball.h"
 
-Brick::Brick(){}
+Ball::Ball(){}
 
-Brick::Brick(std::string filename) : Entity(filename) {}
+Ball::Ball(std::string filename) : Entity(filename){}
 
-Brick::~Brick(){}
+Ball::~Ball(){}
 
-bool Brick::initialize()
+bool Ball::initialize()
 {
 	// LOAD PNG FROM FILE TO SURFACE
 	std::string filename = DEFAULT_TEXTURE_PATH;
-	filename.append(this->textureFilename).append(".png");
+	filename.append(this->getTextureFilename()).append(".png");
 	SDL_Surface* tempSurface = IMG_Load(filename.c_str());
 	if (tempSurface == NULL)
 	{
@@ -31,17 +31,17 @@ bool Brick::initialize()
 		SDL_FreeSurface(tempSurface);
 	}
 
-	// Load sounds i guess
+	SDL_Rect rect = { 280, 600, 20, 20 };
+	this->setTransform(rect);
 
 	return true;
 }
 
-void Brick::update(float deltaTime)
+void Ball::update(float deltaTime)
 {
-	// LOGIC and PHYSICS
 }
 
-void Brick::render(SDL_Renderer * renderer)
+void Ball::render(SDL_Renderer* renderer)
 {
 	if (this->texture == NULL)
 	{
@@ -51,16 +51,11 @@ void Brick::render(SDL_Renderer * renderer)
 	SDL_RenderCopy(renderer, this->texture, nullptr, &this->transform);
 }
 
-void Brick::destroy()
+void Ball::destroy()
 {
 	SDL_DestroyTexture(this->texture);
 	this->texture = NULL;
 
 	SDL_FreeSurface(this->surface);
 	this->surface = NULL;
-}
-
-void Brick::setBrickType(BrickType type)
-{
-	this->brickType = type;
 }

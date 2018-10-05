@@ -26,6 +26,13 @@ bool Level::initialize()
 		iter->initialize();
 	}
 
+	Ball* ball = new Ball("ball");
+	ball->initialize();
+	this->balls.push_back(ball);
+
+	this->player = new Player("player");
+	this->player->initialize();
+
 	return true;
 }
 
@@ -33,8 +40,15 @@ void Level::update(float deltaTime)
 {
 	for (auto iter : this->bricksObjects)
 	{
-		iter->update();
+		iter->update(deltaTime);
 	}
+
+	for (auto iter : this->balls)
+	{
+		iter->update(deltaTime);
+	}
+
+	this->player->update(deltaTime);
 }
 
 bool Level::loadLevel(std::string filename)
@@ -154,6 +168,13 @@ void Level::render(SDL_Renderer* renderer)
 	{
 		iter->render(renderer);
 	}
+
+	for (auto iter : this->balls)
+	{
+		iter->render(renderer);
+	}
+
+	this->player->render(renderer);
 }
 
 void Level::destroy()
