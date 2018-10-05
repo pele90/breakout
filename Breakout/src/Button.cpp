@@ -32,6 +32,8 @@ bool Button::initialize()
 		//Get rid of old loaded surface
 		SDL_FreeSurface(tempSurface);
 
+		this->onClick = NULL;
+
 		dirty = true;
 	}
 
@@ -64,7 +66,10 @@ void Button::update()
 
 		if (Input::isLeftMouseButtonPressed())
 		{
-			onClick();
+			if (this->onClick != NULL)
+			{
+				onClick();	
+			}
 		}
 	}
 	else
@@ -142,7 +147,7 @@ bool Button::mouseHover()
 	return SDL_PointInRect(&point, &this->transform);
 }
 
-void Button::onClick()
+void Button::setClickCallback(void(*fptr)())
 {
-	GlobalState::setCurrentState(GlobalState::GameState::Playing);
+	this->onClick = fptr;
 }

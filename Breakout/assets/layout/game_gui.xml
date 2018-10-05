@@ -1,5 +1,6 @@
 <Layout>
-	<Image texture_name="triangle" rect="100,50,50,50" />
-	<Image texture_name="triangle" rect="160,50,50,50" />
-	<Image texture_name="triangle" rect="220,50,50,50" />
+	<Image name="triangle_one" texture_name="triangle" rect="100,50,50,50" />
+	<Image name="triangle_two" texture_name="triangle" rect="160,50,50,50" />
+	<Image name="triangle_three" texture_name="triangle" rect="220,50,50,50" />
+	<Button name="return_button" texture_name="playButton" rect="550,250,100,100" />
 </Layout>

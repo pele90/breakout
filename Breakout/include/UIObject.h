@@ -22,10 +22,13 @@ public:
 	virtual void destroy() = 0;
 	void addChild(UIObject* child);
 	void setTransform(SDL_Rect rect);
+	void setName(std::string name);
+	std::string getName() const;
 
 protected:
 	SDL_Rect transform;
 	UIObject* child = NULL;
+	std::string name;
 	bool dirty; // flag to mark when some property is changed so that the new texture with chaned properties can be created
 };
 

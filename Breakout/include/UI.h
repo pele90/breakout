@@ -2,6 +2,7 @@
 #define UI_H
 
 #include <sstream>
+#include <map>
 
 #include "SDL.h"
 #include "SDL_ttf.h"
@@ -20,6 +21,7 @@ public:
 	void update(float deltaTime);
 	void render(SDL_Renderer* renderer);
 	void destroy();
+	void setButtonCallback(std::string buttonName, void(*fptr)());
 
 private:
 	Dataset* dataset;

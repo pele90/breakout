@@ -22,13 +22,14 @@ public:
 
 	void setTextureFilename(const char* filename);
 	bool mouseHover();
-	void onClick();
+	void setClickCallback(void(*fptr)());
 
 private:
 	SDL_Surface* surface;
 	SDL_Texture* texture;
 	std::string textureFilename;
 	bool hover;
+	void(*onClick)(); // returns void, called onClick, no arguments
 };
 
 #endif // !BUTTON_H

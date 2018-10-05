@@ -12,24 +12,22 @@ void Dataset::destroy()
 {
 	for (auto it : buttons)
 	{
-		it->destroy();
-		delete it;
-		buttons.clear();
+		it.second->destroy();
 	}
 
 	for (auto it : labels)
 	{
-		it->destroy();
-		delete it;
-		labels.clear();
+		it.second->destroy();
 	}
 
 	for (auto it : images)
 	{
-		it->destroy();
-		delete it;
-		images.clear();
+		it.second->destroy();
 	}
+
+	buttons.clear();
+	labels.clear();
+	images.clear();
 }
 
 bool Dataset::parseLayout(const char* filename)
@@ -71,6 +69,8 @@ void Dataset::extractButtonAttributes(tinyxml2::XMLNode* root)
 
 		tinyxml2::XMLError eResult;
 
+		button->setName(pElement->Attribute("name"));
+
 		const char* texture_name;
 		eResult = pElement->QueryStringAttribute("texture_name", &texture_name);
 		if (!checkXmlResult(eResult))
@@ -90,7 +90,7 @@ void Dataset::extractButtonAttributes(tinyxml2::XMLNode* root)
 		SDL_Rect transform = { stoi(tokens[0]), stoi(tokens[1]), stoi(tokens[2]), stoi(tokens[3]) };
 		button->setTransform(transform);
 
-		buttons.push_back(button);
+		buttons[button->getName()] = button;
 
 		pElement = pElement->NextSiblingElement("Button");
 	}
@@ -104,6 +104,8 @@ void Dataset::extractLabelAttributes(tinyxml2::XMLNode* root)
 		Label* label = new Label();
 
 		tinyxml2::XMLError eResult;
+
+		label->setName(pElement->Attribute("name"));
 
 		const char* text;
 		eResult = pElement->QueryStringAttribute("text", &text);
@@ -151,7 +153,7 @@ void Dataset::extractLabelAttributes(tinyxml2::XMLNode* root)
 		SDL_Rect transform = { std::stoi(rectTokens[0]), std::stoi(rectTokens[1]), std::stoi(rectTokens[2]), std::stoi(rectTokens[3]) };
 		label->setTransform(transform);
 
-		labels.push_back(label);
+		labels[label->getName()] = label;
 
 		pElement = pElement->NextSiblingElement("Label");
 	}
@@ -165,6 +167,8 @@ void Dataset::extractImageAttributes(tinyxml2::XMLNode* root)
 		ImageObject* imageObject = new ImageObject();
 
 		tinyxml2::XMLError eResult;
+
+		imageObject->setName(pElement->Attribute("name"));
 
 		const char* texture_name;
 		eResult = pElement->QueryStringAttribute("texture_name", &texture_name);
@@ -185,7 +189,7 @@ void Dataset::extractImageAttributes(tinyxml2::XMLNode* root)
 		SDL_Rect transform = { std::stoi(tokens[0]), std::stoi(tokens[1]), std::stoi(tokens[2]), std::stoi(tokens[3]) };
 		imageObject->setTransform(transform);
 
-		images.push_back(imageObject);
+		images[imageObject->getName()] = imageObject;
 
 		pElement = pElement->NextSiblingElement("Image");
 	}
@@ -219,17 +223,17 @@ std::vector<std::string> Dataset::splitString(const char* input)
 	return result;
 }
 
-std::vector<Button*> Dataset::getButtons() const
+std::map<std::string, Button*> Dataset::getButtons() const
 {
 	return this->buttons;
 }
 
-std::vector<Label*> Dataset::getLabels() const
+std::map<std::string, Label*> Dataset::getLabels() const
 {
 	return this->labels;
 }
 
-std::vector<ImageObject*> Dataset::getImages() const
+std::map<std::string, ImageObject*> Dataset::getImages() const
 {
 	return this->images;
 }

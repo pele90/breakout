@@ -1,5 +1,8 @@
 #include "MainMenuScene.h"
 
+// Forward initialization of button handler
+void onPlayClick();
+
 MainMenuScene::MainMenuScene()
 {
 }
@@ -15,6 +18,7 @@ bool MainMenuScene::initialize()
 
 	this->ui = new UI();
 	this->ui->initialize("main_menu");
+	this->ui->setButtonCallback("play_button", &onPlayClick);
 
 	return true;
 }
@@ -39,4 +43,10 @@ void MainMenuScene::destroy()
 {
 	this->ui->destroy();
 	this->ui = NULL;
+}
+
+// Button handlers
+void onPlayClick()
+{
+	GlobalState::setCurrentState(GlobalState::GameState::Playing);
 }

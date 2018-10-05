@@ -17,17 +17,17 @@ bool UI::initialize(const char* layout)
 
 	for (auto it : dataset->getImages())
 	{
-		it->initialize();
+		it.second->initialize();
 	}
 
 	for (auto it : dataset->getButtons())
 	{
-		it->initialize();
+		it.second->initialize();
 	}
 
 	for (auto it : dataset->getLabels())
 	{
-		it->initialize();
+		it.second->initialize();
 	}
 
 	return true;
@@ -40,17 +40,17 @@ void UI::update(float deltaTime)
 
 	for (auto it : dataset->getImages())
 	{
-		it->update();
+		it.second->update();
 	}
 
 	for (auto it : dataset->getButtons())
 	{
-		it->update();
+		it.second->update();
 	}
 
 	for (auto it : dataset->getLabels())
 	{
-		it->update();
+		it.second->update();
 	}
 }
 
@@ -58,17 +58,17 @@ void UI::render(SDL_Renderer* renderer)
 {
 	for (auto it : dataset->getImages())
 	{
-		it->render(renderer);
+		it.second->render(renderer);
 	}
 
 	for (auto it : dataset->getButtons())
 	{
-		it->render(renderer);
+		it.second->render(renderer);
 	}
 
 	for (auto it : dataset->getLabels())
 	{
-		it->render(renderer);
+		it.second->render(renderer);
 	}
 }
 
@@ -78,4 +78,12 @@ void UI::destroy()
 	dataset = NULL;
 
 	TTF_Quit();
+}
+
+void UI::setButtonCallback(std::string buttonName, void(*fptr)())
+{
+	std::map<std::string, Button*> buttons = this->dataset->getButtons();
+	std::map<std::string, Button*>::iterator it = buttons.find(buttonName);
+
+	(*it).second->setClickCallback(fptr);
 }

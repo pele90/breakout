@@ -1,17 +1,17 @@
 #include "PlayScene.h"
 
-PlayScene::PlayScene()
-{
-}
+// Forward initialization of button handler
+void onReturnClick();
 
-PlayScene::~PlayScene()
-{
-}
+PlayScene::PlayScene(){}
+
+PlayScene::~PlayScene(){}
 
 bool PlayScene::initialize()
 {
 	this->ui = new UI();
 	this->ui->initialize("game_gui");
+	this->ui->setButtonCallback("return_button", &onReturnClick);
 
 	return true;
 }
@@ -30,4 +30,10 @@ void PlayScene::destroy()
 {
 	this->ui->destroy();
 	this->ui = NULL;
+}
+
+// Button handlers
+void onReturnClick()
+{
+	GlobalState::setCurrentState(GlobalState::GameState::ShowingMenu);
 }

@@ -5,6 +5,7 @@
 #include <iostream>
 #include <sstream>
 #include <vector>
+#include <map>
 
 #include "SDL.h"
 #include "tinyxml2.h"
@@ -29,14 +30,14 @@ public:
 	bool checkXmlResult(tinyxml2::XMLError error);
 	std::vector<std::string> splitString(const char* input);
 
-	std::vector<Button*> getButtons() const;
-	std::vector<Label*> getLabels() const;
-	std::vector<ImageObject*> getImages() const;
+	std::map<std::string, Button*> getButtons() const;
+	std::map<std::string, Label*> getLabels() const;
+	std::map<std::string, ImageObject*> getImages() const;
 
 private:
-	std::vector<Label*> labels;
-	std::vector<Button*> buttons;
-	std::vector<ImageObject*> images;
+	std::map<std::string, Label*> labels;
+	std::map<std::string, Button*> buttons;
+	std::map<std::string, ImageObject*> images;
 };
 
 #endif // !DATASET_H
