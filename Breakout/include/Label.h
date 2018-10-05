@@ -37,7 +37,6 @@ private:
 	std::string fontName;
 	SDL_Color fontColor;
 	int fontSize;
-	bool dirty; // flag to mark when some property is changed so that the new texture with chaned properties can be created
 };
 
 #endif // !LABEL_H

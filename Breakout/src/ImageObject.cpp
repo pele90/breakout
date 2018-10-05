@@ -31,6 +31,8 @@ bool ImageObject::initialize()
 
 		//Get rid of old loaded surface
 		SDL_FreeSurface(tempSurface);
+
+		this->dirty = true;
 	}
 
 	return true;
@@ -46,12 +48,22 @@ void ImageObject::update()
 
 void ImageObject::render(SDL_Renderer* renderer)
 {
-	if (this->texture == NULL)
+	if (this->dirty)
 	{
-		this->texture = SDL_CreateTextureFromSurface(renderer, this->surface);
-	}
+		if (this->texture != NULL)
+		{
+			SDL_DestroyTexture(this->texture);
+		}
 
-	SDL_RenderCopy(renderer, this->texture, nullptr, &this->transform);
+		this->texture = SDL_CreateTextureFromSurface(renderer, this->surface);
+		SDL_RenderCopy(renderer, this->texture, nullptr, &this->transform);
+
+		this->dirty = false;
+	}
+	else
+	{
+		SDL_RenderCopy(renderer, this->texture, nullptr, &this->transform);
+	}
 
 	if (this->child != NULL)
 	{

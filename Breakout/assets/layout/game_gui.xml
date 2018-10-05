@@ -1,9 +1,5 @@
 <Layout>
-	<Image texture_name="heart" rect="0,0,1024,768" />
-	<Image texture_name="heart" rect="0,0,1024,768" />
-	<Image texture_name="heart" rect="0,0,1024,768" />
-	<Image texture_name="background" rect="0,0,1024,768">
-		<Label text="Score: " font_name="Lato-Regular" font_color="0,0,225,255" font_size="12" rect="0,0,200,50"/>
-	</Image>
-	
+	<Image texture_name="triangle" rect="100,50,50,50" />
+	<Image texture_name="triangle" rect="160,50,50,50" />
+	<Image texture_name="triangle" rect="220,50,50,50" />
 </Layout>

@@ -16,7 +16,7 @@ bool MainMenuScene::initialize()
 	this->ui = new UI();
 	this->ui->initialize("main_menu");
 
-	return false;
+	return true;
 }
 
 void MainMenuScene::update(float deltaTime)

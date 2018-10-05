@@ -60,6 +60,8 @@ bool Label::initialize()
 		return false;
 	}
 
+	this->dirty = true;
+
 	return true;
 }
 
@@ -69,16 +71,28 @@ void Label::update()
 
 void Label::render(SDL_Renderer* renderer)
 {
-	if (this->texture == NULL or this->dirty)
+	if (this->dirty)
 	{
+		if (this->texture != NULL)
+		{
+			SDL_DestroyTexture(this->texture);
+		}
+
+		if (this->surface != NULL)
+		{
+			SDL_FreeSurface(this->surface);
+		}
+
 		this->surface = TTF_RenderText_Blended(this->font, this->text.c_str(), this->fontColor);
 		this->texture = SDL_CreateTextureFromSurface(renderer, this->surface);
+		SDL_RenderCopy(renderer, this->texture, nullptr, &this->transform);
+
+		this->dirty = false;
 	}
-
-	SDL_RenderCopy(renderer, this->texture, nullptr, &this->transform);
-
-	SDL_DestroyTexture(this->texture);
-	this->texture = NULL;
+	else
+	{
+		SDL_RenderCopy(renderer, this->texture, nullptr, &this->transform);
+	}
 }
 
 void Label::destroy()

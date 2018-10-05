@@ -21,7 +21,8 @@ public:
 
 private:
 	Scene* activeScene;
-	GlobalState* globalState;
+	GlobalState::GameState currentState;
+	GlobalState::GameState previousState;
 };
 
 #endif // !SCENE_MANAGER_H

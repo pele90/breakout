@@ -31,6 +31,8 @@ bool Button::initialize()
 
 		//Get rid of old loaded surface
 		SDL_FreeSurface(tempSurface);
+
+		dirty = true;
 	}
 
 	return true;
@@ -38,6 +40,8 @@ bool Button::initialize()
 
 void Button::update()
 {
+	
+
 	if (mouseHover())
 	{
 		if (!this->hover)
@@ -46,16 +50,21 @@ void Button::update()
 
 			SDL_SetSurfaceAlphaMod(this->surface, HOVERED_ALPHA);
 
-			int x = this->transform.x - 2.5f;
-			int y = this->transform.y - 2.5f;
-			int w = this->transform.w + 5;
-			int h = this->transform.h + 5;
+			int x = this->transform.x - 3;
+			int y = this->transform.y - 3;
+			int w = this->transform.w + 6;
+			int h = this->transform.h + 6;
 
 			SDL_Rect newRect = { x, y, w, h };
 
 			this->transform = newRect;
 
 			this->hover = true;
+		}
+
+		if (Input::isLeftMouseButtonPressed())
+		{
+			onClick();
 		}
 	}
 	else
@@ -66,11 +75,10 @@ void Button::update()
 
 			SDL_SetSurfaceAlphaMod(this->surface, FULL_ALPHA);
 			
-			int x = this->transform.x + 2.5f;
-			int y = this->transform.y + 2.5f;
-
-			int w = this->transform.w - 5;
-			int h = this->transform.h - 5;
+			int x = this->transform.x + 3;
+			int y = this->transform.y + 3;
+			int w = this->transform.w - 6;
+			int h = this->transform.h - 6;
 
 			SDL_Rect newRect = { x, y, w, h };
 
@@ -88,18 +96,23 @@ void Button::update()
 
 void Button::render(SDL_Renderer* renderer)
 {
-	if (this->texture == NULL or this->dirty)
+	if (this->dirty)
 	{
-		this->texture = SDL_CreateTextureFromSurface(renderer, this->surface);
+		if (this->texture != NULL)
+		{
+			SDL_DestroyTexture(this->texture);
+		}
 
-		SDL_FreeSurface(this->surface);
-		this->surface = NULL;
+		this->texture = SDL_CreateTextureFromSurface(renderer, this->surface);
+		SDL_RenderCopy(renderer, this->texture, nullptr, &this->transform);
 
 		this->dirty = false;
 	}
+	else
+	{
+		SDL_RenderCopy(renderer, this->texture, nullptr, &this->transform);
+	}
 	
-	SDL_RenderCopy(renderer, this->texture, nullptr, &this->transform);
-
 	if (this->child != NULL)
 	{
 		this->child->render(renderer);
@@ -127,4 +140,9 @@ bool Button::mouseHover()
 	SDL_Point point = { x, y };
 
 	return SDL_PointInRect(&point, &this->transform);
+}
+
+void Button::onClick()
+{
+	GlobalState::setCurrentState(GlobalState::GameState::Playing);
 }

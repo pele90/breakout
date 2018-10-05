@@ -8,6 +8,7 @@
 
 #include "Resources.h"
 #include "Input.h"
+#include "GlobalState.h"
 
 class UIObject
 {
@@ -25,6 +26,7 @@ public:
 protected:
 	SDL_Rect transform;
 	UIObject* child = NULL;
+	bool dirty; // flag to mark when some property is changed so that the new texture with chaned properties can be created
 };
 
 #endif // !UI_OBJECT_H
