@@ -41,7 +41,12 @@ void MainMenuScene::render(SDL_Renderer* renderer)
 
 void MainMenuScene::destroy()
 {
+	this->level->destroy();
+	delete level;
+	this->level = NULL;
+
 	this->ui->destroy();
+	delete ui;
 	this->ui = NULL;
 }
 

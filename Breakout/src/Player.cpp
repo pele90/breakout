@@ -39,12 +39,12 @@ bool Player::initialize()
 
 void Player::update(float deltaTime)
 {
-	if (Input::getInstance()->isLeftArrowPressed())
+	if (Input::getInstance().isLeftArrowPressed())
 	{
 		this->transform.x -= 10;
 	}
 
-	if (Input::getInstance()->isRightArrowPressed())
+	if (Input::getInstance().isRightArrowPressed())
 	{
 		this->transform.x += 10;
 	}

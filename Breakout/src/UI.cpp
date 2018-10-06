@@ -75,6 +75,7 @@ void UI::render(SDL_Renderer* renderer)
 void UI::destroy()
 {
 	dataset->destroy();
+	delete dataset;
 	dataset = NULL;
 
 	TTF_Quit();

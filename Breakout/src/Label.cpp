@@ -97,15 +97,15 @@ void Label::render(SDL_Renderer* renderer)
 
 void Label::destroy()
 {
-	TTF_CloseFont(this->font);
-	this->font = NULL;
-
 	SDL_DestroyTexture(this->texture);
 	this->texture = NULL;
 
 	SDL_FreeSurface(this->surface);
 	this->surface = NULL;
-}
+
+	TTF_CloseFont(this->font);
+	this->font = NULL;
+	}
 
 void Label::setText(std::string text)
 {

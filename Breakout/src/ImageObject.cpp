@@ -40,10 +40,6 @@ bool ImageObject::initialize()
 
 void ImageObject::update()
 {
-	if (this->child != NULL)
-	{
-		this->child->update();
-	}
 }
 
 void ImageObject::render(SDL_Renderer* renderer)
@@ -64,20 +60,10 @@ void ImageObject::render(SDL_Renderer* renderer)
 	{
 		SDL_RenderCopy(renderer, this->texture, nullptr, &this->transform);
 	}
-
-	if (this->child != NULL)
-	{
-		this->child->render(renderer);
-	}
 }
 
 void ImageObject::destroy()
 {
-	if (this->child != NULL)
-	{
-		this->child->destroy();
-	}
-
 	SDL_DestroyTexture(this->texture);
 	this->texture = NULL;
 

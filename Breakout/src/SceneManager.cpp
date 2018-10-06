@@ -21,6 +21,9 @@ void SceneManager::update(float deltaTime)
 	{
 		this->currentState = state;
 		this->previousState = state;
+		this->activeScene->destroy();
+		delete this->activeScene;
+		this->activeScene = NULL;
 
 		switch (state)
 		{
@@ -41,9 +44,10 @@ void SceneManager::update(float deltaTime)
 			break;
 		}
 	}
-
-
-	this->activeScene->update(deltaTime);
+	else
+	{
+		this->activeScene->update(deltaTime);
+	}
 }
 
 void SceneManager::render(SDL_Renderer* renderer)
@@ -54,6 +58,8 @@ void SceneManager::render(SDL_Renderer* renderer)
 void SceneManager::destroy()
 {
 	this->activeScene->destroy();
+	delete this->activeScene;
+	this->activeScene = NULL;
 }
 
 void SceneManager::switchScene(Scene* scene)

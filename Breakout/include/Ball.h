@@ -16,8 +16,6 @@ public:
 	virtual void render(SDL_Renderer* renderer);
 	virtual void destroy();
 
-private:
-
 };
 
 #endif // !BALL_H

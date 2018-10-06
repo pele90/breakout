@@ -94,14 +94,15 @@ void Game::run()
 void Game::update(float deltaTime)
 {
 	//Handle events on queue
+
+	Input::getInstance().reset();
+
 	SDL_Event e;
 	while (SDL_PollEvent(&e) != 0)
 	{
-		Input::getInstance()->reset();
-
 		int x, y;
 		SDL_GetMouseState(&x, &y);
-		Input::getInstance()->setMouse(x, y);
+		Input::getInstance().setMouse(x, y);
 
 		switch (e.type)
 		{
@@ -114,11 +115,11 @@ void Game::update(float deltaTime)
 		{
 			if (e.button.button == SDL_BUTTON_LEFT)
 			{
-				Input::getInstance()->setLeftMouseButtonPressed(true);
+				Input::getInstance().setLeftMouseButtonPressed(true);
 			}
 			else if (e.button.button == SDL_BUTTON_RIGHT)
 			{
-				Input::getInstance()->setLeftMouseButtonPressed(true);
+				Input::getInstance().setRightMouseButtonPressed(true);
 			}
 			break;
 		}
@@ -127,11 +128,11 @@ void Game::update(float deltaTime)
 		const Uint8* currentKeyStates = SDL_GetKeyboardState(NULL);
 		if (currentKeyStates[SDL_SCANCODE_LEFT])
 		{
-			Input::getInstance()->setLeftArrowPressed(true);
+			Input::getInstance().setLeftArrowPressed(true);
 		}
 		else if (currentKeyStates[SDL_SCANCODE_RIGHT])
 		{
-			Input::getInstance()->setRightArrowPressed(true);
+			Input::getInstance().setRightArrowPressed(true);
 		}
 	}
 
@@ -150,13 +151,16 @@ void Game::render()
 
 void Game::destroy()
 {
+	this->sceneManager->destroy();
+	delete this->sceneManager;
+	this->sceneManager = NULL;
+
 	//Destroy window 
 	SDL_DestroyWindow(this->window);
 	this->window = NULL;
 
 	SDL_DestroyRenderer(this->renderer);
 	this->renderer = NULL;
-
 
 	//Quit SDL subsystems 
 	SDL_Quit();

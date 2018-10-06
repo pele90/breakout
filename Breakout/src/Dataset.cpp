@@ -13,16 +13,19 @@ void Dataset::destroy()
 	for (auto it : buttons)
 	{
 		it.second->destroy();
+		delete it.second;
 	}
 
 	for (auto it : labels)
 	{
 		it.second->destroy();
+		delete it.second;
 	}
 
 	for (auto it : images)
 	{
 		it.second->destroy();
+		delete it.second;
 	}
 
 	buttons.clear();

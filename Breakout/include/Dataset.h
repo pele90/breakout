@@ -30,6 +30,7 @@ public:
 	bool checkXmlResult(tinyxml2::XMLError error);
 	std::vector<std::string> splitString(const char* input);
 
+public:
 	std::map<std::string, Button*> getButtons() const;
 	std::map<std::string, Label*> getLabels() const;
 	std::map<std::string, ImageObject*> getImages() const;

@@ -29,6 +29,7 @@ void PlayScene::render(SDL_Renderer* renderer)
 void PlayScene::destroy()
 {
 	this->ui->destroy();
+	delete ui;
 	this->ui = NULL;
 }
 

@@ -1,14 +1,8 @@
 #include "Input.h"
 
-Input* Input::instance = 0;
-
-Input* Input::getInstance()
+Input& Input::getInstance()
 {
-	if (instance == 0)
-	{
-		instance = new Input();
-	}
-
+	static Input instance;
 	return instance;
 }
 

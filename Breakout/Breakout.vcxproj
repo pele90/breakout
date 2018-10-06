@@ -125,6 +125,7 @@
       <AdditionalLibraryDirectories>$(ProjectDir)lib\SDL2_image-2.0.2\lib\x86;$(ProjectDir)lib\SDL2_ttf-2.0.14\lib\x86;$(ProjectDir)lib\SDL2-development\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_ttf.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">

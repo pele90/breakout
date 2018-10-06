@@ -11,7 +11,7 @@ public:
 	};
 
 public:
-	static Input* getInstance();
+	static Input& getInstance();
 	static bool isLeftMouseButtonPressed();
 	static bool isRightMouseButtonPressed();
 	static bool isRightArrowPressed();
@@ -30,8 +30,11 @@ public:
 private:
 	Input() {}
 
+	/* Explicitly disallow copying. */
+	Input(const Input&);
+	Input& operator= (const Input&);
+
 private:
-	static Input* instance;
 	static Mouse mouse;
 	static bool leftMouseButtonPressed;
 	static bool rightMouseButtonPressed;

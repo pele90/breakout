@@ -31,6 +31,7 @@ bool Button::initialize()
 
 		//Get rid of old loaded surface
 		SDL_FreeSurface(tempSurface);
+		tempSurface = NULL;
 
 		this->onClick = NULL;
 
@@ -42,8 +43,6 @@ bool Button::initialize()
 
 void Button::update()
 {
-	
-
 	if (mouseHover())
 	{
 		if (!this->hover)
@@ -92,11 +91,6 @@ void Button::update()
 			this->hover = false;
 		}
 	}
-
-	if (this->child != NULL)
-	{
-		this->child->update();
-	}
 }
 
 void Button::render(SDL_Renderer* renderer)
@@ -117,20 +111,17 @@ void Button::render(SDL_Renderer* renderer)
 	{
 		SDL_RenderCopy(renderer, this->texture, nullptr, &this->transform);
 	}
-	
-	if (this->child != NULL)
-	{
-		this->child->render(renderer);
-	}
 }
 
 void Button::destroy()
 {
+	SDL_FreeSurface(this->surface);
+	this->surface = NULL;
+
 	SDL_DestroyTexture(this->texture);
 	this->texture = NULL;
 
-	SDL_FreeSurface(this->surface);
-	this->surface = NULL;
+	this->onClick = NULL;
 }
 
 void Button::setTextureFilename(const char* filename)
@@ -141,7 +132,7 @@ void Button::setTextureFilename(const char* filename)
 bool Button::mouseHover()
 {
 	int x, y;
-	Input::getInstance()->getMouse(x, y);
+	Input::getInstance().getMouse(x, y);
 	SDL_Point point = { x, y };
 
 	return SDL_PointInRect(&point, &this->transform);

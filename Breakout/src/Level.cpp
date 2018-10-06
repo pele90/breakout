@@ -70,16 +70,16 @@ bool Level::loadLevel(std::string filename)
 	}
 
 	//-----------------------Level attributes---------------------------
-	this->levelDefinition = new LevelDefinition();
+	this->levelDefinition = LevelDefinition();
 
 	tinyxml2::XMLElement* rootElement = pRoot->ToElement();
-	eResult = rootElement->QueryIntAttribute("RowCount", &levelDefinition->rowCount);
-	eResult = rootElement->QueryIntAttribute("ColumnCount", &levelDefinition->columnCount);
-	eResult = rootElement->QueryIntAttribute("RowSpacing", &levelDefinition->rowSpacing);
-	eResult = rootElement->QueryIntAttribute("ColumnSpacing", &levelDefinition->columnSpacing);
+	eResult = rootElement->QueryIntAttribute("RowCount", &levelDefinition.rowCount);
+	eResult = rootElement->QueryIntAttribute("ColumnCount", &levelDefinition.columnCount);
+	eResult = rootElement->QueryIntAttribute("RowSpacing", &levelDefinition.rowSpacing);
+	eResult = rootElement->QueryIntAttribute("ColumnSpacing", &levelDefinition.columnSpacing);
 	const char* bgTexture;
 	eResult = rootElement->QueryStringAttribute("BackgroundTexture", &bgTexture);
-	levelDefinition->backgroundTexture = bgTexture;
+	levelDefinition.backgroundTexture = bgTexture;
 
 	//-----------------------BrickType attributes---------------------------
 	tinyxml2::XMLNode* brickTypesNode = pRoot->FirstChildElement("BrickTypes");
@@ -111,12 +111,12 @@ bool Level::loadLevel(std::string filename)
 
 bool Level::createLevel()
 {
-	float offsetX = 1024.f / this->levelDefinition->columnCount;
-	float offsetY = 768.f / this->levelDefinition->rowCount;
-	float w = offsetX - this->levelDefinition->columnSpacing;
-	float h = offsetY - this->levelDefinition->rowSpacing;
-	float rowSpacingOffset = this->levelDefinition->rowSpacing / 2.f;
-	float columnSpacingOffset = this->levelDefinition->columnSpacing / 2.f;
+	float offsetX = 1024.f / this->levelDefinition.columnCount;
+	float offsetY = 768.f / this->levelDefinition.rowCount;
+	float w = offsetX - this->levelDefinition.columnSpacing;
+	float h = offsetY - this->levelDefinition.rowSpacing;
+	float rowSpacingOffset = this->levelDefinition.rowSpacing / 2.f;
+	float columnSpacingOffset = this->levelDefinition.columnSpacing / 2.f;
 
 	int cnt;
 	int y = 0;
@@ -179,13 +179,32 @@ void Level::render(SDL_Renderer* renderer)
 
 void Level::destroy()
 {
-	delete levelDefinition;
-	levelDefinition = NULL;
-
-	for (auto iter : this->bricksObjects)
+	for (auto brick : this->bricksObjects)
 	{
-		iter->destroy();
+		brick->destroy();
+		delete brick;
+		brick = NULL;
 	}
+
+	for (auto type : this->brickTypes)
+	{
+		delete type.second;
+		type.second = NULL;
+	}
+
+	for (auto brick : this->balls)
+	{
+		brick->destroy();
+		delete brick;
+		brick = NULL;
+	}
+
+	this->bricksObjects.clear();
+	this->brickTypes.clear();
+	this->balls.clear();
+
+	delete this->player;
+	this->player = NULL;
 }
 
 void Level::extractBricks(const char* text)
@@ -197,7 +216,7 @@ void Level::extractBricks(const char* text)
 
 	while (std::getline(stream, line))
 	{
-		if (line.size() < this->levelDefinition->columnCount)
+		if (line.size() < this->levelDefinition.columnCount)
 		{
 			continue;
 		}

@@ -39,7 +39,7 @@ private:
 	void extractBricks(const char* text);
 
 private:
-	LevelDefinition* levelDefinition;
+	LevelDefinition levelDefinition;
 	std::map<std::string, BrickType*> brickTypes;
 	std::vector< std::vector<std::string> > bricks;
 	std::vector<Brick*> bricksObjects;
