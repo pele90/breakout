@@ -4,6 +4,9 @@
 #include "Entity.h"
 #include "Resources.h"
 
+#define DAMAGED_BRICK_PREFIX "bricks/brick_"
+#define DAMAGED_BRICK_SUFFIX "_damaged"
+
 struct BrickType
 {
 	std::string id;

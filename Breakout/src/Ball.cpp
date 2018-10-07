@@ -16,7 +16,7 @@ bool Ball::initialize()
 	SDL_Rect rect = { 450, 600, 15, 15 };
 	this->setTransform(rect);
 
-	this->velocity.setX(0);
+	this->velocity.setX(2);
 	this->velocity.setY(-12);
 
 	return true;

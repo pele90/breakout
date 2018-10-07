@@ -417,7 +417,8 @@ void Level::ballBrickResponse(Brick::BrickResponse value, Ball* ball, float delt
 			if (value == Brick::BrickResponse::Left || value == Brick::BrickResponse::Top) {
 				mulX = -1;
 			}
-			else {
+			else 
+			{
 				mulY = -1;
 			}
 		}
@@ -430,7 +431,8 @@ void Level::ballBrickResponse(Brick::BrickResponse value, Ball* ball, float delt
 			if (value == Brick::BrickResponse::Right || value == Brick::BrickResponse::Bottom) {
 				mulX = -1;
 			}
-			else {
+			else 
+			{
 				mulY = -1;
 			}
 		}
@@ -440,7 +442,8 @@ void Level::ballBrickResponse(Brick::BrickResponse value, Ball* ball, float delt
 			if (value == Brick::BrickResponse::Right || value == Brick::BrickResponse::Top) {
 				mulX = -1;
 			}
-			else {
+			else
+			{
 				mulY = -1;
 			}
 		}
@@ -514,6 +517,7 @@ void Level::setDirection(Ball* ball, float newdirx, float newdiry, float deltaTi
 
 bool Level::winCondition()
 {
+	// if all destroyable bricks are destroyed
 	if (this->numOfDestroyableBricks == 0)
 	{
 		if (GlobalState::getLevel() != NUMBER_OF_LEVELS)
@@ -542,7 +546,7 @@ void Level::setUiChanged(bool value)
 
 void Level::ballFollowPlayer()
 {
-	SDL_Rect ballRect = this->balls[0]->getTransform();
+ 	SDL_Rect ballRect = this->balls[0]->getTransform();
 	SDL_Rect playerRect = this->player->getTransform();
 
 	ballRect.x = playerRect.x + (playerRect.w / 2);

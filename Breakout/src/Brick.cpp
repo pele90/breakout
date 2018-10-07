@@ -90,6 +90,19 @@ int Brick::handleHit()
 			this->removeTexture();
 			this->interactable = false;
 		}
+		else
+		{
+			std::string damagedBrickFilename = DAMAGED_BRICK_PREFIX;
+			damagedBrickFilename.append(this->brickType.id).append(DAMAGED_BRICK_SUFFIX);
+			if (!Util::loadPng(damagedBrickFilename.c_str(), this->surface))
+			{
+				// LOG error
+			}
+			else
+			{
+				this->texture = NULL;
+			}
+		}
 	}
 
 	return returnValue;
