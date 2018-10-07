@@ -24,8 +24,8 @@ void Ball::update(float deltaTime)
 {
 	if (!this->followPlayer)
 	{
-		this->transform.x += this->velocity.getX();
-		this->transform.y += this->velocity.getY();
+		this->transform.x += (int)this->velocity.getX();
+		this->transform.y += (int)this->velocity.getY();
 	}
 }
 

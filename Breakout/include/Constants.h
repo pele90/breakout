@@ -2,29 +2,29 @@
 #define CONSTANTS_H
 
 // PLAYER
-#define PLAYER_MOVEMENT_SPEED 500
+#define PLAYER_MOVEMENT_SPEED 500.f
 #define PLAYER_STARTING_POSITION { 400, 650, 200, 20 }
 #define PLAYER_TEXTURE_NAME "player"
 
 // SCREEN
-#define DEFAULT_SCREEN_WIDTH 1024
-#define DEFAULT_SCREEN_HEIGHT 768
-#define DEFAULT_BOARD_WIDTH 924
-#define DEFAULT_BOARD_HEIGHT 668
+#define DEFAULT_SCREEN_WIDTH 1024.f
+#define DEFAULT_SCREEN_HEIGHT 768.f
+#define DEFAULT_BOARD_WIDTH 924.f
+#define DEFAULT_BOARD_HEIGHT 668.f
 
 // GAME
 #define DEFAULT_SCORE 0
 #define DEFAULT_LIVES 3
 #define DEFAULT_LEVEL 1
 #define FPS 60;
-constexpr int screen_ticks_per_frame = 1000 / FPS;
+constexpr float screen_ticks_per_frame = 1000.f / FPS;
 
 // BRICK
 #define DAMAGED_BRICK_PREFIX "bricks/brick_"
 #define DAMAGED_BRICK_SUFFIX "_damaged"
 
 // BALL
-#define BALL_MOVEMENT_SPEED 600
+#define BALL_MOVEMENT_SPEED 600.f
 #define BALL_STARTING_POSITION { 450, 600, 15, 15 }
 #define BALL_STARTING_DIRECTION {2, -12}
 #define BALL_TEXTURE_NAME "ball"
@@ -61,12 +61,32 @@ constexpr int screen_ticks_per_frame = 1000 / FPS;
 
 // MAIN MENU SCENE
 #define MAIN_MENU_SCENE_BACKGROUND_TEXTURE_PATH "background/wall_background"
-#define PLAY_SCENE_LAYOUT_NAME "main_menu"
+#define MAIN_MENU_SCENE_LAYOUT_NAME "main_menu"
 
 // BUTTONS
 #define CONTINUE_BUTTON_NAME "continue_button"
 #define PLAY_BUTTON_NAME "play_button"
 #define EXIT_BUTTON_NAME "exit_button"
+#define HOVERED_BUTTON_ALPHA 200
+#define FULL_ALPHA 255
+#define HOVER_BUTTON_POSITION_VALUE 3
+#define HOVER_BUTTON_SCALE_VALUE 6
+
+// DATASET DEFINITIONS
+#define BUTTON_ELEMENT "Button"
+#define LABEL_ELEMENT "Label"
+#define IMAGE_ELEMENT "Image"
+
+#define NAME_ATTRIBUTE "name"
+#define VISIBLE_ATTRIBUTE "visible"
+#define TEXTURE_NAME_ATTRIBUTE "texture_name"
+#define RECT_ATTRIBUTE "rect"
+#define TEXT_ATTRIBUTE "text"
+#define FONT_NAME "font_name"
+#define FONT_COLOR "font_color"
+#define FONT_SIZE "font_size"
+#define VISIBLE_FALSE_VALUE "0"
+#define VISIBLE_TRUE_VALUE "1"
 
 
 #endif // !CONSTANTS_H

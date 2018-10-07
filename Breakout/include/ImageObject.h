@@ -2,7 +2,6 @@
 #define IMAGE_OBJECT_H
 
 #include "UIObject.h"
-#include "SDL_image.h"
 
 class ImageObject : public UIObject
 {

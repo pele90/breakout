@@ -5,11 +5,12 @@
 #include <string>
 
 #include "SDL.h"
+#include "SDL_image.h"
 
-#include "Resources.h"
-#include "Util.h"
-#include "Input.h"
+#include "Constants.h"
 #include "GlobalState.h"
+#include "Input.h"
+#include "Util.h"
 
 class UIObject
 {
@@ -21,6 +22,7 @@ public:
 	virtual void update() = 0;
 	virtual void render(SDL_Renderer* renderer) = 0;
 	virtual void destroy() = 0;
+
 	void setTransform(SDL_Rect rect);
 	void setName(std::string name);
 	std::string getName() const;
@@ -28,8 +30,8 @@ public:
 	void setVisibility(bool value);
 
 protected:
-	SDL_Rect transform;
 	std::string name;
+	SDL_Rect transform;
 	bool dirty; // flag to mark when some property is changed so that the new texture with chaned properties can be created
 	bool visible = true;
 };

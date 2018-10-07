@@ -17,7 +17,7 @@ bool MainMenuScene::initialize()
 	this->setBackground(MAIN_MENU_SCENE_BACKGROUND_TEXTURE_PATH);
 
 	this->ui = new UI();
-	this->ui->initialize(PLAY_SCENE_LAYOUT_NAME);
+	this->ui->initialize(MAIN_MENU_SCENE_LAYOUT_NAME);
 	this->ui->setButtonCallback(PLAY_BUTTON_NAME, &onPlayClick);
 	this->ui->setButtonCallback(EXIT_BUTTON_NAME, &onMainMenuExitClick);
 

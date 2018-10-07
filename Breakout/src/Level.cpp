@@ -219,8 +219,8 @@ bool Level::initLevel(std::string filename)
 
 bool Level::createLevel(LevelDefinition levelDefinition)
 {
-	float boardXOffset = (DEFAULT_SCREEN_WIDTH - DEFAULT_BOARD_WIDTH) / 2;
-	float boardYOffset = (DEFAULT_SCREEN_HEIGHT - DEFAULT_BOARD_HEIGHT) / 2;
+	float boardXOffset = (DEFAULT_SCREEN_WIDTH - DEFAULT_BOARD_WIDTH) / 2.f;
+	float boardYOffset = (DEFAULT_SCREEN_HEIGHT - DEFAULT_BOARD_HEIGHT) / 2.f;
 	float offsetX = DEFAULT_BOARD_WIDTH / levelDefinition.columnCount;
 	float offsetY = DEFAULT_SCREEN_HEIGHT / levelDefinition.rowCount;
 	float w = offsetX - levelDefinition.columnSpacing;
@@ -284,7 +284,7 @@ void Level::extractBricks(LevelDefinition levelDefinition, const char* text)
 
 	while (std::getline(stream, line))
 	{
-		if (line.size() < levelDefinition.columnCount)
+		if (line.size() < (size_t)levelDefinition.columnCount)
 		{
 			continue;
 		}

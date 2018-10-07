@@ -2,10 +2,6 @@
 #define BUTTON_H
 
 #include "UIObject.h"
-#include "SDL_image.h"
-
-#define HOVERED_ALPHA 200
-#define FULL_ALPHA 255
 
 class Button : public UIObject
 {

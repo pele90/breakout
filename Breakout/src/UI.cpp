@@ -13,7 +13,10 @@ bool UI::initialize(const char* layout)
 	}
 
 	dataset = new Dataset();
-	dataset->parseLayout(layout);
+	if (!dataset->parseLayout(layout))
+	{
+		return false;
+	}
 
 	for (auto it : dataset->getImages())
 	{
@@ -35,9 +38,6 @@ bool UI::initialize(const char* layout)
 
 void UI::update(float deltaTime)
 {
-	std::stringstream fpsText;
-	fpsText << (int)deltaTime;
-
 	for (auto it : dataset->getImages())
 	{
 		it.second->update();

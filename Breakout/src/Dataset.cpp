@@ -47,15 +47,15 @@ bool Dataset::parseLayout(const char* filename)
 	tinyxml2::XMLNode* pRoot = xmlDoc.FirstChild();
 	if (pRoot == nullptr)
 	{
-		std::cout << "Error creating ROOT NODE!" << std::endl;
+		Util::showMessageBox("Error creating ROOT NODE!");
 		return false;
 	}
 
-	//---------------BUTTON-----------------------------
-	extractButtonAttributes(pRoot);
-
 	//---------------LABEL-----------------------------
 	extractLabelAttributes(pRoot);
+
+	//---------------BUTTON-----------------------------
+	extractButtonAttributes(pRoot);
 
 	//---------------IMAGE-----------------------------
 	extractImageAttributes(pRoot);
@@ -65,7 +65,7 @@ bool Dataset::parseLayout(const char* filename)
 
 void Dataset::extractButtonAttributes(tinyxml2::XMLNode* root)
 {
-	tinyxml2::XMLElement* pElement = root->FirstChildElement("Button");
+	tinyxml2::XMLElement* pElement = root->FirstChildElement(BUTTON_ELEMENT);
 	bool visible;
 
 	while (pElement != nullptr)
@@ -74,21 +74,21 @@ void Dataset::extractButtonAttributes(tinyxml2::XMLNode* root)
 
 		tinyxml2::XMLError eResult;
 
-		button->setName(pElement->Attribute("name"));
+		button->setName(pElement->Attribute(NAME_ATTRIBUTE));
 
-		const char* value = pElement->Attribute("visible");
+		const char* value = pElement->Attribute(VISIBLE_ATTRIBUTE);
 		if (value == NULL)
 		{
 			visible = true;
 		}
 		else
 		{
-			visible = std::strcmp(value, "0") == 0 ? false : true;
+			visible = std::strcmp(value, VISIBLE_FALSE_VALUE) == 0 ? false : true;
 		}
 		button->setVisibility(visible);
 
 		const char* texture_name;
-		eResult = pElement->QueryStringAttribute("texture_name", &texture_name);
+		eResult = pElement->QueryStringAttribute(TEXTURE_NAME_ATTRIBUTE, &texture_name);
 		if (!checkXmlResult(eResult))
 		{
 			texture_name = "";
@@ -96,7 +96,7 @@ void Dataset::extractButtonAttributes(tinyxml2::XMLNode* root)
 		button->setTextureFilename(texture_name);
 
 		const char* rect;
-		eResult = pElement->QueryStringAttribute("rect", &rect);
+		eResult = pElement->QueryStringAttribute(RECT_ATTRIBUTE, &rect);
 		if (!checkXmlResult(eResult))
 		{
 			rect = NULL;
@@ -108,118 +108,75 @@ void Dataset::extractButtonAttributes(tinyxml2::XMLNode* root)
 
 		buttons[button->getName()] = button;
 
-		pElement = pElement->NextSiblingElement("Button");
+		pElement = pElement->NextSiblingElement(BUTTON_ELEMENT);
 	}
 }
 
 void Dataset::extractLabelAttributes(tinyxml2::XMLNode* root)
 {
-	tinyxml2::XMLElement* pElement = root->FirstChildElement("Label");
+	tinyxml2::XMLElement* pElement = root->FirstChildElement(LABEL_ELEMENT);
 	bool visible;
 
 	while (pElement != nullptr)
 	{
 		Label* label = new Label();
 
-		tinyxml2::XMLError eResult;
+		label->setName(pElement->Attribute(NAME_ATTRIBUTE));
 
-		label->setName(pElement->Attribute("name"));
-
-		const char* value = pElement->Attribute("visible") == NULL ? "1" : "0";
-		visible = std::strcmp(value, "0") == 0 ? false : true;
+		const char* value = pElement->Attribute(VISIBLE_ATTRIBUTE) == NULL ? VISIBLE_TRUE_VALUE : VISIBLE_FALSE_VALUE;
+		visible = std::strcmp(value, VISIBLE_FALSE_VALUE) == 0 ? false : true;
 		label->setVisibility(visible);
 
-		const char* text;
-		eResult = pElement->QueryStringAttribute("text", &text);
-		if (!checkXmlResult(eResult))
-		{
-			text = NULL;
-		}
-		label->setText(text);
+		label->setText(pElement->Attribute(TEXT_ATTRIBUTE));
+		label->setFontName(pElement->Attribute(FONT_NAME));
 
-		const char* fontName;
-		eResult = pElement->QueryStringAttribute("font_name", &fontName);
-		if (!checkXmlResult(eResult))
-		{
-			fontName = NULL;
-		}
-		label->setFontName(fontName);
-
-		const char* fontColor;
-		eResult = pElement->QueryStringAttribute("font_color", &fontColor);
-		if (!checkXmlResult(eResult))
-		{
-			fontColor = NULL;
-		}
-		std::vector<std::string> fontColorTokens = splitString(fontColor);
+		std::string fontColor = pElement->Attribute(FONT_COLOR);
+		std::vector<std::string> fontColorTokens = splitString(fontColor.c_str());
 		SDL_Color fColor = { std::stoi(fontColorTokens[0]), std::stoi(fontColorTokens[1]), std::stoi(fontColorTokens[2]), std::stoi(fontColorTokens[3]) };
 		label->setFontColor(fColor);
 
 		int fontSize;
-		eResult = pElement->QueryIntAttribute("font_size", &fontSize);
-		if (!checkXmlResult(eResult))
-		{
-			text = NULL;
-		}
+		pElement->QueryIntAttribute(FONT_SIZE, &fontSize);
 		label->setFontSize(fontSize);
 
-
 		const char* rect;
-		eResult = pElement->QueryStringAttribute("rect", &rect);
-		if (!checkXmlResult(eResult))
-		{
-			rect = NULL;
-		}
-
+		pElement->QueryStringAttribute(RECT_ATTRIBUTE, &rect);
 		std::vector<std::string> rectTokens = splitString(rect);
 		SDL_Rect transform = { std::stoi(rectTokens[0]), std::stoi(rectTokens[1]), std::stoi(rectTokens[2]), std::stoi(rectTokens[3]) };
 		label->setTransform(transform);
 
 		labels[label->getName()] = label;
 
-		pElement = pElement->NextSiblingElement("Label");
+		pElement = pElement->NextSiblingElement(LABEL_ELEMENT);
 	}
 }
 
 void Dataset::extractImageAttributes(tinyxml2::XMLNode* root)
 {
-	tinyxml2::XMLElement* pElement = root->FirstChildElement("Image");
+	tinyxml2::XMLElement* pElement = root->FirstChildElement(IMAGE_ELEMENT);
 	bool visible;
 
 	while (pElement != nullptr)
 	{
 		ImageObject* imageObject = new ImageObject();
 
-		tinyxml2::XMLError eResult;
+		imageObject->setName(pElement->Attribute(NAME_ATTRIBUTE));
 
-		imageObject->setName(pElement->Attribute("name"));
-
-		const char* value = pElement->Attribute("visible") == NULL ? "1" : "0";
-		visible = std::strcmp(value, "0") == 0 ? false : true;
+		const char* value = pElement->Attribute(VISIBLE_ATTRIBUTE) == NULL ? VISIBLE_TRUE_VALUE : VISIBLE_FALSE_VALUE;
+		visible = std::strcmp(value, VISIBLE_FALSE_VALUE) == 0 ? false : true;
 		imageObject->setVisibility(visible);
 
-		const char* texture_name;
-		eResult = pElement->QueryStringAttribute("texture_name", &texture_name);
-		if (!checkXmlResult(eResult))
-		{
-			texture_name = nullptr;
-		}
-		imageObject->setTextureFilename(texture_name);
+		imageObject->setTextureFilename(pElement->Attribute(TEXTURE_NAME_ATTRIBUTE));
 
 		const char* rect;
-		eResult = pElement->QueryStringAttribute("rect", &rect);
-		if (!checkXmlResult(eResult))
-		{
-			rect = nullptr;
-		}
-
+		pElement->QueryStringAttribute(RECT_ATTRIBUTE, &rect);
 		std::vector<std::string> tokens = splitString(rect);
 		SDL_Rect transform = { std::stoi(tokens[0]), std::stoi(tokens[1]), std::stoi(tokens[2]), std::stoi(tokens[3]) };
 		imageObject->setTransform(transform);
 
 		images[imageObject->getName()] = imageObject;
 
-		pElement = pElement->NextSiblingElement("Image");
+		pElement = pElement->NextSiblingElement(IMAGE_ELEMENT);
 	}
 }
 
@@ -227,7 +184,7 @@ bool Dataset::checkXmlResult(tinyxml2::XMLError error)
 {
 	if (error != tinyxml2::XML_SUCCESS)
 	{
-		std::cout << "Error: " << error << std::endl;
+		Util::showMessageBox("Error parsing XML file! Error: " + error);
 		return false;
 	}
 
@@ -251,14 +208,14 @@ std::vector<std::string> Dataset::splitString(const char* input)
 	return result;
 }
 
-std::map<std::string, Button*> Dataset::getButtons() const
-{
-	return this->buttons;
-}
-
 std::map<std::string, Label*> Dataset::getLabels() const
 {
 	return this->labels;
+}
+
+std::map<std::string, Button*> Dataset::getButtons() const
+{
+	return this->buttons;
 }
 
 std::map<std::string, ImageObject*> Dataset::getImages() const

@@ -68,7 +68,6 @@ void Game::run()
 	unsigned int lastFrameTime = 0;
 	float timeDifference, deltaTime;
 	unsigned int capTimer = 0;
-	int loops;
 
 	if (!this->initialize())
 	{

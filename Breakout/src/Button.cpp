@@ -1,6 +1,6 @@
 #include "Button.h"
 
-Button::Button() : surface(NULL){}
+Button::Button() : surface(nullptr){}
 
 Button::Button(const char* filename) : textureFilename(filename){}
 
@@ -12,11 +12,12 @@ bool Button::initialize()
 {
 	if (!Util::loadPng(this->textureFilename.c_str(), this->surface))
 	{
-		// LOG error
+		Util::showMessageBox("Loading .png failed");
+		return false;
 	}
 	else
 	{
-		this->onClick = NULL;
+		this->onClick = nullptr;
 
 		dirty = true;
 	}
@@ -26,18 +27,18 @@ bool Button::initialize()
 
 void Button::update()
 {
-	if (mouseHover())
+	if (this->mouseHover())
 	{
 		if (!this->hover)
 		{
 			this->dirty = true;
 
-			SDL_SetSurfaceAlphaMod(this->surface, HOVERED_ALPHA);
+			SDL_SetSurfaceAlphaMod(this->surface, HOVERED_BUTTON_ALPHA);
 
-			int x = this->transform.x - 3;
-			int y = this->transform.y - 3;
-			int w = this->transform.w + 6;
-			int h = this->transform.h + 6;
+			int x = this->transform.x - HOVER_BUTTON_POSITION_VALUE;
+			int y = this->transform.y - HOVER_BUTTON_POSITION_VALUE;
+			int w = this->transform.w + HOVER_BUTTON_SCALE_VALUE;
+			int h = this->transform.h + HOVER_BUTTON_SCALE_VALUE;
 
 			SDL_Rect newRect = { x, y, w, h };
 
@@ -62,10 +63,10 @@ void Button::update()
 
 			SDL_SetSurfaceAlphaMod(this->surface, FULL_ALPHA);
 			
-			int x = this->transform.x + 3;
-			int y = this->transform.y + 3;
-			int w = this->transform.w - 6;
-			int h = this->transform.h - 6;
+			int x = this->transform.x + HOVER_BUTTON_POSITION_VALUE;
+			int y = this->transform.y + HOVER_BUTTON_POSITION_VALUE;
+			int w = this->transform.w - HOVER_BUTTON_SCALE_VALUE;
+			int h = this->transform.h - HOVER_BUTTON_SCALE_VALUE;
 
 			SDL_Rect newRect = { x, y, w, h };
 
@@ -80,7 +81,7 @@ void Button::render(SDL_Renderer* renderer)
 {
 	if (this->dirty)
 	{
-		if (this->texture != NULL)
+		if (this->texture != nullptr)
 		{
 			SDL_DestroyTexture(this->texture);
 		}
@@ -99,12 +100,12 @@ void Button::render(SDL_Renderer* renderer)
 void Button::destroy()
 {
 	SDL_FreeSurface(this->surface);
-	this->surface = NULL;
+	this->surface = nullptr;
 
 	SDL_DestroyTexture(this->texture);
-	this->texture = NULL;
+	this->texture = nullptr;
 
-	this->onClick = NULL;
+	this->onClick = nullptr;
 }
 
 void Button::setTextureFilename(const char* filename)
