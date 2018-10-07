@@ -8,6 +8,8 @@
 #include "SDL_image.h"
 
 #include "Input.h"
+#include "Util.h"
+#include "GlobalState.h"
 
 
 class Entity
@@ -24,8 +26,10 @@ public:
 
 	void setTransform(SDL_Rect rect);
 	void setTextureFilename(std::string filename);
-	SDL_Rect getTransform() const;
 	std::string getTextureFilename() const;
+
+public:
+	SDL_Rect getTransform() const;
 
 protected:
 	SDL_Surface* surface;

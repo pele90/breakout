@@ -58,9 +58,9 @@ bool Game::initialize()
 void Game::run()
 {
 	this->isRunning = true;
-	int frame = 0;
+	float frame = 0;
 	unsigned int lastTime = 0;
-	float deltaTime;
+	float timeDifference, deltaTime;
 	unsigned int capTimer = 0;
 
 	if (!this->initialize())
@@ -72,20 +72,21 @@ void Game::run()
 		while (isRunning)
 		{
 			capTimer = SDL_GetTicks();
-			deltaTime = SDL_GetTicks() - lastTime;
-			lastTime += deltaTime;
+			timeDifference = SDL_GetTicks() - lastTime;
+			lastTime += timeDifference;
+			deltaTime = (frame / (SDL_GetTicks() / 1000.f)) * 0.001;
 
-			this->update(frame / (SDL_GetTicks() / 1000.f));
+			this->update(deltaTime);
 
 			this->render();
 
 			frame++;
 
 			//If frame finished early 
-			if ((SDL_GetTicks() - capTimer) < SCREEN_TICKS_PER_FRAME)
+			if ((SDL_GetTicks() - capTimer) < screen_ticks_per_frame)
 			{
 				//Wait remaining time 
-				SDL_Delay(SCREEN_TICKS_PER_FRAME - (SDL_GetTicks() - capTimer));
+				SDL_Delay(screen_ticks_per_frame - (SDL_GetTicks() - capTimer));
 			}
 		}
 	}
@@ -93,48 +94,7 @@ void Game::run()
 
 void Game::update(float deltaTime)
 {
-	//Handle events on queue
-
-	Input::getInstance().reset();
-
-	SDL_Event e;
-	while (SDL_PollEvent(&e) != 0)
-	{
-		int x, y;
-		SDL_GetMouseState(&x, &y);
-		Input::getInstance().setMouse(x, y);
-
-		switch (e.type)
-		{
-		case SDL_QUIT:
-		{
-			this->isRunning = false;
-			break;
-		}
-		case SDL_MOUSEBUTTONUP:
-		{
-			if (e.button.button == SDL_BUTTON_LEFT)
-			{
-				Input::getInstance().setLeftMouseButtonPressed(true);
-			}
-			else if (e.button.button == SDL_BUTTON_RIGHT)
-			{
-				Input::getInstance().setRightMouseButtonPressed(true);
-			}
-			break;
-		}
-		}
-
-		const Uint8* currentKeyStates = SDL_GetKeyboardState(NULL);
-		if (currentKeyStates[SDL_SCANCODE_LEFT])
-		{
-			Input::getInstance().setLeftArrowPressed(true);
-		}
-		else if (currentKeyStates[SDL_SCANCODE_RIGHT])
-		{
-			Input::getInstance().setRightArrowPressed(true);
-		}
-	}
+	this->isRunning = Input::handleInputs();
 
 	this->sceneManager->update(deltaTime);
 }

@@ -1,6 +1,8 @@
 #ifndef INPUT_H
 #define INPUT_H
 
+#include "SDL.h"
+
 class Input
 {
 public:
@@ -12,13 +14,13 @@ public:
 
 public:
 	static Input& getInstance();
-	static bool isLeftMouseButtonPressed();
-	static bool isRightMouseButtonPressed();
+	static bool isLeftMouseButtonUp();
+	static bool isRightMouseButtonUp();
 	static bool isRightArrowPressed();
 	static bool isLeftArrowPressed();
 
-	static void setLeftMouseButtonPressed(bool value);
-	static void setRightMouseButtonPressed(bool value);
+	static void setLeftMouseButtonUp(bool value);
+	static void setRightMouseButtonUp(bool value);
 	static void setRightArrowPressed(bool value);
 	static void setLeftArrowPressed(bool value);
 
@@ -26,6 +28,7 @@ public:
 	static void getMouse(int& x, int& y);
 
 	static void reset();
+	static bool handleInputs();
 
 private:
 	Input() {}

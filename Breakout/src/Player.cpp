@@ -8,46 +8,21 @@ Player::~Player() {}
 
 bool Player::initialize()
 {
-	// LOAD PNG FROM FILE TO SURFACE
-	std::string filename = DEFAULT_TEXTURE_PATH;
-	filename.append(this->textureFilename).append(".png");
-	SDL_Surface* tempSurface = IMG_Load(filename.c_str());
-	if (tempSurface == NULL)
+	if (!Util::loadPng(this->getTextureFilename().c_str(), this->surface))
 	{
-		// LOG ERROR
+		// LOG error
 		return false;
 	}
-	else
-	{
-		//Convert surface to screen format
-		this->surface = SDL_ConvertSurfaceFormat(tempSurface, SDL_PIXELFORMAT_RGBA32, NULL);
-		if (this->surface == NULL)
-		{
-			std::cout << "Unable to optimize image %s! SDL Error: " << filename.c_str() << SDL_GetError() << std::endl;
-			return false;
-		}
 
-		//Get rid of old loaded surface
-		SDL_FreeSurface(tempSurface);
-
-		SDL_Rect rect = { 400, 650, 200, 30 };
-		this->setTransform(rect);
-	}
+	SDL_Rect rect = { 400, 650, 200, 30 };
+	this->setTransform(rect);
 
 	return true;
 }
 
 void Player::update(float deltaTime)
 {
-	if (Input::getInstance().isLeftArrowPressed())
-	{
-		this->transform.x -= 10;
-	}
-
-	if (Input::getInstance().isRightArrowPressed())
-	{
-		this->transform.x += 10;
-	}
+	this->move(deltaTime);
 }
 
 void Player::render(SDL_Renderer* renderer)
@@ -62,4 +37,23 @@ void Player::render(SDL_Renderer* renderer)
 
 void Player::destroy()
 {
+}
+
+void Player::move(float deltaTime)
+{
+	float velocity = MOVEMENT_SPEED * deltaTime;
+	if (Input::isRightArrowPressed())
+	{
+		if (this->transform.x <= (SCREEN_WIDTH - this->transform.w))
+		{
+			this->transform.x += velocity;
+		}
+	}
+	else if (Input::isLeftArrowPressed())
+	{
+		if (this->transform.x >= 0)
+		{
+			this->transform.x -= velocity;
+		}
+	}
 }

@@ -13,8 +13,7 @@ MainMenuScene::~MainMenuScene()
 
 bool MainMenuScene::initialize()
 {
-	this->level = new Level();
-	this->level->initialize();
+	this->setBackground("background/main_menu_background");
 
 	this->ui = new UI();
 	this->ui->initialize("main_menu");
@@ -25,26 +24,18 @@ bool MainMenuScene::initialize()
 
 void MainMenuScene::update(float deltaTime)
 {
-	this->level->update(deltaTime);
-
 	this->ui->update(deltaTime);
 }
 
 void MainMenuScene::render(SDL_Renderer* renderer)
 {
-	// Render player, ball and level
-	this->level->render(renderer);
+	this->renderBackground(renderer);
 
-	// Render UI
 	this->ui->render(renderer);
 }
 
 void MainMenuScene::destroy()
 {
-	this->level->destroy();
-	delete level;
-	this->level = NULL;
-
 	this->ui->destroy();
 	delete ui;
 	this->ui = NULL;
@@ -53,5 +44,5 @@ void MainMenuScene::destroy()
 // Button handlers
 void onPlayClick()
 {
-	GlobalState::setCurrentState(GlobalState::GameState::Playing);
+	GlobalState::setCurrentState(GlobalState::GameState::Play);
 }

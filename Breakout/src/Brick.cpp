@@ -8,27 +8,9 @@ Brick::~Brick(){}
 
 bool Brick::initialize()
 {
-	// LOAD PNG FROM FILE TO SURFACE
-	std::string filename = DEFAULT_TEXTURE_PATH;
-	filename.append(this->textureFilename).append(".png");
-	SDL_Surface* tempSurface = IMG_Load(filename.c_str());
-	if (tempSurface == NULL)
+	if (!Util::loadPng(this->getTextureFilename().c_str(), this->surface))
 	{
-		// LOG ERROR
-		return false;
-	}
-	else
-	{
-		//Convert surface to screen format
-		this->surface = SDL_ConvertSurfaceFormat(tempSurface, SDL_PIXELFORMAT_RGBA32, NULL);
-		if (this->surface == NULL)
-		{
-			std::cout << "Unable to optimize image %s! SDL Error: " << filename.c_str() << SDL_GetError() << std::endl;
-			return false;
-		}
-
-		//Get rid of old loaded surface
-		SDL_FreeSurface(tempSurface);
+		// LOG error
 	}
 
 	// Load sounds i guess
@@ -63,4 +45,20 @@ void Brick::destroy()
 void Brick::setBrickType(BrickType type)
 {
 	this->brickType = type;
+}
+
+void Brick::handleHit()
+{
+	// reduce hitpoints
+	this->brickType.hitPoints--;
+
+	// if brick health below zero
+	if (this->brickType.hitPoints < 0)
+	{
+		// destroy brick (leave empty slot)
+
+		// play sound
+
+		// add score
+	}
 }

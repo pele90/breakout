@@ -1,0 +1,12 @@
+<Layout>
+	<!-- <Image name="triangle_one" texture_name="triangle" rect="100,50,50,50" /> -->
+	<!-- <Button name="return_button" texture_name="playButton" rect="400,250,100,100" /> -->
+	<!-- <Label name="welcome_label" text="Welcome to the world of nonsense" font_name="Lato-Regular" font_color="128,99,220,255" font_size="28" rect="300,400,300,50"/> -->
+	
+	<Label name="game_over_label" text="Game over" font_name="Lato-Regular" font_color="128,99,220,255" font_size="28" rect="450,150,200,100" />
+	<Label name="score_label" text="Your score is: " font_name="Lato-Regular" font_color="128,99,220,255" font_size="28" rect="450,250,200,100" />
+	<Label name="score_value_label" text="100" font_name="Lato-Regular" font_color="128,99,220,255" font_size="28" rect="550,250,200,100" />
+	
+	<Button name="restart_button" texture_name="playButton" rect="462,450,50,50" />
+	<Button name="exit_button" texture_name="playButton" rect="562,450,50,50" />
+</Layout>

@@ -4,6 +4,10 @@
 #define DEFAULT_SCORE 0
 #define DEFAULT_LIVES 3
 #define DEFAULT_LEVEL 1
+#define SCREEN_WIDTH 1024
+#define SCREEN_HEIGHT 768
+#define FPS 60;
+constexpr int screen_ticks_per_frame = 1000 / FPS;
 
 class GlobalState
 {
@@ -11,16 +15,16 @@ public:
 	enum GameState
 	{
 		Uninitialized,
-		ShowingSplash,
-		ShowingNumOfPlayersMenu,
-		ShowingMenu,
-		Playing,
-		Exiting,
-		ShowingVictoryScreen
+		ShowSplash,
+		ShowMenu,
+		Play,
+		Restart,
+		Exit,
+		ShowEndScreen
 	};
 
 public:
-	static GlobalState* getInstance();
+	static GlobalState& getInstance();
 
 	static void setScore(int value);
 	static void setLives(int value);
@@ -35,6 +39,10 @@ public:
 
 private:
 	GlobalState() {};
+
+	/* Explicitly disallow copying. */
+	GlobalState(const GlobalState&);
+	GlobalState& operator= (const GlobalState&);
 
 private:
 	static GlobalState* instance;

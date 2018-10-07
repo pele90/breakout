@@ -2,9 +2,12 @@
 #define BALL_H
 
 #include "Entity.h"
+#include "Vector2D.h"
 #include "Resources.h"
 
-class Ball : public Entity 
+#define BALL_SPEED 50
+
+class Ball : public Entity
 {
 public:
 	Ball();
@@ -16,6 +19,14 @@ public:
 	virtual void render(SDL_Renderer* renderer);
 	virtual void destroy();
 
+	Vector2D getVelocity() const;
+	void setXVelocity(float value);
+	void setYVelocity(float value);
+	void flipYVelocity();
+	void flipXVelocity();
+
+private:
+	Vector2D velocity;
 };
 
 #endif // !BALL_H

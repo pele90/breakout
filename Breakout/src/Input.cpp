@@ -6,12 +6,12 @@ Input& Input::getInstance()
 	return instance;
 }
 
-bool Input::isLeftMouseButtonPressed()
+bool Input::isLeftMouseButtonUp()
 {
 	return leftMouseButtonPressed;
 }
 
-bool Input::isRightMouseButtonPressed()
+bool Input::isRightMouseButtonUp()
 {
 	return rightMouseButtonPressed;
 }
@@ -26,12 +26,12 @@ bool Input::isLeftArrowPressed()
 	return leftArrowPressed;
 }
 
-void Input::setLeftMouseButtonPressed(bool value)
+void Input::setLeftMouseButtonUp(bool value)
 {
 	leftMouseButtonPressed = value;
 }
 
-void Input::setRightMouseButtonPressed(bool value)
+void Input::setRightMouseButtonUp(bool value)
 {
 	rightMouseButtonPressed = value;
 }
@@ -64,6 +64,54 @@ void Input::reset()
 	rightMouseButtonPressed = false;
 	leftArrowPressed = false;
 	rightArrowPressed = false;
+}
+
+bool Input::handleInputs()
+{
+	reset();
+
+	bool isRunning = true;
+	SDL_Event e;
+	const Uint8* currentKeyStates;
+	while (SDL_PollEvent(&e) != 0)
+	{
+		int x, y;
+		SDL_GetMouseState(&x, &y);
+		setMouse(x, y);
+
+		switch (e.type)
+		{
+		case SDL_QUIT:
+		{
+			isRunning = false;
+			break;
+		}
+		case SDL_MOUSEBUTTONUP:
+		{
+			if (e.button.button == SDL_BUTTON_LEFT)
+			{
+				setLeftMouseButtonUp(true);
+			}
+			else if (e.button.button == SDL_BUTTON_RIGHT)
+			{
+				setRightMouseButtonUp(true);
+			}
+			break;
+		}
+		}
+	}
+
+	currentKeyStates = SDL_GetKeyboardState(NULL);
+	if (currentKeyStates[SDL_SCANCODE_LEFT])
+	{
+		setLeftArrowPressed(true);
+	}
+	else if (currentKeyStates[SDL_SCANCODE_RIGHT])
+	{
+		setRightArrowPressed(true);
+	}
+
+	return isRunning;
 }
 
 // A quirk of C++, static member variables need to be instantiated outside of the class

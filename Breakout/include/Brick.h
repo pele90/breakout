@@ -8,10 +8,10 @@ struct BrickType
 {
 	std::string id;
 	std::string texture;
-	std::string hitPoints;
+	int hitPoints;
 	std::string hitSound;
 	std::string breakSound;
-	std::string breakScore;
+	int breakScore;
 };
 
 class Brick : public Entity
@@ -27,7 +27,11 @@ public:
 	virtual void destroy();
 
 	void setBrickType(BrickType type);
-	
+
+private:
+	void handleHit();
+
+
 private:
 	BrickType brickType;
 };

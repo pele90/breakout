@@ -8,37 +8,24 @@ Ball::~Ball(){}
 
 bool Ball::initialize()
 {
-	// LOAD PNG FROM FILE TO SURFACE
-	std::string filename = DEFAULT_TEXTURE_PATH;
-	filename.append(this->getTextureFilename()).append(".png");
-	SDL_Surface* tempSurface = IMG_Load(filename.c_str());
-	if (tempSurface == NULL)
+	if (!Util::loadPng(this->getTextureFilename().c_str(), this->surface))
 	{
-		// LOG ERROR
-		return false;
-	}
-	else
-	{
-		//Convert surface to screen format
-		this->surface = SDL_ConvertSurfaceFormat(tempSurface, SDL_PIXELFORMAT_RGBA32, NULL);
-		if (this->surface == NULL)
-		{
-			std::cout << "Unable to optimize image %s! SDL Error: " << filename.c_str() << SDL_GetError() << std::endl;
-			return false;
-		}
-
-		//Get rid of old loaded surface
-		SDL_FreeSurface(tempSurface);
+		// LOG error
 	}
 
-	SDL_Rect rect = { 280, 600, 20, 20 };
+	SDL_Rect rect = { 450, 600, 20, 20 };
 	this->setTransform(rect);
+
+	this->velocity.setX(10);
+	this->velocity.setY(-10);
 
 	return true;
 }
 
 void Ball::update(float deltaTime)
 {
+	this->transform.x += (this->velocity.getX() * BALL_SPEED) * deltaTime;
+	this->transform.y += (this->velocity.getY() * BALL_SPEED) * deltaTime;
 }
 
 void Ball::render(SDL_Renderer* renderer)
@@ -58,4 +45,31 @@ void Ball::destroy()
 
 	SDL_FreeSurface(this->surface);
 	this->surface = NULL;
+}
+
+void Ball::flipXVelocity()
+{
+	float x = this->velocity.getX() * -1;
+	this->velocity.setX(x);
+}
+
+void Ball::flipYVelocity()
+{
+	float y = this->velocity.getY() * -1;
+	this->velocity.setX(y);
+}
+
+Vector2D Ball::getVelocity() const
+{
+	return this->velocity;
+}
+
+void Ball::setXVelocity(float value)
+{
+	this->velocity.setX(value);
+}
+
+void Ball::setYVelocity(float value)
+{
+	this->velocity.setY(value);
 }

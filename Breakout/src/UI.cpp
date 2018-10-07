@@ -58,17 +58,26 @@ void UI::render(SDL_Renderer* renderer)
 {
 	for (auto it : dataset->getImages())
 	{
-		it.second->render(renderer);
+		if (it.second->isVisible())
+		{
+			it.second->render(renderer);
+		}
 	}
 
 	for (auto it : dataset->getButtons())
 	{
-		it.second->render(renderer);
+		if (it.second->isVisible())
+		{
+			it.second->render(renderer);
+		}
 	}
 
 	for (auto it : dataset->getLabels())
 	{
-		it.second->render(renderer);
+		if (it.second->isVisible())
+		{
+			it.second->render(renderer);
+		}
 	}
 }
 

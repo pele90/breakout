@@ -25,6 +25,7 @@
     <ClCompile Include="src\Brick.cpp" />
     <ClCompile Include="src\Button.cpp" />
     <ClCompile Include="src\Dataset.cpp" />
+    <ClCompile Include="src\EndGameScene.cpp" />
     <ClCompile Include="src\Entity.cpp" />
     <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="src\GlobalState.cpp" />
@@ -39,12 +40,14 @@
     <ClCompile Include="src\UI.cpp" />
     <ClCompile Include="src\Scene.cpp" />
     <ClCompile Include="src\UIObject.cpp" />
+    <ClCompile Include="src\Vector2D.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Ball.h" />
     <ClInclude Include="include\Brick.h" />
     <ClInclude Include="include\Button.h" />
     <ClInclude Include="include\Dataset.h" />
+    <ClInclude Include="include\EndGameScene.h" />
     <ClInclude Include="include\Entity.h" />
     <ClInclude Include="include\Game.h" />
     <ClInclude Include="include\GlobalState.h" />
@@ -60,6 +63,8 @@
     <ClInclude Include="include\UI.h" />
     <ClInclude Include="include\Scene.h" />
     <ClInclude Include="include\UIObject.h" />
+    <ClInclude Include="include\Util.h" />
+    <ClInclude Include="include\Vector2D.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

@@ -37,6 +37,11 @@ public:
 
 private:
 	void extractBricks(const char* text);
+	void checkBrickCollision(Brick* brick);
+	void checkPaddleCollision(float deltaTime);
+	bool paddleCollision(Ball* ball);
+	float getReflection(float hitx);
+	void setDirection(Ball* ball, float newdirx, float newdiry, float deltaTime);
 
 private:
 	LevelDefinition levelDefinition;

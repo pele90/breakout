@@ -6,10 +6,10 @@ SceneManager::~SceneManager() {}
 
 void SceneManager::initialize()
 {
-	this->activeScene = new MainMenuScene();
+	this->activeScene = new PlayScene();
 	this->activeScene->initialize();
 
-	this->currentState = GlobalState::GameState::ShowingMenu;
+	this->currentState = GlobalState::GameState::Play;
 	GlobalState::setCurrentState(this->currentState);
 	this->previousState = this->currentState;
 }
@@ -23,23 +23,33 @@ void SceneManager::update(float deltaTime)
 		this->previousState = state;
 		this->activeScene->destroy();
 		delete this->activeScene;
-		this->activeScene = NULL;
 
 		switch (state)
 		{
-		case GlobalState::GameState::ShowingMenu:
+		case GlobalState::GameState::ShowMenu:
 		{
 			this->activeScene = new MainMenuScene();
 			this->activeScene->initialize();
 			break;
 		}
-		case GlobalState::GameState::Playing:
+		case GlobalState::GameState::Play:
 		{
 			this->activeScene = new PlayScene();
 			this->activeScene->initialize();
 			break;
 		}
-
+		case GlobalState::GameState::ShowEndScreen:
+		{
+			this->activeScene = new EndGameScene();
+			this->activeScene->initialize();
+			break;
+		}
+		case GlobalState::GameState::Restart:
+		{
+			this->activeScene = new PlayScene();
+			this->activeScene->initialize();
+			break;
+		}
 		default:
 			break;
 		}

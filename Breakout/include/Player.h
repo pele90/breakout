@@ -3,6 +3,9 @@
 
 #include "Entity.h"
 #include "Resources.h"
+#include <stdlib.h>
+
+#define MOVEMENT_SPEED 200
 
 class Player : public Entity
 {
@@ -17,7 +20,7 @@ public:
 	virtual void destroy();
 
 private:
-
+	void move(float deltaTime);
 };
 
 #endif // !PLAYER_H

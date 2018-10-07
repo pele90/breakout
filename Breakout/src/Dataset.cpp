@@ -66,6 +66,8 @@ bool Dataset::parseLayout(const char* filename)
 void Dataset::extractButtonAttributes(tinyxml2::XMLNode* root)
 {
 	tinyxml2::XMLElement* pElement = root->FirstChildElement("Button");
+	bool visible;
+
 	while (pElement != nullptr)
 	{
 		Button* button = new Button();
@@ -73,6 +75,17 @@ void Dataset::extractButtonAttributes(tinyxml2::XMLNode* root)
 		tinyxml2::XMLError eResult;
 
 		button->setName(pElement->Attribute("name"));
+
+		const char* value = pElement->Attribute("visible");
+		if (value == NULL)
+		{
+			visible = true;
+		}
+		else
+		{
+			visible = std::strcmp(value, "0") == 0 ? false : true;
+		}
+		button->setVisibility(visible);
 
 		const char* texture_name;
 		eResult = pElement->QueryStringAttribute("texture_name", &texture_name);
@@ -102,6 +115,8 @@ void Dataset::extractButtonAttributes(tinyxml2::XMLNode* root)
 void Dataset::extractLabelAttributes(tinyxml2::XMLNode* root)
 {
 	tinyxml2::XMLElement* pElement = root->FirstChildElement("Label");
+	bool visible;
+
 	while (pElement != nullptr)
 	{
 		Label* label = new Label();
@@ -109,6 +124,10 @@ void Dataset::extractLabelAttributes(tinyxml2::XMLNode* root)
 		tinyxml2::XMLError eResult;
 
 		label->setName(pElement->Attribute("name"));
+
+		const char* value = pElement->Attribute("visible") == NULL ? "1" : "0";
+		visible = std::strcmp(value, "0") == 0 ? false : true;
+		label->setVisibility(visible);
 
 		const char* text;
 		eResult = pElement->QueryStringAttribute("text", &text);
@@ -165,6 +184,8 @@ void Dataset::extractLabelAttributes(tinyxml2::XMLNode* root)
 void Dataset::extractImageAttributes(tinyxml2::XMLNode* root)
 {
 	tinyxml2::XMLElement* pElement = root->FirstChildElement("Image");
+	bool visible;
+
 	while (pElement != nullptr)
 	{
 		ImageObject* imageObject = new ImageObject();
@@ -172,6 +193,10 @@ void Dataset::extractImageAttributes(tinyxml2::XMLNode* root)
 		tinyxml2::XMLError eResult;
 
 		imageObject->setName(pElement->Attribute("name"));
+
+		const char* value = pElement->Attribute("visible") == NULL ? "1" : "0";
+		visible = std::strcmp(value, "0") == 0 ? false : true;
+		imageObject->setVisibility(visible);
 
 		const char* texture_name;
 		eResult = pElement->QueryStringAttribute("texture_name", &texture_name);

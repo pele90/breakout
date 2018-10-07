@@ -7,6 +7,7 @@
 #include "SDL.h"
 
 #include "Resources.h"
+#include "Util.h"
 #include "Input.h"
 #include "GlobalState.h"
 
@@ -23,11 +24,14 @@ public:
 	void setTransform(SDL_Rect rect);
 	void setName(std::string name);
 	std::string getName() const;
+	bool isVisible() const;
+	void setVisibility(bool value);
 
 protected:
 	SDL_Rect transform;
 	std::string name;
 	bool dirty; // flag to mark when some property is changed so that the new texture with chaned properties can be created
+	bool visible = true;
 };
 
 #endif // !UI_OBJECT_H

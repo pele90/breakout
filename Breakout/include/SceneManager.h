@@ -5,6 +5,7 @@
 #include "GlobalState.h"
 #include "MainMenuScene.h"
 #include "PlayScene.h"
+#include "EndGameScene.h"
 
 class SceneManager
 {

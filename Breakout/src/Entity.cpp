@@ -16,12 +16,12 @@ void Entity::setTextureFilename(std::string filename)
 	this->textureFilename = filename;
 }
 
-SDL_Rect Entity::getTransform() const
-{
-	return this->transform;
-}
-
 std::string Entity::getTextureFilename() const
 {
 	return this->textureFilename;
+}
+
+SDL_Rect Entity::getTransform() const
+{
+	return this->transform;
 }

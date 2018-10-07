@@ -1,13 +1,13 @@
-#ifndef MAIN_MENU_SCENE_H
-#define MAIN_MENU_SCENE_H
+#ifndef END_GAME_SCENE_H
+#define END_GAME_SCENE_H
 
 #include "Scene.h"
 
-class MainMenuScene : public Scene
+class EndGameScene : public Scene
 {
 public:
-	MainMenuScene();
-	virtual ~MainMenuScene();
+	EndGameScene();
+	virtual ~EndGameScene();
 
 	virtual bool initialize();
 	virtual void update(float deltaTime);
@@ -15,4 +15,4 @@ public:
 	virtual void destroy();
 };
 
-#endif // !MAIN_MENU_SCENE_H
+#endif // !END_GAME_SCENE_H

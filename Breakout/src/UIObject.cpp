@@ -20,3 +20,13 @@ std::string UIObject::getName() const
 {
 	return this->name;
 }
+
+bool UIObject::isVisible() const
+{
+	return visible;
+}
+
+void UIObject::setVisibility(bool value)
+{
+	this->visible = value;
+}

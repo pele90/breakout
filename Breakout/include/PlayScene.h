@@ -2,12 +2,13 @@
 #define PLAY_SCENE_H
 
 #include "Scene.h"
+#include "Level.h"
 
 class PlayScene : public Scene
 {
 public:
 	PlayScene();
-	~PlayScene();
+	virtual ~PlayScene();
 
 	virtual bool initialize();
 	virtual void update(float deltaTime);
@@ -15,7 +16,7 @@ public:
 	virtual void destroy();
 
 private:
-	UI* ui;
+	Level* level;
 };
 
 #endif // !PLAY_SCENE_H

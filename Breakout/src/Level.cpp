@@ -41,14 +41,34 @@ void Level::update(float deltaTime)
 	for (auto iter : this->bricksObjects)
 	{
 		iter->update(deltaTime);
+		checkBrickCollision(iter);
 	}
 
 	for (auto iter : this->balls)
 	{
 		iter->update(deltaTime);
+
+		if (iter->getTransform().y < 0)
+		{
+			iter->setYVelocity(1 * BALL_SPEED * deltaTime);
+		}
+		else if (iter->getTransform().y > SCREEN_HEIGHT - iter->getTransform().h)
+		{
+			iter->setYVelocity(-1 * BALL_SPEED * deltaTime);
+		}
+		else if (iter->getTransform().x < 0)
+		{
+			iter->setXVelocity(1 * BALL_SPEED * deltaTime);
+		}
+		else if (iter->getTransform().x > SCREEN_WIDTH - iter->getTransform().w)
+		{
+			iter->setXVelocity(-1 * BALL_SPEED * deltaTime);
+		}
 	}
 
 	this->player->update(deltaTime);
+
+	checkPaddleCollision(deltaTime);
 }
 
 bool Level::loadLevel(std::string filename)
@@ -91,10 +111,10 @@ bool Level::loadLevel(std::string filename)
 
 		brickType->id = brickTypeElement->Attribute("Id");
 		brickType->texture = brickTypeElement->Attribute("Texture");
-		brickType->hitPoints = brickTypeElement->Attribute("HitPoints");
+		brickType->hitPoints = (int)brickTypeElement->Attribute("HitPoints");
 		brickType->hitSound = brickTypeElement->Attribute("HitSound");
 		brickType->breakSound = brickTypeElement->Attribute("BreakSound");
-		brickType->breakScore = brickTypeElement->Attribute("BreakScore");
+		brickType->breakScore = (int)brickTypeElement->Attribute("BreakScore");
 
 		brickTypes[brickType->id] = brickType;
 
@@ -128,7 +148,7 @@ bool Level::createLevel()
 		for (col = row->begin(); col != row->end(); col++)
 		{
 			Brick* brick = new Brick();
-			
+
 			std::string brickTypeId = *col;
 
 			if (brickTypeId != "_")
@@ -234,4 +254,69 @@ void Level::extractBricks(const char* text)
 			++row;
 		}
 	}
+}
+
+void Level::checkBrickCollision(Brick* brick)
+{
+}
+
+void Level::checkPaddleCollision(float deltaTime)
+{
+	SDL_Rect ballRect;
+	for (auto iter : this->balls)
+	{
+		ballRect = iter->getTransform();
+		// Get the center y-coordinate of the ball
+		float ballCenterX = ballRect.x + (ballRect.w / 2.0f);
+
+		// Paddle collisions
+		if (this->paddleCollision(iter)) {
+			this->setDirection(iter, this->getReflection(ballCenterX - this->player->getTransform().x), -1, deltaTime);
+		}
+	}
+}
+
+bool Level::paddleCollision(Ball* ball) {
+
+	const SDL_Rect ballRect = ball->getTransform();
+	const SDL_Rect playerRect = this->player->getTransform();
+
+	// Check paddle bounding box against ball bounding box
+	if (SDL_HasIntersection(&ballRect, &playerRect))
+	{
+		return true;
+	}
+
+	return false;
+}
+
+float Level::getReflection(float hitx)
+{
+	SDL_Rect playerRect = this->player->getTransform();
+
+	// Make sure the hitx variable is within the width of the paddle
+	if (hitx < 0) {
+		hitx = 0;
+	}
+	else if (hitx > playerRect.w) {
+		hitx = playerRect.w;
+	}
+
+	// Everything left the center of the paddle is reflected left
+	// while everything right the center is reflected right
+	hitx -= (float)playerRect.w / 2.0f;
+
+	// Scale the reflection, making it fall in the range -2.0f to 2.0f
+	return 2.0f * (hitx / (float)playerRect.w / 2.0f);
+}
+
+void Level::setDirection(Ball* ball, float newdirx, float newdiry, float deltaTime)
+{
+	// Normalize the direction vector and multiply with BALL_SPEED
+	float length = sqrt(newdirx * newdirx + newdiry * newdiry);
+	float x = (BALL_SPEED * (newdirx / length)) * deltaTime;
+	float y = (BALL_SPEED * (newdiry / length)) * deltaTime;
+
+	ball->setXVelocity(x);
+	ball->setYVelocity(y);
 }

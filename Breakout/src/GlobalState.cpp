@@ -1,14 +1,8 @@
 #include "GlobalState.h"
 
-GlobalState* GlobalState::instance = 0;
-
-GlobalState* GlobalState::getInstance()
+GlobalState& GlobalState::getInstance()
 {
-	if (instance == 0)
-	{
-		instance = new GlobalState();
-	}
-
+	static GlobalState instance;
 	return instance;
 }
 
