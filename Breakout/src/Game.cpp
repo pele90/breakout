@@ -81,7 +81,7 @@ void Game::run()
 	}
 	else
 	{
-		while (isRunning)
+		while (GlobalState::getCurrentState() != GlobalState::GameState::Exit)
 		{
 			capTimer = SDL_GetTicks();
 			timeDifference = SDL_GetTicks() - lastTime;
@@ -106,9 +106,14 @@ void Game::run()
 
 void Game::update(float deltaTime)
 {
-	this->isRunning = Input::handleInputs();
-
-	this->sceneManager->update(deltaTime);
+	if (!Input::handleInputs())
+	{
+		GlobalState::setCurrentState(GlobalState::GameState::Exit);
+	}
+	else
+	{
+		this->sceneManager->update(deltaTime);
+	}
 }
 
 void Game::render()

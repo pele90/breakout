@@ -4,6 +4,8 @@
 #define DEFAULT_SCORE 0
 #define DEFAULT_LIVES 3
 #define DEFAULT_LEVEL 1
+#define NUMBER_OF_LEVELS 5
+#define PLAYER_STARTING_POSITION { 400, 650, 200, 20 }
 #define DEFAULT_SCREEN_WIDTH 1024
 #define DEFAULT_SCREEN_HEIGHT 768
 #define DEFAULT_BOARD_WIDTH 924
@@ -20,6 +22,7 @@ public:
 		ShowSplash,
 		ShowMenu,
 		Play,
+		NextLevel,
 		Restart,
 		Exit,
 		ShowEndScreen
@@ -42,6 +45,9 @@ public:
 	static int getLevel();
 	static GameState getCurrentState();
 
+	static void addScore(int value);
+	static bool reduceLife();
+	static void nextLevel();
 
 private:
 	GlobalState() {};

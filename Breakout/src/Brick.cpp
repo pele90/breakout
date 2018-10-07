@@ -24,6 +24,7 @@ bool Brick::initialize()
 		else
 		{
 			this->hitpoints = std::stoi(this->brickType.hitPoints);
+			this->breakScore = std::stoi(this->brickType.breakScore);
 		}
 	}
 
@@ -69,12 +70,18 @@ bool Brick::isInteractable() const
 	return this->interactable;
 }
 
-bool Brick::handleHit()
+int Brick::handleHit()
 {
-	// reduce hitpoints
+	int returnValue = -1;
+
+	// if brick is not immortal
 	if (this->hitpoints != -1)
 	{
+		// reduce hitpoints
 		this->hitpoints--;
+		returnValue = this->breakScore;
+
+		// play sound
 
 		// if brick health below zero
 		if (this->hitpoints == 0)
@@ -82,16 +89,10 @@ bool Brick::handleHit()
 			// destroy brick (leave empty slot)
 			this->removeTexture();
 			this->interactable = false;
-
-			// play sound
-
-			// add score
-
-			return true;
 		}
 	}
 
-	return false;
+	return returnValue;
 }
 
 void Brick::removeTexture()

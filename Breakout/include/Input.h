@@ -19,12 +19,14 @@ public:
 	static bool isRightArrowPressed();
 	static bool isLeftArrowPressed();
 	static bool isQButtonPressed();
+	static bool isSpaceButtonPressed();
 
 	static void setLeftMouseButtonUp(bool value);
 	static void setRightMouseButtonUp(bool value);
 	static void setRightArrowPressed(bool value);
 	static void setLeftArrowPressed(bool value);
 	static void setQButtonPressed(bool value);
+	static void setSpaceButtonPressed(bool value);
 
 	
 
@@ -48,6 +50,7 @@ private:
 	static bool leftArrowPressed;
 	static bool rightArrowPressed;
 	static bool qButtonPressed;
+	static bool spaceButtonPressed;
 };
 
 #endif // !INPUT_H

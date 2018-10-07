@@ -94,6 +94,19 @@ void UI::setButtonCallback(std::string buttonName, void(*fptr)())
 {
 	std::map<std::string, Button*> buttons = this->dataset->getButtons();
 	std::map<std::string, Button*>::iterator it = buttons.find(buttonName);
-
 	(*it).second->setClickCallback(fptr);
+}
+
+void UI::changeLabelText(std::string labelName, std::string text)
+{
+	std::map<std::string, Label*> labels = this->dataset->getLabels();
+	std::map<std::string, Label*>::iterator it = labels.find(labelName);
+	(*it).second->setText(text);
+}
+
+void UI::hideImage(std::string imageName)
+{
+	std::map<std::string, ImageObject*> images = this->dataset->getImages();
+	std::map<std::string, ImageObject*>::iterator it = images.find(imageName);
+	(*it).second->removeTexture();
 }

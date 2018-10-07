@@ -22,9 +22,11 @@ public:
 	Vector2D getVelocity() const;
 	void setXVelocity(float value);
 	void setYVelocity(float value);
+	void setFollowPlayer(bool value);
 
 private:
 	Vector2D velocity;
+	bool followPlayer;
 };
 
 #endif // !BALL_H

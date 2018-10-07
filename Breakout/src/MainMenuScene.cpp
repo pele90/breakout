@@ -51,5 +51,5 @@ void onPlayClick()
 
 void onMainMenuExitClick()
 {
-	//GlobalState::setCurrentState(GlobalState::GameState::Exit);
+	GlobalState::setCurrentState(GlobalState::GameState::Exit);
 }

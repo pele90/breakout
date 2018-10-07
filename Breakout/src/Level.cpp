@@ -9,9 +9,9 @@ Level::~Level()
 {
 }
 
-bool Level::initialize()
+bool Level::initialize(std::string levelName)
 {
-	if (!this->loadLevel("Level_01"))
+	if (!this->loadLevel(levelName))
 	{
 		return false;
 	}
@@ -32,6 +32,9 @@ bool Level::initialize()
 
 	this->player = new Player("player");
 	this->player->initialize();
+	
+	GlobalState::setLives(DEFAULT_LIVES);
+	this->isBallFollowingPlayer = true;
 
 	return true;
 }
@@ -52,6 +55,17 @@ void Level::update(float deltaTime)
 	{
 		iter->update(deltaTime);
 
+		if (this->isBallFollowingPlayer)
+		{
+			this->ballFollowPlayer();
+		}
+
+		if (Input::isSpaceButtonPressed())
+		{
+			isBallFollowingPlayer = false;
+			iter->setFollowPlayer(isBallFollowingPlayer);
+		}
+
 		if (iter->getTransform().y < 0)
 		{
 			float i = iter->getVelocity().getY();
@@ -61,6 +75,17 @@ void Level::update(float deltaTime)
 		{
 			float i = iter->getVelocity().getY();
 			iter->setYVelocity(i * -1);
+
+			// Ball went behind player, remove one life
+			// If there is no more lives, end game
+			if (GlobalState::reduceLife())
+			{
+				GlobalState::setCurrentState(GlobalState::GameState::ShowEndScreen);
+			}
+
+			isBallFollowingPlayer = true;
+			iter->setFollowPlayer(isBallFollowingPlayer);
+			this->uiChanged = true;
 		}
 		else if (iter->getTransform().x < 0)
 		{
@@ -76,7 +101,7 @@ void Level::update(float deltaTime)
 
 	this->player->update(deltaTime);
 
-	checkPaddleCollision(deltaTime);
+	this->checkPaddleCollision(deltaTime);
 }
 
 bool Level::loadLevel(std::string filename)
@@ -287,81 +312,78 @@ void Level::checkBrickCollision(Ball* ball, Brick* brick, float deltaTime)
 		ballRect.y + ballRect.h >= brickRect.y)
 	{
 		/////--------------------- BALL HIT THE BRICK------------------------
-		if (brick->handleHit())
+		int hitResult = brick->handleHit();
+		if (hitResult != -1)
 		{
+			GlobalState::addScore(hitResult);
+			this->uiChanged = true;
 			this->numOfDestroyableBricks--;
 		}
 
-		if (this->numOfDestroyableBricks == 0)
+		if (!this->winCondition())
 		{
-			// END GAME
-			GlobalState::setCurrentState(GlobalState::GameState::ShowEndScreen);
-		}
-
-		//---------------------------------------------------------------------
-
-		// calculate y amount of overlap
-		float ymin = 0;
-		if (brickRect.y > ballRect.y) {
-			ymin = brickRect.y;
-		}
-		else {
-			ymin = ballRect.y;
-		}
-		float ymax = 0;
-
-		if (brickRect.y + brickRect.h < ballRect.y + ballRect.h) {
-			ymax = brickRect.y + brickRect.h;
-		}
-		else {
-			ymax = ballRect.y + ballRect.h;
-		}
-		float ySize = ymax - ymin;
-
-		// Calculate x amount of overlap
-		float xMin = 0;
-		if (brickRect.x > ballRect.x) {
-			xMin = brickRect.x;
-		}
-		else {
-			xMin = ballRect.x;
-		}
-
-		float xMax = 0;
-		if (brickRect.x + brickRect.w < ballRect.x + ballRect.w) {
-			xMax = brickRect.x + brickRect.w;
-		}
-		else {
-			xMax = ballRect.x + ballRect.w;
-		}
-
-		float xSize = xMax - xMin;
-
-		// The origin is at the top-left corner of the screen!
-		// Set collision response
-
-		if (xSize > ySize) {
-			if (ballCenterY > brickCenterY) {
-				// Bottom
-				ballRect.y += ySize + 0.01f; // Move out of collision
-				this->ballBrickResponse(Brick::BrickResponse::Bottom, ball, deltaTime);
+			// calculate y amount of overlap
+			float ymin = 0;
+			if (brickRect.y > ballRect.y) {
+				ymin = brickRect.y;
 			}
 			else {
-				// Top
-				ballRect.y -= ySize + 0.01f; // Move out of collision
-				this->ballBrickResponse(Brick::BrickResponse::Top, ball, deltaTime);
+				ymin = ballRect.y;
 			}
-		}
-		else {
-			if (ballCenterX < brickCenterX) {
-				// Left
-				ballRect.x -= xSize + 0.01f; // Move out of collision
-				this->ballBrickResponse(Brick::BrickResponse::Left, ball, deltaTime);
+			float ymax = 0;
+
+			if (brickRect.y + brickRect.h < ballRect.y + ballRect.h) {
+				ymax = brickRect.y + brickRect.h;
 			}
 			else {
-				// Right
-				ballRect.x += xSize + 0.01f; // Move out of collision
-				this->ballBrickResponse(Brick::BrickResponse::Right, ball, deltaTime);
+				ymax = ballRect.y + ballRect.h;
+			}
+			float ySize = ymax - ymin;
+
+			// Calculate x amount of overlap
+			float xMin = 0;
+			if (brickRect.x > ballRect.x) {
+				xMin = brickRect.x;
+			}
+			else {
+				xMin = ballRect.x;
+			}
+
+			float xMax = 0;
+			if (brickRect.x + brickRect.w < ballRect.x + ballRect.w) {
+				xMax = brickRect.x + brickRect.w;
+			}
+			else {
+				xMax = ballRect.x + ballRect.w;
+			}
+
+			float xSize = xMax - xMin;
+
+			// The origin is at the top-left corner of the screen!
+			// Set collision response
+			if (xSize > ySize) {
+				if (ballCenterY > brickCenterY) {
+					// Bottom
+					ballRect.y += ySize + 0.01f; // Move out of collision
+					this->ballBrickResponse(Brick::BrickResponse::Bottom, ball, deltaTime);
+				}
+				else {
+					// Top
+					ballRect.y -= ySize + 0.01f; // Move out of collision
+					this->ballBrickResponse(Brick::BrickResponse::Top, ball, deltaTime);
+				}
+			}
+			else {
+				if (ballCenterX < brickCenterX) {
+					// Left
+					ballRect.x -= xSize + 0.01f; // Move out of collision
+					this->ballBrickResponse(Brick::BrickResponse::Left, ball, deltaTime);
+				}
+				else {
+					// Right
+					ballRect.x += xSize + 0.01f; // Move out of collision
+					this->ballBrickResponse(Brick::BrickResponse::Right, ball, deltaTime);
+				}
 			}
 		}
 	}
@@ -492,5 +514,38 @@ void Level::setDirection(Ball* ball, float newdirx, float newdiry, float deltaTi
 
 bool Level::winCondition()
 {
+	if (this->numOfDestroyableBricks == 0)
+	{
+		if (GlobalState::getLevel() != NUMBER_OF_LEVELS)
+		{
+			GlobalState::setCurrentState(GlobalState::GameState::NextLevel);
+		}
+		else
+		{
+			GlobalState::setCurrentState(GlobalState::GameState::ShowEndScreen);
+		}
+		return true;
+	}
+
 	return false;
+}
+
+bool Level::isUiChanged() const
+{
+	return this->uiChanged;
+}
+
+void Level::setUiChanged(bool value)
+{
+	this->uiChanged = value;
+}
+
+void Level::ballFollowPlayer()
+{
+	SDL_Rect ballRect = this->balls[0]->getTransform();
+	SDL_Rect playerRect = this->player->getTransform();
+
+	ballRect.x = playerRect.x + (playerRect.w / 2);
+	ballRect.y = playerRect.y - (ballRect.w);
+	this->balls[0]->setTransform(ballRect);
 }

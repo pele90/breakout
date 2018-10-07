@@ -110,6 +110,7 @@ void Label::destroy()
 void Label::setText(std::string text)
 {
 	this->text = text;
+	this->dirty = true;
 }
 
 void Label::setFontName(std::string fontName)
@@ -120,6 +121,7 @@ void Label::setFontName(std::string fontName)
 void Label::setFontColor(SDL_Color color)
 {
 	this->fontColor = color;
+	this->dirty = true;
 }
 
 void Label::setFontSize(int size)

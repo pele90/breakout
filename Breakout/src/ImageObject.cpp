@@ -59,3 +59,9 @@ void ImageObject::setTextureFilename(const char* filename)
 {
 	this->textureFilename = filename;
 }
+
+void ImageObject::removeTexture()
+{
+	SDL_DestroyTexture(this->texture);
+	this->texture = NULL;
+}

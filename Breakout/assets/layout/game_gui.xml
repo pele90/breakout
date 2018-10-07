@@ -1,7 +1,10 @@
 <Layout>
-	<Image name="heart1" texture_name="heart" rect="100,15,20,20" />
-	<Image name="heart2" texture_name="heart" rect="130,15,20,20" />
-	<Image name="heart3" texture_name="heart" rect="160,15,20,20" />
-	<Label name="score_label" text="Score: 40" font_name="Lato-Regular" font_color="255,255,255,255" font_size="72" rect="200,15,100,20"/>
+	<Image name="heart_1" texture_name="heart" rect="50,15,20,20" />
+	<Image name="heart_2" texture_name="heart" rect="80,15,20,20" />
+	<Image name="heart_3" texture_name="heart" rect="110,15,20,20" />
+	<Label name="score_label" text="Score: " font_name="Lato-Regular" font_color="255,255,255,255" font_size="72" rect="150,15,100,20"/>
+	<Label name="score_value_label" text="000" font_name="Lato-Regular" font_color="255,255,255,255" font_size="72" rect="250,15,50,20"/>
+	<Label name="level_label" text="Level: " font_name="Lato-Regular" font_color="255,255,255,255" font_size="72" rect="860,15,100,20"/>
+	<Label name="level_value_label" text="00" font_name="Lato-Regular" font_color="255,255,255,255" font_size="72" rect="960,15,20,20"/>
 	<Button name="continue_button" texture_name="playButton" rect="400,250,100,100" visible="0" />
 </Layout>

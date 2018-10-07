@@ -11,27 +11,37 @@ bool PlayScene::initialize()
 {
 	this->setBackground("background/misc/hg14");
 
+
 	this->level = new Level();
-	this->level->initialize();
+
+	int currentLevel = GlobalState::getLevel();
+	int currentScore = GlobalState::getScore();
+
+	std::string levelName = LEVEL_PREFIX;
+	levelName.append(std::to_string(currentLevel));
+	this->level->initialize(levelName);
 
 	this->ui = new UI();
 	this->ui->initialize("game_gui");
 	this->ui->setButtonCallback("continue_button", &onReturnClick);
+	this->ui->changeLabelText(SCORE_LABEL_NAME, std::to_string(currentScore));
+	this->ui->changeLabelText(LEVEL_LABEL_NAME, std::to_string(currentLevel));
 
 	return true;
 }
 
 void PlayScene::update(float deltaTime)
 {
-	// CHEAT:Q button to win
+	// CHEAT: Q button to win
 	if (Input::isQButtonPressed())
 	{
-		GlobalState::setCurrentState(GlobalState::GameState::ShowEndScreen);
+		GlobalState::setCurrentState(GlobalState::GameState::NextLevel);
 	}
 	else
 	{
 		this->level->update(deltaTime);
-
+		
+		this->checkUI();
 		this->ui->update(deltaTime);
 	}
 }
@@ -52,6 +62,30 @@ void PlayScene::destroy()
 	this->ui->destroy();
 	delete ui;
 	this->ui = NULL;
+}
+
+void PlayScene::checkUI()
+{
+	if (this->level->isUiChanged())
+	{
+		this->ui->changeLabelText(SCORE_LABEL_NAME, std::to_string(GlobalState::getScore()));
+		this->updateLives();
+
+		this->level->setUiChanged(false);
+	}
+}
+
+void PlayScene::updateLives()
+{
+	int lives = GlobalState::getLives();
+
+	if (lives != DEFAULT_LIVES)
+	{
+		std::string imageName = LIVES_LABEL_NAME;
+		imageName.append(std::to_string(lives + 1)); // remove current number of life + 1
+
+		this->ui->hideImage(imageName);
+	}
 }
 
 // Button handlers

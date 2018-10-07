@@ -27,7 +27,7 @@ public:
 	Level();
 	~Level();
 
-	bool initialize();
+	bool initialize(std::string level);
 	void update(float deltaTime);
 	bool loadLevel(std::string filename);
 	bool createLevel();
@@ -37,6 +37,9 @@ public:
 
 public:
 	bool winCondition();
+	bool isUiChanged() const;
+	void setUiChanged(bool value);
+	void ballFollowPlayer();
 
 private:
 	void extractBricks(const char* text);
@@ -54,7 +57,9 @@ private:
 	int numOfDestroyableBricks;
 	std::vector<Brick*> bricksObjects;
 	std::vector<Ball*> balls;
+	bool isBallFollowingPlayer;
 	Player* player;
+	bool uiChanged;
 };
 
 #endif // !LEVEL_H

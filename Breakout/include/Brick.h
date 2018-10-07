@@ -37,7 +37,7 @@ public:
 	void setBrickType(BrickType type);
 	void setInteractable(bool value);
 	bool isInteractable() const;
-	bool handleHit();
+	int handleHit();
 	void removeTexture();
 
 private:

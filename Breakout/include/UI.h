@@ -22,6 +22,8 @@ public:
 	void render(SDL_Renderer* renderer);
 	void destroy();
 	void setButtonCallback(std::string buttonName, void(*fptr)());
+	void changeLabelText(std::string labelName, std::string text);
+	void hideImage(std::string imageName);
 
 private:
 	Dataset* dataset;

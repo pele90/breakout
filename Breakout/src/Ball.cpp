@@ -16,16 +16,19 @@ bool Ball::initialize()
 	SDL_Rect rect = { 450, 600, 15, 15 };
 	this->setTransform(rect);
 
-	this->velocity.setX(10);
-	this->velocity.setY(-10);
+	this->velocity.setX(0);
+	this->velocity.setY(-12);
 
 	return true;
 }
 
 void Ball::update(float deltaTime)
 {
-	this->transform.x += this->velocity.getX();
-	this->transform.y += this->velocity.getY();
+	if (!this->followPlayer)
+	{
+		this->transform.x += this->velocity.getX();
+		this->transform.y += this->velocity.getY();
+	}
 }
 
 void Ball::render(SDL_Renderer* renderer)
@@ -60,4 +63,9 @@ void Ball::setXVelocity(float value)
 void Ball::setYVelocity(float value)
 {
 	this->velocity.setY(value);
+}
+
+void Ball::setFollowPlayer(bool value)
+{
+	this->followPlayer = value;
 }

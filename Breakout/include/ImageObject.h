@@ -18,6 +18,7 @@ public:
 	void destroy();
 
 	void setTextureFilename(const char* filename);
+	void removeTexture();
 
 private:
 	SDL_Surface* surface;

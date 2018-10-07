@@ -66,6 +66,31 @@ GlobalState::GameState GlobalState::getCurrentState()
 	return currentState;
 }
 
+void GlobalState::addScore(int value)
+{
+	score += value;
+}
+
+bool GlobalState::reduceLife()
+{
+	lives--;
+	if (lives == 0)
+	{
+		return true;
+	}
+
+	return false;
+}
+
+void GlobalState::nextLevel()
+{
+	if (++level > NUMBER_OF_LEVELS)
+	{
+		level = 1;
+		score = 0;
+	}
+}
+
 // A quirk of C++, static member variables need to be instantiated outside of the class
 int GlobalState::screenWidth = DEFAULT_SCREEN_WIDTH;
 int GlobalState::screenHeight = DEFAULT_SCREEN_HEIGHT;

@@ -31,6 +31,11 @@ bool Input::isQButtonPressed()
 	return qButtonPressed;
 }
 
+bool Input::isSpaceButtonPressed()
+{
+	return spaceButtonPressed;
+}
+
 void Input::setLeftMouseButtonUp(bool value)
 {
 	leftMouseButtonPressed = value;
@@ -56,6 +61,11 @@ void Input::setQButtonPressed(bool value)
 	qButtonPressed = value;
 }
 
+void Input::setSpaceButtonPressed(bool value)
+{
+	spaceButtonPressed = value;
+}
+
 void Input::setMouse(int x, int y)
 {
 	mouse.x = x;
@@ -75,6 +85,7 @@ void Input::reset()
 	leftArrowPressed = false;
 	rightArrowPressed = false;
 	qButtonPressed = false;
+	spaceButtonPressed = false;
 }
 
 bool Input::handleInputs()
@@ -125,6 +136,10 @@ bool Input::handleInputs()
 	{
 		setQButtonPressed(true);
 	}
+	else if (currentKeyStates[SDL_SCANCODE_SPACE])
+	{
+		setSpaceButtonPressed(true);
+	}
 
 	return isRunning;
 }
@@ -136,3 +151,4 @@ bool Input::rightMouseButtonPressed;
 bool Input::leftArrowPressed;
 bool Input::rightArrowPressed;
 bool Input::qButtonPressed;
+bool Input::spaceButtonPressed;
