@@ -2,10 +2,6 @@
 #define BRICK_H
 
 #include "Entity.h"
-#include "Resources.h"
-
-#define DAMAGED_BRICK_PREFIX "bricks/brick_"
-#define DAMAGED_BRICK_SUFFIX "_damaged"
 
 struct BrickType
 {
@@ -20,7 +16,7 @@ struct BrickType
 class Brick : public Entity
 {
 public:
-	enum BrickResponse
+	enum BrickCollisionResponse
 	{
 		Left,
 		Top,
@@ -35,11 +31,10 @@ public:
 	virtual bool initialize();
 	virtual void update(float deltaTime);
 	virtual void render(SDL_Renderer* renderer);
-	virtual void destroy();
 
-	void setBrickType(BrickType type);
-	void setInteractable(bool value);
 	bool isInteractable() const;
+	void setInteractable(bool value);
+	void setBrickType(BrickType type);
 	int handleHit();
 	void removeTexture();
 

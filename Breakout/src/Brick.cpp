@@ -12,10 +12,9 @@ bool Brick::initialize()
 	{
 		if (!Util::loadPng(this->getTextureFilename().c_str(), this->surface))
 		{
-			// LOG error
+			Util::showMessageBox("Loading .png failed");
+			return false;
 		}
-
-		// Load sounds i guess
 
 		if (this->brickType.hitPoints == "Infinite")
 		{
@@ -23,18 +22,18 @@ bool Brick::initialize()
 		}
 		else
 		{
+			// Converting to int here so BrickType is cleaner to work with
 			this->hitpoints = std::stoi(this->brickType.hitPoints);
 			this->breakScore = std::stoi(this->brickType.breakScore);
 		}
+
+		// Load sounds i guess
 	}
 
 	return true;
 }
 
-void Brick::update(float deltaTime)
-{
-	// LOGIC and PHYSICS
-}
+void Brick::update(float deltaTime){}
 
 void Brick::render(SDL_Renderer * renderer)
 {
@@ -46,18 +45,9 @@ void Brick::render(SDL_Renderer * renderer)
 	SDL_RenderCopy(renderer, this->texture, nullptr, &this->transform);
 }
 
-void Brick::destroy()
+bool Brick::isInteractable() const
 {
-	SDL_DestroyTexture(this->texture);
-	this->texture = NULL;
-
-	SDL_FreeSurface(this->surface);
-	this->surface = NULL;
-}
-
-void Brick::setBrickType(BrickType type)
-{
-	this->brickType = type;
+	return this->interactable;
 }
 
 void Brick::setInteractable(bool value)
@@ -65,28 +55,28 @@ void Brick::setInteractable(bool value)
 	this->interactable = value;
 }
 
-bool Brick::isInteractable() const
+void Brick::setBrickType(BrickType type)
 {
-	return this->interactable;
+	this->brickType = type;
 }
 
 int Brick::handleHit()
 {
-	int returnValue = -1;
+	int hitResult = -1;
 
-	// if brick is not immortal
+	// If brick is not immortal
 	if (this->hitpoints != -1)
 	{
-		// reduce hitpoints
+		// Reduce hitpoints
 		this->hitpoints--;
-		returnValue = this->breakScore;
+
+		// Set returning value to defined break score value
+		hitResult = this->breakScore;
 
 		// play sound
 
-		// if brick health below zero
 		if (this->hitpoints == 0)
 		{
-			// destroy brick (leave empty slot)
 			this->removeTexture();
 			this->interactable = false;
 		}
@@ -96,23 +86,22 @@ int Brick::handleHit()
 			damagedBrickFilename.append(this->brickType.id).append(DAMAGED_BRICK_SUFFIX);
 			if (!Util::loadPng(damagedBrickFilename.c_str(), this->surface))
 			{
-				// LOG error
+				Util::showMessageBox("Loading .png failed");
+				return false;
 			}
 			else
 			{
-				this->texture = NULL;
+				// Remove old texture so we can apply damaged texture
+				this->texture = nullptr;
 			}
 		}
 	}
 
-	return returnValue;
+	return hitResult;
 }
 
 void Brick::removeTexture()
 {
 	SDL_DestroyTexture(this->texture);
-	this->texture = NULL;
-
-	SDL_FreeSurface(this->surface);
-	this->surface = NULL;
+	this->texture = nullptr;
 }

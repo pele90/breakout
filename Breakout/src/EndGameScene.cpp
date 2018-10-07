@@ -10,7 +10,10 @@ EndGameScene::~EndGameScene(){}
 
 bool EndGameScene::initialize()
 {
-	this->setBackground("background/wall_background");
+	if(!this->setBackground("background/wall_background"))
+	{
+		return false;
+	}
 
 	this->ui = new UI();
 	this->ui->initialize("end_game_menu");
@@ -18,25 +21,6 @@ bool EndGameScene::initialize()
 	this->ui->setButtonCallback("exit_button", &onExitClick);
 
 	return true;
-}
-
-void EndGameScene::update(float deltaTime)
-{
-	this->ui->update(deltaTime);
-}
-
-void EndGameScene::render(SDL_Renderer* renderer)
-{
-	this->renderBackground(renderer);
-
-	this->ui->render(renderer);
-}
-
-void EndGameScene::destroy()
-{
-	this->ui->destroy();
-	delete ui;
-	this->ui = NULL;
 }
 
 // Button handlers

@@ -46,6 +46,7 @@
     <ClInclude Include="include\Ball.h" />
     <ClInclude Include="include\Brick.h" />
     <ClInclude Include="include\Button.h" />
+    <ClInclude Include="include\Constants.h" />
     <ClInclude Include="include\Dataset.h" />
     <ClInclude Include="include\EndGameScene.h" />
     <ClInclude Include="include\Entity.h" />

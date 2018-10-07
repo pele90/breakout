@@ -14,33 +14,14 @@ MainMenuScene::~MainMenuScene()
 
 bool MainMenuScene::initialize()
 {
-	this->setBackground("background/wall_background");
+	this->setBackground(MAIN_MENU_SCENE_BACKGROUND_TEXTURE_PATH);
 
 	this->ui = new UI();
-	this->ui->initialize("main_menu");
-	this->ui->setButtonCallback("play_button", &onPlayClick);
-	this->ui->setButtonCallback("exit_button", &onMainMenuExitClick);
+	this->ui->initialize(PLAY_SCENE_LAYOUT_NAME);
+	this->ui->setButtonCallback(PLAY_BUTTON_NAME, &onPlayClick);
+	this->ui->setButtonCallback(EXIT_BUTTON_NAME, &onMainMenuExitClick);
 
 	return true;
-}
-
-void MainMenuScene::update(float deltaTime)
-{
-	this->ui->update(deltaTime);
-}
-
-void MainMenuScene::render(SDL_Renderer* renderer)
-{
-	this->renderBackground(renderer);
-
-	this->ui->render(renderer);
-}
-
-void MainMenuScene::destroy()
-{
-	this->ui->destroy();
-	delete ui;
-	this->ui = NULL;
 }
 
 // Button handlers

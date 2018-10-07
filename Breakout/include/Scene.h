@@ -3,6 +3,7 @@
 
 #include "SDL.h"
 
+#include "Constants.h"
 #include "UI.h"
 #include "Util.h"
 
@@ -13,17 +14,17 @@ public:
 	virtual ~Scene();
 
 	virtual bool initialize() = 0;
-	virtual void update(float deltaTime) = 0;
-	virtual void render(SDL_Renderer* renderer) = 0;
-	virtual void destroy() = 0;
+	virtual void update(float deltaTime);
+	virtual void render(SDL_Renderer* renderer);
+	virtual void destroy();
 
-	void setBackground(std::string filename);
+	bool setBackground(std::string filename);
 	void renderBackground(SDL_Renderer* renderer);
 
 protected:
+	UI* ui;
 	SDL_Surface* backgroundSurface;
 	SDL_Texture* backgroundTexture;
-	UI* ui;
 };
 
 #endif // !SCENE_H

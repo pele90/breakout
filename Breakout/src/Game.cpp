@@ -12,7 +12,7 @@ bool Game::initialize()
 	//Initialize SDL 
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
 	{
-		std::cout << "SDL could not initialize! SDL_Error: " << SDL_GetError() << std::endl;
+		Util::showMessageBox("SDL could not initialize! SDL_Error: " + std::string(SDL_GetError()));
 		return false;
 	}
 	else
@@ -22,43 +22,39 @@ bool Game::initialize()
 		GlobalState::setScreenWidth(DEFAULT_SCREEN_WIDTH);
 		GlobalState::setScreenHeight(DEFAULT_SCREEN_HEIGHT);
 
-		//Create window 
+		//Create window
 		this->window = SDL_CreateWindow("Breakout", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, DEFAULT_SCREEN_WIDTH, DEFAULT_SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
 
 		if (this->window == NULL)
 		{
-			std::cout << "Window could not be created! SDL_Error: " << SDL_GetError() << std::endl;
+			Util::showMessageBox("Window could not be created! SDL_Error: " + std::string(SDL_GetError()));
+			return false;
 		}
 		else
 		{
-			//SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN_DESKTOP);
-			SDL_SetWindowBordered(window, SDL_TRUE);
-
 			this->renderer = SDL_CreateRenderer(this->window, -1, SDL_RENDERER_ACCELERATED);
 
 			SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1");
-			//SDL_RenderSetLogicalSize(renderer, DEFAULT_SCREEN_WIDTH, DEFAULT_SCREEN_HEIGHT);
 
 			if (this->renderer == nullptr)
 			{
-				std::cout << "Failed to create renderer : " << SDL_GetError() << std::endl;
+				Util::showMessageBox("Failed to create renderer : " + std::string(SDL_GetError()));
 				return false;
 			}
 			else
 			{
-				// Set size of renderer to the same as window
-				//SDL_RenderSetLogicalSize(this->renderer, GlobalState::getScreenWidth(), GlobalState::getScreenHeight());
-
 				// Set color of renderer to white
 				SDL_SetRenderDrawColor(this->renderer, 255, 255, 255, 255);
 
+				// SCENE MANAGER
 				sceneManager = new SceneManager();
 				sceneManager->initialize();
 
 				int imgFlags = IMG_INIT_PNG;
 				if (!(IMG_Init(imgFlags) & imgFlags))
 				{
-					std::cout << "SDL_image could not initialize! SDL_image Error: " << IMG_GetError() << std::endl;
+					Util::showMessageBox("SDL_image could not initialize! SDL_image Error: " + std::string(IMG_GetError()));
+					return false;
 				}
 			}
 		}
@@ -68,9 +64,8 @@ bool Game::initialize()
 
 void Game::run()
 {
-	this->isRunning = true;
 	float frame = 0;
-	unsigned int lastTime = 0;
+	unsigned int lastFrameTime = 0;
 	float timeDifference, deltaTime;
 	unsigned int capTimer = 0;
 	int loops;
@@ -84,8 +79,8 @@ void Game::run()
 		while (GlobalState::getCurrentState() != GlobalState::GameState::Exit)
 		{
 			capTimer = SDL_GetTicks();
-			timeDifference = SDL_GetTicks() - lastTime;
-			lastTime += timeDifference;
+			timeDifference = SDL_GetTicks() - lastFrameTime;
+			lastFrameTime += timeDifference;
 			deltaTime = (frame / (SDL_GetTicks() / 1000.f)) * 0.001;
 
 			this->update(timeDifference * 0.001);
@@ -94,7 +89,7 @@ void Game::run()
 
 			frame++;
 
-			//If frame finished early 
+			//If frame finished early
 			if ((SDL_GetTicks() - capTimer) < screen_ticks_per_frame)
 			{
 				//Wait remaining time 
@@ -106,6 +101,7 @@ void Game::run()
 
 void Game::update(float deltaTime)
 {
+	// If Input returns false, then the user pressed exit button
 	if (!Input::handleInputs())
 	{
 		GlobalState::setCurrentState(GlobalState::GameState::Exit);
@@ -122,7 +118,6 @@ void Game::render()
 
 	this->sceneManager->render(this->renderer);
 
-	// Render the changes above
 	SDL_RenderPresent(this->renderer);
 }
 
@@ -132,7 +127,6 @@ void Game::destroy()
 	delete this->sceneManager;
 	this->sceneManager = NULL;
 
-	//Destroy window 
 	SDL_DestroyWindow(this->window);
 	this->window = NULL;
 

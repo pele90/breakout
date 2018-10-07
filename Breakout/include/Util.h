@@ -11,6 +11,8 @@
 
 #include "Resources.h"
 
+#define ERROR_MSGBOX_TITLE "Error"
+
 namespace Util
 {
 	static bool loadPng(const char* filename, SDL_Surface* &surface)
@@ -39,6 +41,11 @@ namespace Util
 		}
 
 		return true;
+	}
+
+	static void showMessageBox(std::string message)
+	{
+		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, ERROR_MSGBOX_TITLE, message.c_str(), NULL);
 	}
 }
 

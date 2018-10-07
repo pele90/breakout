@@ -6,9 +6,9 @@
 #include "SDL.h"
 
 #include "GlobalState.h"
-#include "UI.h"
-#include "SceneManager.h"
 #include "Input.h"
+#include "SceneManager.h"
+#include "UI.h"
 
 class Game
 {
@@ -25,8 +25,6 @@ private:
 	SDL_Window* window;
 	SDL_Renderer* renderer;
 	SceneManager* sceneManager;
-	bool isRunning;
-
 };
 
 #endif // GAME_H

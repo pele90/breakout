@@ -9,21 +9,25 @@ PlayScene::~PlayScene(){}
 
 bool PlayScene::initialize()
 {
-	this->setBackground("background/misc/hg14");
-
-
-	this->level = new Level();
+	if (!this->setBackground(PLAY_SCENE_BACKGROUND_TEXTURE_PATH))
+	{
+		return false;
+	}
 
 	int currentLevel = GlobalState::getLevel();
 	int currentScore = GlobalState::getScore();
+
+	// LEVEL
+	this->level = new Level();
 
 	std::string levelName = LEVEL_PREFIX;
 	levelName.append(std::to_string(currentLevel));
 	this->level->initialize(levelName);
 
+	// UI
 	this->ui = new UI();
-	this->ui->initialize("game_gui");
-	this->ui->setButtonCallback("continue_button", &onReturnClick);
+	this->ui->initialize(PLAY_SCENE_LAYOUT_NAME);
+	this->ui->setButtonCallback(CONTINUE_BUTTON_NAME, &onReturnClick);
 	this->ui->changeLabelText(SCORE_LABEL_NAME, std::to_string(currentScore));
 	this->ui->changeLabelText(LEVEL_LABEL_NAME, std::to_string(currentLevel));
 
@@ -40,49 +44,47 @@ void PlayScene::update(float deltaTime)
 	else
 	{
 		this->level->update(deltaTime);
-		
-		this->checkUI();
-		this->ui->update(deltaTime);
+		this->checkUIChanges();
+
+		Scene::update(deltaTime);
 	}
 }
 
 void PlayScene::render(SDL_Renderer* renderer)
 {
-	this->renderBackground(renderer);
+	Scene::render(renderer);
+
 	this->level->render(renderer);
-	this->ui->render(renderer);
 }
 
 void PlayScene::destroy()
 {
 	this->level->destroy();
 	delete level;
-	this->level = NULL;
+	this->level = nullptr;
 
-	this->ui->destroy();
-	delete ui;
-	this->ui = NULL;
+	Scene::destroy();
 }
 
-void PlayScene::checkUI()
+void PlayScene::checkUIChanges()
 {
 	if (this->level->isUiChanged())
 	{
 		this->ui->changeLabelText(SCORE_LABEL_NAME, std::to_string(GlobalState::getScore()));
-		this->updateLives();
+		this->updateLivesUI();
 
 		this->level->setUiChanged(false);
 	}
 }
 
-void PlayScene::updateLives()
+void PlayScene::updateLivesUI()
 {
 	int lives = GlobalState::getLives();
 
 	if (lives != DEFAULT_LIVES)
 	{
 		std::string imageName = LIVES_LABEL_NAME;
-		imageName.append(std::to_string(lives + 1)); // remove current number of life + 1
+		imageName.append(std::to_string(lives + 1)); // remove image by index; current number of life + 1
 
 		this->ui->hideImage(imageName);
 	}

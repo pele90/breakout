@@ -1,17 +1,7 @@
 #ifndef GLOBAL_STATE_H
 #define GLOBAL_STATE_H
 
-#define DEFAULT_SCORE 0
-#define DEFAULT_LIVES 3
-#define DEFAULT_LEVEL 1
-#define NUMBER_OF_LEVELS 5
-#define PLAYER_STARTING_POSITION { 400, 650, 200, 20 }
-#define DEFAULT_SCREEN_WIDTH 1024
-#define DEFAULT_SCREEN_HEIGHT 768
-#define DEFAULT_BOARD_WIDTH 924
-#define DEFAULT_BOARD_HEIGHT 668
-#define FPS 60;
-constexpr int screen_ticks_per_frame = 1000 / FPS;
+#include "Constants.h"
 
 class GlobalState
 {
@@ -57,7 +47,6 @@ private:
 	GlobalState& operator= (const GlobalState&);
 
 private:
-	static GlobalState* instance;
 	static int screenWidth;
 	static int screenHeight;
 	static int score;

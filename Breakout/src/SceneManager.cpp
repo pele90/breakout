@@ -81,10 +81,5 @@ void SceneManager::destroy()
 {
 	this->activeScene->destroy();
 	delete this->activeScene;
-	this->activeScene = NULL;
-}
-
-void SceneManager::switchScene(Scene* scene)
-{
-	this->activeScene = scene;
+	this->activeScene = nullptr;
 }

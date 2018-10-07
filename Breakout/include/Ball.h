@@ -3,9 +3,6 @@
 
 #include "Entity.h"
 #include "Vector2D.h"
-#include "Resources.h"
-
-#define BALL_SPEED 600
 
 class Ball : public Entity
 {
@@ -16,8 +13,6 @@ public:
 
 	virtual bool initialize();
 	virtual void update(float deltaTime);
-	virtual void render(SDL_Renderer* renderer);
-	virtual void destroy();
 
 	Vector2D getVelocity() const;
 	void setXVelocity(float value);

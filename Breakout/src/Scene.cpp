@@ -2,21 +2,42 @@
 
 Scene::Scene(){}
 
-Scene::~Scene()
-{
-	SDL_FreeSurface(this->backgroundSurface);
-	this->backgroundSurface = NULL;
+Scene::~Scene(){}
 
-	SDL_DestroyTexture(this->backgroundTexture);
-	this->backgroundTexture = NULL;
+void Scene::update(float deltaTime)
+{
+	this->ui->update(deltaTime);
 }
 
-void Scene::setBackground(std::string filename)
+void Scene::render(SDL_Renderer * renderer)
+{
+	this->renderBackground(renderer);
+
+	this->ui->render(renderer);
+}
+
+void Scene::destroy()
+{
+	this->ui->destroy();
+	delete ui;
+	this->ui = nullptr;
+
+	SDL_FreeSurface(this->backgroundSurface);
+	this->backgroundSurface = nullptr;
+
+	SDL_DestroyTexture(this->backgroundTexture);
+	this->backgroundTexture = nullptr;
+}
+
+bool Scene::setBackground(std::string filename)
 {
 	if (!Util::loadPng(filename.c_str(), this->backgroundSurface))
 	{
-		// LOG error
+		Util::showMessageBox("Setting background failed");
+		return false;
 	}
+
+	return true;
 }
 
 void Scene::renderBackground(SDL_Renderer* renderer)
@@ -28,3 +49,4 @@ void Scene::renderBackground(SDL_Renderer* renderer)
 
 	SDL_RenderCopy(renderer, this->backgroundTexture, nullptr, NULL);
 }
+

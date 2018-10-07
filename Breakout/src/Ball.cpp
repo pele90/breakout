@@ -10,14 +10,12 @@ bool Ball::initialize()
 {
 	if (!Util::loadPng(this->getTextureFilename().c_str(), this->surface))
 	{
-		// LOG error
+		Util::showMessageBox("Loading .png failed");
+		return false;
 	}
 
-	SDL_Rect rect = { 450, 600, 15, 15 };
-	this->setTransform(rect);
-
-	this->velocity.setX(2);
-	this->velocity.setY(-12);
+	this->setTransform(BALL_STARTING_POSITION);
+	this->velocity = BALL_STARTING_DIRECTION;
 
 	return true;
 }
@@ -29,25 +27,6 @@ void Ball::update(float deltaTime)
 		this->transform.x += this->velocity.getX();
 		this->transform.y += this->velocity.getY();
 	}
-}
-
-void Ball::render(SDL_Renderer* renderer)
-{
-	if (this->texture == NULL)
-	{
-		this->texture = SDL_CreateTextureFromSurface(renderer, this->surface);
-	}
-
-	SDL_RenderCopy(renderer, this->texture, nullptr, &this->transform);
-}
-
-void Ball::destroy()
-{
-	SDL_DestroyTexture(this->texture);
-	this->texture = NULL;
-
-	SDL_FreeSurface(this->surface);
-	this->surface = NULL;
 }
 
 Vector2D Ball::getVelocity() const

@@ -18,8 +18,6 @@ public:
 	void render(SDL_Renderer* renderer);
 	void destroy();
 
-	void switchScene(Scene* scene);
-
 private:
 	Scene* activeScene;
 	GlobalState::GameState currentState;
