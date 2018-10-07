@@ -10,6 +10,8 @@ EndGameScene::~EndGameScene(){}
 
 bool EndGameScene::initialize()
 {
+	this->setBackground("background/wall_background");
+
 	this->ui = new UI();
 	this->ui->initialize("end_game_menu");
 	this->ui->setButtonCallback("restart_button", &onRestartClick);
@@ -25,6 +27,8 @@ void EndGameScene::update(float deltaTime)
 
 void EndGameScene::render(SDL_Renderer* renderer)
 {
+	this->renderBackground(renderer);
+
 	this->ui->render(renderer);
 }
 

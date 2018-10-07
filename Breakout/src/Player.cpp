@@ -14,7 +14,7 @@ bool Player::initialize()
 		return false;
 	}
 
-	SDL_Rect rect = { 400, 650, 200, 30 };
+	SDL_Rect rect = { 400, 650, 200, 20 };
 	this->setTransform(rect);
 
 	return true;
@@ -44,7 +44,7 @@ void Player::move(float deltaTime)
 	float velocity = MOVEMENT_SPEED * deltaTime;
 	if (Input::isRightArrowPressed())
 	{
-		if (this->transform.x <= (SCREEN_WIDTH - this->transform.w))
+		if (this->transform.x <= DEFAULT_SCREEN_WIDTH - this->transform.w)
 		{
 			this->transform.x += velocity;
 		}

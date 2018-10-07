@@ -29,18 +29,14 @@
 			Id="I"
 			Texture="bricks/brick_I"
 			HitPoints="Infinite"
-			HitSound="Sounds/Hit_04.wav"
-			BreakSound="Sounds/Break_04.wav"
-			BreakScore="200" />
+			HitSound="Sounds/Hit_04.wav" />
 	</BrickTypes>
 	<Bricks>
 		H H H H H H H H H H H H H H H H H H H H
 		M M I I M M M M M M M M M M M M I I M M
-		_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 		S S S S S S S S S S S S S S S S S S S S
 		M M I I M M M M M M M M M M M M I I M M
-		M M I I M M M M M M M M M M M M I I M M
-		_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
-		H H H H H H H H H H H H H H H H H H H H
+		S S S S S S S S S S S S S S S S S S S S
+		S S S S S S S S S S S S S S S S S S S S
 	</Bricks>
 </Level>

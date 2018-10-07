@@ -26,6 +26,11 @@ bool Input::isLeftArrowPressed()
 	return leftArrowPressed;
 }
 
+bool Input::isQButtonPressed()
+{
+	return qButtonPressed;
+}
+
 void Input::setLeftMouseButtonUp(bool value)
 {
 	leftMouseButtonPressed = value;
@@ -46,6 +51,11 @@ void Input::setLeftArrowPressed(bool value)
 	leftArrowPressed = value;
 }
 
+void Input::setQButtonPressed(bool value)
+{
+	qButtonPressed = value;
+}
+
 void Input::setMouse(int x, int y)
 {
 	mouse.x = x;
@@ -64,6 +74,7 @@ void Input::reset()
 	rightMouseButtonPressed = false;
 	leftArrowPressed = false;
 	rightArrowPressed = false;
+	qButtonPressed = false;
 }
 
 bool Input::handleInputs()
@@ -110,6 +121,10 @@ bool Input::handleInputs()
 	{
 		setRightArrowPressed(true);
 	}
+	else if (currentKeyStates[SDL_SCANCODE_Q])
+	{
+		setQButtonPressed(true);
+	}
 
 	return isRunning;
 }
@@ -120,3 +135,4 @@ bool Input::leftMouseButtonPressed;
 bool Input::rightMouseButtonPressed;
 bool Input::leftArrowPressed;
 bool Input::rightArrowPressed;
+bool Input::qButtonPressed;

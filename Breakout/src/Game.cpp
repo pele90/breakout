@@ -17,8 +17,13 @@ bool Game::initialize()
 	}
 	else
 	{
+		SDL_DisplayMode dm;
+		SDL_GetCurrentDisplayMode(0, &dm);
+		GlobalState::setScreenWidth(DEFAULT_SCREEN_WIDTH);
+		GlobalState::setScreenHeight(DEFAULT_SCREEN_HEIGHT);
+
 		//Create window 
-		this->window = SDL_CreateWindow("Breakout", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
+		this->window = SDL_CreateWindow("Breakout", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, DEFAULT_SCREEN_WIDTH, DEFAULT_SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
 
 		if (this->window == NULL)
 		{
@@ -26,7 +31,13 @@ bool Game::initialize()
 		}
 		else
 		{
+			//SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN_DESKTOP);
+			SDL_SetWindowBordered(window, SDL_TRUE);
+
 			this->renderer = SDL_CreateRenderer(this->window, -1, SDL_RENDERER_ACCELERATED);
+
+			SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1");
+			//SDL_RenderSetLogicalSize(renderer, DEFAULT_SCREEN_WIDTH, DEFAULT_SCREEN_HEIGHT);
 
 			if (this->renderer == nullptr)
 			{
@@ -36,7 +47,7 @@ bool Game::initialize()
 			else
 			{
 				// Set size of renderer to the same as window
-				SDL_RenderSetLogicalSize(this->renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
+				//SDL_RenderSetLogicalSize(this->renderer, GlobalState::getScreenWidth(), GlobalState::getScreenHeight());
 
 				// Set color of renderer to white
 				SDL_SetRenderDrawColor(this->renderer, 255, 255, 255, 255);
@@ -62,6 +73,7 @@ void Game::run()
 	unsigned int lastTime = 0;
 	float timeDifference, deltaTime;
 	unsigned int capTimer = 0;
+	int loops;
 
 	if (!this->initialize())
 	{
@@ -76,7 +88,7 @@ void Game::run()
 			lastTime += timeDifference;
 			deltaTime = (frame / (SDL_GetTicks() / 1000.f)) * 0.001;
 
-			this->update(deltaTime);
+			this->update(timeDifference * 0.001);
 
 			this->render();
 

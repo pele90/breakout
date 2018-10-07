@@ -5,7 +5,7 @@
 #include "Vector2D.h"
 #include "Resources.h"
 
-#define BALL_SPEED 50
+#define BALL_SPEED 600
 
 class Ball : public Entity
 {
@@ -22,8 +22,6 @@ public:
 	Vector2D getVelocity() const;
 	void setXVelocity(float value);
 	void setYVelocity(float value);
-	void flipYVelocity();
-	void flipXVelocity();
 
 private:
 	Vector2D velocity;

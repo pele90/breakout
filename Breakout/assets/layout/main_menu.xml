@@ -1,4 +1,5 @@
 <Layout>
-	<Button name="play_button" texture_name="playButton" rect="400,250,100,100" />
-	<!-- <Label name="welcome_label" text="Welcome to the world of nonsense" font_name="Lato-Regular" font_color="128,99,220,255" font_size="28" rect="300,400,300,50"/> -->
+	<Label name="welcome_label" text="Breakout" font_name="Lato-Regular" font_color="255,255,255,255" font_size="92" rect="212,34,600,300"/>
+	<Button name="play_button" texture_name="playButton" rect="462,434,100,100" />
+	<Button name="exit_button" texture_name="exitButton" rect="462,584,100,100" />
 </Layout>

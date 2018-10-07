@@ -9,7 +9,7 @@ PlayScene::~PlayScene(){}
 
 bool PlayScene::initialize()
 {
-	this->setBackground("background/main_menu_background");
+	this->setBackground("background/misc/hg14");
 
 	this->level = new Level();
 	this->level->initialize();
@@ -23,9 +23,17 @@ bool PlayScene::initialize()
 
 void PlayScene::update(float deltaTime)
 {
-	this->level->update(deltaTime);
+	// CHEAT:Q button to win
+	if (Input::isQButtonPressed())
+	{
+		GlobalState::setCurrentState(GlobalState::GameState::ShowEndScreen);
+	}
+	else
+	{
+		this->level->update(deltaTime);
 
-	this->ui->update(deltaTime);
+		this->ui->update(deltaTime);
+	}
 }
 
 void PlayScene::render(SDL_Renderer* renderer)

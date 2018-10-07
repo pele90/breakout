@@ -2,6 +2,7 @@
 
 // Forward initialization of button handler
 void onPlayClick();
+void onMainMenuExitClick();
 
 MainMenuScene::MainMenuScene()
 {
@@ -13,11 +14,12 @@ MainMenuScene::~MainMenuScene()
 
 bool MainMenuScene::initialize()
 {
-	this->setBackground("background/main_menu_background");
+	this->setBackground("background/wall_background");
 
 	this->ui = new UI();
 	this->ui->initialize("main_menu");
 	this->ui->setButtonCallback("play_button", &onPlayClick);
+	this->ui->setButtonCallback("exit_button", &onMainMenuExitClick);
 
 	return true;
 }
@@ -45,4 +47,9 @@ void MainMenuScene::destroy()
 void onPlayClick()
 {
 	GlobalState::setCurrentState(GlobalState::GameState::Play);
+}
+
+void onMainMenuExitClick()
+{
+	//GlobalState::setCurrentState(GlobalState::GameState::Exit);
 }

@@ -6,6 +6,16 @@ GlobalState& GlobalState::getInstance()
 	return instance;
 }
 
+void GlobalState::setScreenWidth(int value)
+{
+	screenWidth = value;
+}
+
+void GlobalState::setScreenHeight(int value)
+{
+	screenHeight = value;
+}
+
 void GlobalState::setScore(int value)
 {
 	score = value;
@@ -24,6 +34,16 @@ void GlobalState::setLevel(int value)
 void GlobalState::setCurrentState(GameState state)
 {
 	currentState = state;
+}
+
+int GlobalState::getScreenWidth()
+{
+	return screenWidth;
+}
+
+int GlobalState::getScreenHeight()
+{
+	return screenHeight;
 }
 
 int GlobalState::getScore()
@@ -47,6 +67,8 @@ GlobalState::GameState GlobalState::getCurrentState()
 }
 
 // A quirk of C++, static member variables need to be instantiated outside of the class
+int GlobalState::screenWidth = DEFAULT_SCREEN_WIDTH;
+int GlobalState::screenHeight = DEFAULT_SCREEN_HEIGHT;
 int GlobalState::score = DEFAULT_SCORE;
 int GlobalState::lives = DEFAULT_LIVES;
 int GlobalState::level = DEFAULT_LEVEL;

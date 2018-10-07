@@ -8,12 +8,24 @@ Brick::~Brick(){}
 
 bool Brick::initialize()
 {
-	if (!Util::loadPng(this->getTextureFilename().c_str(), this->surface))
+	if (this->brickType.id != "")
 	{
-		// LOG error
-	}
+		if (!Util::loadPng(this->getTextureFilename().c_str(), this->surface))
+		{
+			// LOG error
+		}
 
-	// Load sounds i guess
+		// Load sounds i guess
+
+		if (this->brickType.hitPoints == "Infinite")
+		{
+			this->hitpoints = -1;
+		}
+		else
+		{
+			this->hitpoints = std::stoi(this->brickType.hitPoints);
+		}
+	}
 
 	return true;
 }
@@ -25,7 +37,7 @@ void Brick::update(float deltaTime)
 
 void Brick::render(SDL_Renderer * renderer)
 {
-	if (this->texture == NULL)
+	if (this->texture == NULL && this->interactable)
 	{
 		this->texture = SDL_CreateTextureFromSurface(renderer, this->surface);
 	}
@@ -47,18 +59,46 @@ void Brick::setBrickType(BrickType type)
 	this->brickType = type;
 }
 
-void Brick::handleHit()
+void Brick::setInteractable(bool value)
+{
+	this->interactable = value;
+}
+
+bool Brick::isInteractable() const
+{
+	return this->interactable;
+}
+
+bool Brick::handleHit()
 {
 	// reduce hitpoints
-	this->brickType.hitPoints--;
-
-	// if brick health below zero
-	if (this->brickType.hitPoints < 0)
+	if (this->hitpoints != -1)
 	{
-		// destroy brick (leave empty slot)
+		this->hitpoints--;
 
-		// play sound
+		// if brick health below zero
+		if (this->hitpoints == 0)
+		{
+			// destroy brick (leave empty slot)
+			this->removeTexture();
+			this->interactable = false;
 
-		// add score
+			// play sound
+
+			// add score
+
+			return true;
+		}
 	}
+
+	return false;
+}
+
+void Brick::removeTexture()
+{
+	SDL_DestroyTexture(this->texture);
+	this->texture = NULL;
+
+	SDL_FreeSurface(this->surface);
+	this->surface = NULL;
 }

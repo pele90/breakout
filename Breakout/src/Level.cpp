@@ -38,10 +38,14 @@ bool Level::initialize()
 
 void Level::update(float deltaTime)
 {
-	for (auto iter : this->bricksObjects)
+	for (auto brick : this->bricksObjects)
 	{
-		iter->update(deltaTime);
-		checkBrickCollision(iter);
+		brick->update(deltaTime);
+
+		if (brick->isInteractable())
+		{
+			checkBrickCollision(this->balls[0], brick, deltaTime);
+		}
 	}
 
 	for (auto iter : this->balls)
@@ -50,19 +54,23 @@ void Level::update(float deltaTime)
 
 		if (iter->getTransform().y < 0)
 		{
-			iter->setYVelocity(1 * BALL_SPEED * deltaTime);
+			float i = iter->getVelocity().getY();
+			iter->setYVelocity(i * - 1);
 		}
-		else if (iter->getTransform().y > SCREEN_HEIGHT - iter->getTransform().h)
+		else if (iter->getTransform().y > DEFAULT_SCREEN_HEIGHT - iter->getTransform().h)
 		{
-			iter->setYVelocity(-1 * BALL_SPEED * deltaTime);
+			float i = iter->getVelocity().getY();
+			iter->setYVelocity(i * -1);
 		}
 		else if (iter->getTransform().x < 0)
 		{
-			iter->setXVelocity(1 * BALL_SPEED * deltaTime);
+			float i = iter->getVelocity().getX();
+			iter->setXVelocity(i * -1);
 		}
-		else if (iter->getTransform().x > SCREEN_WIDTH - iter->getTransform().w)
+		else if (iter->getTransform().x > DEFAULT_SCREEN_WIDTH - iter->getTransform().w)
 		{
-			iter->setXVelocity(-1 * BALL_SPEED * deltaTime);
+			float i = iter->getVelocity().getX();
+			iter->setXVelocity(i * -1);
 		}
 	}
 
@@ -111,10 +119,10 @@ bool Level::loadLevel(std::string filename)
 
 		brickType->id = brickTypeElement->Attribute("Id");
 		brickType->texture = brickTypeElement->Attribute("Texture");
-		brickType->hitPoints = (int)brickTypeElement->Attribute("HitPoints");
+		brickType->hitPoints = brickTypeElement->Attribute("HitPoints");
 		brickType->hitSound = brickTypeElement->Attribute("HitSound");
-		brickType->breakSound = brickTypeElement->Attribute("BreakSound");
-		brickType->breakScore = (int)brickTypeElement->Attribute("BreakScore");
+		brickType->breakSound = brickTypeElement->Attribute("BreakSound") == NULL ? "": brickTypeElement->Attribute("BreakSound");
+		brickType->breakScore = brickTypeElement->Attribute("BreakScore") == NULL ? "" : brickTypeElement->Attribute("BreakScore");
 
 		brickTypes[brickType->id] = brickType;
 
@@ -131,8 +139,10 @@ bool Level::loadLevel(std::string filename)
 
 bool Level::createLevel()
 {
-	float offsetX = 1024.f / this->levelDefinition.columnCount;
-	float offsetY = 768.f / this->levelDefinition.rowCount;
+	float boardXOffset = (DEFAULT_SCREEN_WIDTH - DEFAULT_BOARD_WIDTH) / 2;
+	float boardYOffset = (DEFAULT_SCREEN_HEIGHT - DEFAULT_BOARD_HEIGHT) / 2;
+	float offsetX = DEFAULT_BOARD_WIDTH / this->levelDefinition.columnCount;
+	float offsetY = DEFAULT_SCREEN_HEIGHT / this->levelDefinition.rowCount;
 	float w = offsetX - this->levelDefinition.columnSpacing;
 	float h = offsetY - this->levelDefinition.rowSpacing;
 	float rowSpacingOffset = this->levelDefinition.rowSpacing / 2.f;
@@ -151,14 +161,17 @@ bool Level::createLevel()
 
 			std::string brickTypeId = *col;
 
+			// if brick is any of brick type
 			if (brickTypeId != "_")
 			{
 				BrickType* type = this->brickTypes.find(brickTypeId)->second;
 				brick->setBrickType(*type);
 				brick->setTextureFilename(type->texture);
+				brick->setInteractable(true);
+				this->numOfDestroyableBricks++;
 			}
 
-			SDL_Rect rect = { (cnt * offsetX) + columnSpacingOffset, (y * offsetY) + rowSpacingOffset, w, h };
+			SDL_Rect rect = { ((cnt * offsetX) + columnSpacingOffset) + boardXOffset, ((y * offsetY) + rowSpacingOffset) + boardYOffset, w, h };
 			brick->setTransform(rect);
 
 			bricksObjects.push_back(brick);
@@ -256,8 +269,164 @@ void Level::extractBricks(const char* text)
 	}
 }
 
-void Level::checkBrickCollision(Brick* brick)
+void Level::checkBrickCollision(Ball* ball, Brick* brick, float deltaTime)
 {
+	SDL_Rect ballRect = ball->getTransform();
+	SDL_Rect brickRect = brick->getTransform();
+	Vector2D ballVelocity = ball->getVelocity();
+
+	float ballCenterX = ballRect.x + (ballRect.w / 2);
+	float ballCenterY = ballRect.y + (ballRect.h / 2);
+	float brickCenterX = brickRect.x + (brickRect.w / 2);
+	float brickCenterY = brickRect.y + (brickRect.h / 2);
+
+	// Collision detected; do all the stuff for that like remove life, play sound, destroy brick, etc.
+	if (ballRect.x <= brickRect.x + brickRect.w &&
+		ballRect.x + ballRect.w >= brickRect.x &&
+		ballRect.y <= brickRect.y + brickRect.h &&
+		ballRect.y + ballRect.h >= brickRect.y)
+	{
+		/////--------------------- BALL HIT THE BRICK------------------------
+		if (brick->handleHit())
+		{
+			this->numOfDestroyableBricks--;
+		}
+
+		if (this->numOfDestroyableBricks == 0)
+		{
+			// END GAME
+			GlobalState::setCurrentState(GlobalState::GameState::ShowEndScreen);
+		}
+
+		//---------------------------------------------------------------------
+
+		// calculate y amount of overlap
+		float ymin = 0;
+		if (brickRect.y > ballRect.y) {
+			ymin = brickRect.y;
+		}
+		else {
+			ymin = ballRect.y;
+		}
+		float ymax = 0;
+
+		if (brickRect.y + brickRect.h < ballRect.y + ballRect.h) {
+			ymax = brickRect.y + brickRect.h;
+		}
+		else {
+			ymax = ballRect.y + ballRect.h;
+		}
+		float ySize = ymax - ymin;
+
+		// Calculate x amount of overlap
+		float xMin = 0;
+		if (brickRect.x > ballRect.x) {
+			xMin = brickRect.x;
+		}
+		else {
+			xMin = ballRect.x;
+		}
+
+		float xMax = 0;
+		if (brickRect.x + brickRect.w < ballRect.x + ballRect.w) {
+			xMax = brickRect.x + brickRect.w;
+		}
+		else {
+			xMax = ballRect.x + ballRect.w;
+		}
+
+		float xSize = xMax - xMin;
+
+		// The origin is at the top-left corner of the screen!
+		// Set collision response
+
+		if (xSize > ySize) {
+			if (ballCenterY > brickCenterY) {
+				// Bottom
+				ballRect.y += ySize + 0.01f; // Move out of collision
+				this->ballBrickResponse(Brick::BrickResponse::Bottom, ball, deltaTime);
+			}
+			else {
+				// Top
+				ballRect.y -= ySize + 0.01f; // Move out of collision
+				this->ballBrickResponse(Brick::BrickResponse::Top, ball, deltaTime);
+			}
+		}
+		else {
+			if (ballCenterX < brickCenterX) {
+				// Left
+				ballRect.x -= xSize + 0.01f; // Move out of collision
+				this->ballBrickResponse(Brick::BrickResponse::Left, ball, deltaTime);
+			}
+			else {
+				// Right
+				ballRect.x += xSize + 0.01f; // Move out of collision
+				this->ballBrickResponse(Brick::BrickResponse::Right, ball, deltaTime);
+			}
+		}
+	}
+}
+
+void Level::ballBrickResponse(Brick::BrickResponse value, Ball* ball, float deltaTime)
+{
+	// BrickResponse 0: Left, 1: Top, 2: Right, 3: Bottom
+
+	// Direction factors
+	int mulX = 1;
+	int mulY = 1;
+	float xVelocity = ball->getVelocity().getX();
+	float yVelocity = ball->getVelocity().getY();
+
+	if (xVelocity > 0) {
+		// Ball is moving in the positive x direction
+		if (yVelocity > 0) {
+			// Ball is moving in the positive y direction
+			// +1 +1
+			if (value == Brick::BrickResponse::Left || value == Brick::BrickResponse::Bottom) {
+				mulX = -1;
+			}
+			else {
+				mulY = -1;
+			}
+		}
+		else if (yVelocity < 0) {
+			// Ball is moving in the negative y direction
+			// +1 -1
+			if (value == Brick::BrickResponse::Left || value == Brick::BrickResponse::Top) {
+				mulX = -1;
+			}
+			else {
+				mulY = -1;
+			}
+		}
+	}
+	else if (xVelocity < 0) {
+		// Ball is moving in the negative x direction
+		if (yVelocity > 0) {
+			// Ball is moving in the positive y direction
+			// -1 +1
+			if (value == Brick::BrickResponse::Right || value == Brick::BrickResponse::Bottom) {
+				mulX = -1;
+			}
+			else {
+				mulY = -1;
+			}
+		}
+		else if (yVelocity < 0) {
+			// Ball is moving in the negative y direction
+			// -1 -1
+			if (value == Brick::BrickResponse::Right || value == Brick::BrickResponse::Top) {
+				mulX = -1;
+			}
+			else {
+				mulY = -1;
+			}
+		}
+	}
+
+	// Set the new direction of the ball, by multiplying the old direction
+	// with the determined direction factors
+	this->setDirection(ball, mulX * xVelocity, mulY * yVelocity, deltaTime);
 }
 
 void Level::checkPaddleCollision(float deltaTime)
@@ -319,4 +488,9 @@ void Level::setDirection(Ball* ball, float newdirx, float newdiry, float deltaTi
 
 	ball->setXVelocity(x);
 	ball->setYVelocity(y);
+}
+
+bool Level::winCondition()
+{
+	return false;
 }

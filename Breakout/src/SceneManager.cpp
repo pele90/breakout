@@ -6,10 +6,10 @@ SceneManager::~SceneManager() {}
 
 void SceneManager::initialize()
 {
-	this->activeScene = new PlayScene();
+	this->activeScene = new EndGameScene();
 	this->activeScene->initialize();
 
-	this->currentState = GlobalState::GameState::Play;
+	this->currentState = GlobalState::GameState::ShowEndScreen;
 	GlobalState::setCurrentState(this->currentState);
 	this->previousState = this->currentState;
 }
@@ -48,6 +48,10 @@ void SceneManager::update(float deltaTime)
 		{
 			this->activeScene = new PlayScene();
 			this->activeScene->initialize();
+			break;
+		}
+		case GlobalState::GameState::Exit:
+		{
 			break;
 		}
 		default:

@@ -35,18 +35,23 @@ public:
 	void render(SDL_Renderer* renderer);
 	void destroy();
 
+public:
+	bool winCondition();
+
 private:
 	void extractBricks(const char* text);
-	void checkBrickCollision(Brick* brick);
+	void checkBrickCollision(Ball* ball, Brick* brick, float deltaTime);
 	void checkPaddleCollision(float deltaTime);
 	bool paddleCollision(Ball* ball);
 	float getReflection(float hitx);
 	void setDirection(Ball* ball, float newdirx, float newdiry, float deltaTime);
+	void ballBrickResponse(Brick::BrickResponse, Ball* ball, float deltaTime);
 
 private:
 	LevelDefinition levelDefinition;
 	std::map<std::string, BrickType*> brickTypes;
 	std::vector< std::vector<std::string> > bricks;
+	int numOfDestroyableBricks;
 	std::vector<Brick*> bricksObjects;
 	std::vector<Ball*> balls;
 	Player* player;

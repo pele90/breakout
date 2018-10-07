@@ -1,6 +1,7 @@
 <Layout>
-	<!-- <Image name="triangle_one" texture_name="triangle" rect="100,50,50,50" /> -->
-	<!-- <Image name="triangle_two" texture_name="triangle" rect="160,50,50,50" /> -->
-	<!-- <Image name="triangle_three" texture_name="triangle" rect="220,50,50,50" /> -->
-	<Button name="continue_button" texture_name="playButton" rect="400,250,100,100" visible="1" />
+	<Image name="heart1" texture_name="heart" rect="100,15,20,20" />
+	<Image name="heart2" texture_name="heart" rect="130,15,20,20" />
+	<Image name="heart3" texture_name="heart" rect="160,15,20,20" />
+	<Label name="score_label" text="Score: 40" font_name="Lato-Regular" font_color="255,255,255,255" font_size="72" rect="200,15,100,20"/>
+	<Button name="continue_button" texture_name="playButton" rect="400,250,100,100" visible="0" />
 </Layout>

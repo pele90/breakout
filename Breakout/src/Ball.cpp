@@ -13,7 +13,7 @@ bool Ball::initialize()
 		// LOG error
 	}
 
-	SDL_Rect rect = { 450, 600, 20, 20 };
+	SDL_Rect rect = { 450, 600, 15, 15 };
 	this->setTransform(rect);
 
 	this->velocity.setX(10);
@@ -24,8 +24,8 @@ bool Ball::initialize()
 
 void Ball::update(float deltaTime)
 {
-	this->transform.x += (this->velocity.getX() * BALL_SPEED) * deltaTime;
-	this->transform.y += (this->velocity.getY() * BALL_SPEED) * deltaTime;
+	this->transform.x += this->velocity.getX();
+	this->transform.y += this->velocity.getY();
 }
 
 void Ball::render(SDL_Renderer* renderer)
@@ -45,18 +45,6 @@ void Ball::destroy()
 
 	SDL_FreeSurface(this->surface);
 	this->surface = NULL;
-}
-
-void Ball::flipXVelocity()
-{
-	float x = this->velocity.getX() * -1;
-	this->velocity.setX(x);
-}
-
-void Ball::flipYVelocity()
-{
-	float y = this->velocity.getY() * -1;
-	this->velocity.setX(y);
 }
 
 Vector2D Ball::getVelocity() const

@@ -8,14 +8,22 @@ struct BrickType
 {
 	std::string id;
 	std::string texture;
-	int hitPoints;
+	std::string hitPoints;
 	std::string hitSound;
 	std::string breakSound;
-	int breakScore;
+	std::string breakScore;
 };
 
 class Brick : public Entity
 {
+public:
+	enum BrickResponse
+	{
+		Left,
+		Top,
+		Right,
+		Bottom
+	};
 public:
 	Brick();
 	Brick(std::string filename);
@@ -27,13 +35,16 @@ public:
 	virtual void destroy();
 
 	void setBrickType(BrickType type);
-
-private:
-	void handleHit();
-
+	void setInteractable(bool value);
+	bool isInteractable() const;
+	bool handleHit();
+	void removeTexture();
 
 private:
 	BrickType brickType;
+	int hitpoints;
+	int breakScore;
+	bool interactable;
 };
 
 #endif // !BRICK_H

@@ -5,7 +5,7 @@
 #include "Resources.h"
 #include <stdlib.h>
 
-#define MOVEMENT_SPEED 200
+#define MOVEMENT_SPEED 500
 
 class Player : public Entity
 {
