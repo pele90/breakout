@@ -183,3 +183,4 @@ bool Input::rightArrowPressed;
 bool Input::qButtonPressed;
 bool Input::spaceButtonPressed;
 bool Input::escButtonPressed;
+bool Input::escPressedLastFrame;

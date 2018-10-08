@@ -55,6 +55,7 @@ private:
 	static bool qButtonPressed;
 	static bool spaceButtonPressed;
 	static bool escButtonPressed;
+	static bool escPressedLastFrame;
 };
 
 #endif // !INPUT_H
