@@ -21,7 +21,6 @@ public:
 	static bool isQButtonPressed();
 	static bool isSpaceButtonPressed();
 	static bool isEscButtonPressed();
-	static bool isEscButtonPressedInLastFrame();
 
 	static void setLeftMouseButtonUp(bool value);
 	static void setRightMouseButtonUp(bool value);
@@ -56,7 +55,6 @@ private:
 	static bool qButtonPressed;
 	static bool spaceButtonPressed;
 	static bool escButtonPressed;
-	static bool escPressedLastFrame;
 };
 
 #endif // !INPUT_H

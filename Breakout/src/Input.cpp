@@ -41,11 +41,6 @@ bool Input::isEscButtonPressed()
 	return escButtonPressed;
 }
 
-bool Input::isEscButtonPressedInLastFrame()
-{
-	return isEscButtonPressedInLastFrame;
-}
-
 void Input::setLeftMouseButtonUp(bool value)
 {
 	leftMouseButtonPressed = value;
@@ -188,4 +183,3 @@ bool Input::rightArrowPressed;
 bool Input::qButtonPressed;
 bool Input::spaceButtonPressed;
 bool Input::escButtonPressed;
-bool Input::escPressedLastFrame;
