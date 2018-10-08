@@ -26,15 +26,7 @@ bool EndGameScene::initialize()
 	this->ui->setButtonCallback(EXIT_BUTTON_NAME, &onEndGameExitClick);
 	this->ui->setButtonCallback(MENU_BUTTON_NAME, &onEndGameMenuClick);
 
-	if (GlobalState::getLives() == 0)
-	{
-		this->ui->changeImageVisibility(GAME_OVER_TEXTURE_NAME, true);
-	}
-	else
-	{
-		this->ui->changeLabelVisibility(GAME_COMPLETE_LABEL_NAME, true);
-	}
-
+	//std::string message = ? VICTORY_MESSAGE : GAME_LOST_MASSAGE;
 	this->ui->changeLabelText(END_GAME_SCORE_VALUE_LABEL_NAME, std::to_string(GlobalState::getScore()));
 
 

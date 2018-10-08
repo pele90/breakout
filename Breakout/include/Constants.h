@@ -70,8 +70,7 @@ constexpr float screen_ticks_per_frame = 1000.f / FPS;
 #define END_GAME_SCENE_LAYOUT_NAME "end_game_menu"
 #define END_GAME_MESSAGE_LABEL_NAME "game_over_label"
 #define END_GAME_SCORE_VALUE_LABEL_NAME "score_value_label"
-#define GAME_OVER_TEXTURE_NAME "game_over_image"
-#define GAME_COMPLETE_LABEL_NAME "game_complete_label"
+#define GAME_OVER_TEXTURE_NAME "game_over"
 
 // BUTTONS
 #define MENU_BUTTON_NAME "menu_button"

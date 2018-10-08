@@ -97,13 +97,6 @@ void UI::changeLabelVisibility(std::string labelName, bool value)
 	(*it).second->setVisibility(value);
 }
 
-void UI::changeImageVisibility(std::string imageName, bool value)
-{
-	std::map<std::string, ImageObject*> images = this->dataset->getImages();
-	std::map<std::string, ImageObject*>::iterator it = images.find(imageName);
-	(*it).second->setVisibility(value);
-}
-
 void UI::setButtonCallback(std::string buttonName, void(*fptr)())
 {
 	std::map<std::string, Button*> buttons = this->dataset->getButtons();

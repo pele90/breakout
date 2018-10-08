@@ -23,7 +23,6 @@ public:
 	void destroy();
 
 	void changeLabelVisibility(std::string labelName, bool value);
-	void changeImageVisibility(std::string imageName, bool value);
 	void setButtonCallback(std::string buttonName, void(*fptr)());
 	void changeLabelText(std::string labelName, std::string text);
 	void hideImage(std::string imageName);
