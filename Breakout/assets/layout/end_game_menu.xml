@@ -1,8 +1,9 @@
 <Layout>
-	<Label name="game_over_label" text="Game over" font_name="Lato-Regular" font_color="178,92,115,255" font_size="72" rect="322,100,300,150" />
-	<Label name="score_label" text="Your score is: " font_name="Lato-Regular" font_color="178,92,115,255" font_size="72" rect="212,250,300,100" />
-	<Label name="score_value_label" text="100" font_name="Lato-Regular" font_color="178,92,115,255200" font_size="72" rect="552,275,200,70" />
+	<Image name="game_over_image" texture_name="ui/game_over" rect="300,80,400,200" />
+	<Label name="score_label" text="Your score:" font_name="PG_Roof Runners_active" font_color="230,0,18,255" font_size="86" rect="212,370,300,100" />
+	<Label name="score_value_label" text="" font_name="PG_Roof Runners_active" font_color="230,0,18,255" font_size="76" rect="700,382,200,70" />
 	
-	<Button name="restart_button" texture_name="restartButton" rect="362,434,100,100" />
-	<Button name="exit_button" texture_name="exitButton" rect="552,434,100,100" />
+	<Button name="restart_button" texture_name="ui/restart_button" rect="302,534,100,100" />
+	<Button name="menu_button" texture_name="ui/menu_button" rect="452,534,100,100" />
+	<Button name="exit_button" texture_name="ui/exit_button" rect="602,534,100,100" />
 </Layout>

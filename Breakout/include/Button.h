@@ -2,6 +2,7 @@
 #define BUTTON_H
 
 #include "UIObject.h"
+#include "SoundManager.h"
 
 class Button : public UIObject
 {

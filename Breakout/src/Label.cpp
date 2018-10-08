@@ -71,6 +71,8 @@ void Label::update()
 
 void Label::render(SDL_Renderer* renderer)
 {
+	SDL_Rect textRect = this->transform;
+
 	if (this->dirty)
 	{
 		if (this->texture != NULL)
@@ -85,13 +87,17 @@ void Label::render(SDL_Renderer* renderer)
 
 		this->surface = TTF_RenderText_Blended(this->font, this->text.c_str(), this->fontColor);
 		this->texture = SDL_CreateTextureFromSurface(renderer, this->surface);
-		SDL_RenderCopy(renderer, this->texture, nullptr, &this->transform);
+
+		
+		TTF_SizeText(this->font, this->text.c_str(), &textRect.w, &textRect.h);
+		SDL_RenderCopy(renderer, this->texture, nullptr, &textRect);
 
 		this->dirty = false;
 	}
 	else
 	{
-		SDL_RenderCopy(renderer, this->texture, nullptr, &this->transform);
+		TTF_SizeText(this->font, this->text.c_str(), &textRect.w, &textRect.h);
+		SDL_RenderCopy(renderer, this->texture, nullptr, &textRect);
 	}
 }
 

@@ -8,6 +8,7 @@
 #include "GlobalState.h"
 #include "Input.h"
 #include "SceneManager.h"
+#include "SoundManager.h"
 #include "UI.h"
 
 class Game

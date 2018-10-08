@@ -5,37 +5,39 @@
 			Id="S"
 			Texture="bricks/brick_S"
 			HitPoints="1"
-			HitSound="Sounds/Hit_01.wav"
-			BreakSound="Sounds/Break_01.wav"
+			HitSound="Hit_01"
+			BreakSound="Break_01"
 			BreakScore="50" />
 		<!-- Medium Brick -->
 		<BrickType
 			Id="M"
 			Texture="bricks/brick_M"
 			HitPoints="2"
-			HitSound="Sounds/Hit_02.wav"
-			BreakSound="Sounds/Break_02.wav"
+			HitSound="Hit_02"
+			BreakSound="Break_02"
 			BreakScore="100" />
 		<!-- Hard Brick -->
 		<BrickType
 			Id="H"
 			Texture="bricks/brick_H"
 			HitPoints="3"
-			HitSound="Sounds/Hit_03.wav"
-			BreakSound="Sounds/Break_03.wav"
+			HitSound="Hit_03"
+			BreakSound="Break_03"
 			BreakScore="150" />
 		<!-- Impenetrable Brick -->
 		<BrickType
 			Id="I"
 			Texture="bricks/brick_I"
 			HitPoints="Infinite"
-			HitSound="Sounds/Hit_04.wav" />
+			HitSound="Hit_04" />
 	</BrickTypes>
 	<Bricks>
-		_ _ S _ _ _ _ _ _ S S _ _ _ _ _ _ _ _ _
-		_ _ S _ _ _ _ _ _ M H _ _ _ _ _ _ _ _ _
-		H H H H H H H H H H H H H H H H H H H H
-		H H H H H H H H H H H H H H H H H H H H
-		H H H H H H H H H H H H H H H H H H H H
+		S S S S S S S S S S S S S S S S S S S S
+		S _ _ _ S S _ _ _ _ S S _ _ _ S _ S _ S
+		S _ S S S S _ S S _ S S _ S S S _ S _ S
+		S _ _ _ S S _ S S _ S S _ _ _ S _ _ _ S
+		S _ S S S S _ _ _ _ S S S S _ S S S _ S
+		S _ _ _ S S _ S S _ S S _ _ _ S _ _ _ S
+		S S S S S S S S S S S S S S S S S S S S
 	</Bricks>
 </Level>

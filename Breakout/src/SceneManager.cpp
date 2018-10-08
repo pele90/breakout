@@ -17,7 +17,7 @@ void SceneManager::initialize()
 void SceneManager::update(float deltaTime)
 {
 	GlobalState::GameState state = GlobalState::getCurrentState();
-	if (this->previousState != state)
+	if (this->previousState != state && this->previousState != GlobalState::GameState::Paused && state != GlobalState::GameState::Paused)
 	{
 		this->currentState = state;
 		this->previousState = state;
@@ -40,10 +40,19 @@ void SceneManager::update(float deltaTime)
 		}
 		case GlobalState::GameState::NextLevel:
 		{
-			this->activeScene = new PlayScene();
-			this->activeScene->initialize();
-			GlobalState::nextLevel();
-			GlobalState::setCurrentState(GlobalState::GameState::Play);
+			
+			if (GlobalState::nextLevel())
+			{
+				this->activeScene = new PlayScene();
+				this->activeScene->initialize();
+				GlobalState::setCurrentState(GlobalState::GameState::Play);
+			}
+			else
+			{
+				this->activeScene = new EndGameScene();
+				this->activeScene->initialize();
+			}
+			
 			break;
 		}
 		case GlobalState::GameState::ShowEndScreen:
@@ -58,6 +67,10 @@ void SceneManager::update(float deltaTime)
 			this->activeScene->initialize();
 			break;
 		}
+		case GlobalState::GameState::Paused:
+		{
+			break;
+		}
 		case GlobalState::GameState::Exit:
 		{
 			break;
@@ -68,7 +81,27 @@ void SceneManager::update(float deltaTime)
 	}
 	else
 	{
-		this->activeScene->update(deltaTime);
+		if (Input::isEscButtonPressed())
+		{
+			/*if (this->previousState == GlobalState::GameState::Paused)
+			{
+				this->currentState = GlobalState::GameState::Play;
+				this->previousState = GlobalState::GameState::Play;
+			}
+			else
+			{*/
+				this->currentState = GlobalState::GameState::Paused;
+			//}
+		}
+
+		if (this->currentState != GlobalState::GameState::Paused)
+		{
+			this->activeScene->update(deltaTime);
+		}
+		/*else if (this->previousState != GlobalState::GameState::Paused)
+		{
+			this->previousState = GlobalState::GameState::Paused;
+		}*/
 	}
 }
 

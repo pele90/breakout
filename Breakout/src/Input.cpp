@@ -36,6 +36,16 @@ bool Input::isSpaceButtonPressed()
 	return spaceButtonPressed;
 }
 
+bool Input::isEscButtonPressed()
+{
+	return escButtonPressed;
+}
+
+bool Input::isEscButtonPressedInLastFrame()
+{
+	return isEscButtonPressedInLastFrame;
+}
+
 void Input::setLeftMouseButtonUp(bool value)
 {
 	leftMouseButtonPressed = value;
@@ -66,6 +76,16 @@ void Input::setSpaceButtonPressed(bool value)
 	spaceButtonPressed = value;
 }
 
+void Input::setEscButtonPressed(bool value)
+{
+	escButtonPressed = value;
+}
+
+void Input::setEscButtonPressedInLastFrame(bool value)
+{
+	escPressedLastFrame = value;
+}
+
 void Input::setMouse(int x, int y)
 {
 	mouse.x = x;
@@ -86,6 +106,7 @@ void Input::reset()
 	rightArrowPressed = false;
 	qButtonPressed = false;
 	spaceButtonPressed = false;
+	escButtonPressed = false;
 }
 
 bool Input::handleInputs()
@@ -140,6 +161,20 @@ bool Input::handleInputs()
 	{
 		setSpaceButtonPressed(true);
 	}
+	else if (currentKeyStates[SDL_SCANCODE_ESCAPE])
+	{
+		if (!escPressedLastFrame)
+		{
+			setEscButtonPressed(true);
+		}
+		
+		setEscButtonPressedInLastFrame(true);
+	}
+	else
+	{
+		// If ESC key was not pressed, set that flag is not pressed
+		setEscButtonPressedInLastFrame(false);
+	}
 
 	return isRunning;
 }
@@ -152,3 +187,5 @@ bool Input::leftArrowPressed;
 bool Input::rightArrowPressed;
 bool Input::qButtonPressed;
 bool Input::spaceButtonPressed;
+bool Input::escButtonPressed;
+bool Input::escPressedLastFrame;

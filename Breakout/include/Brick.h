@@ -33,6 +33,7 @@ public:
 	virtual void render(SDL_Renderer* renderer);
 
 	bool isInteractable() const;
+	BrickType getBrickType() const;
 	void setInteractable(bool value);
 	void setBrickType(BrickType type);
 	int handleHit();

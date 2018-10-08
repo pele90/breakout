@@ -1,8 +1,5 @@
 #include "PlayScene.h"
 
-// Forward initialization of button handler
-void onReturnClick();
-
 PlayScene::PlayScene(){}
 
 PlayScene::~PlayScene(){}
@@ -13,6 +10,10 @@ bool PlayScene::initialize()
 	{
 		return false;
 	}
+
+	SoundManager::addMusic(GAME_MUSIC_NAME);
+	SoundManager::playMusic(GAME_MUSIC_NAME);
+	SoundManager::addSound(BUTTON_CLICK_SOUND);
 
 	int currentLevel = GlobalState::getLevel();
 	int currentScore = GlobalState::getScore();
@@ -27,7 +28,6 @@ bool PlayScene::initialize()
 	// UI
 	this->ui = new UI();
 	this->ui->initialize(PLAY_SCENE_LAYOUT_NAME);
-	this->ui->setButtonCallback(CONTINUE_BUTTON_NAME, &onReturnClick);
 	this->ui->changeLabelText(SCORE_LABEL_NAME, std::to_string(currentScore));
 	this->ui->changeLabelText(LEVEL_LABEL_NAME, std::to_string(currentLevel));
 
@@ -40,6 +40,13 @@ void PlayScene::update(float deltaTime)
 	if (Input::isQButtonPressed())
 	{
 		GlobalState::setCurrentState(GlobalState::GameState::NextLevel);
+	}
+	else if (Input::isEscButtonPressed())
+	{
+		if (GlobalState::getCurrentState() != GlobalState::GameState::Paused)
+		{
+			GlobalState::setCurrentState(GlobalState::GameState::Paused);
+		}
 	}
 	else
 	{
@@ -88,10 +95,4 @@ void PlayScene::updateLivesUI()
 
 		this->ui->hideImage(imageName);
 	}
-}
-
-// Button handlers
-void onReturnClick()
-{
-	GlobalState::setCurrentState(GlobalState::GameState::ShowEndScreen);
 }

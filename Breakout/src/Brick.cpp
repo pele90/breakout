@@ -16,7 +16,7 @@ bool Brick::initialize()
 			return false;
 		}
 
-		if (this->brickType.hitPoints == "Infinite")
+		if (this->brickType.hitPoints == INFINITE_BRICK_TYPE)
 		{
 			this->hitpoints = -1;
 		}
@@ -27,7 +27,12 @@ bool Brick::initialize()
 			this->breakScore = std::stoi(this->brickType.breakScore);
 		}
 
-		// Load sounds i guess
+		SoundManager::addSound(brickType.hitSound);
+
+		if (brickType.breakSound != "")
+		{
+			SoundManager::addSound(brickType.breakSound);
+		}
 	}
 
 	return true;
@@ -48,6 +53,11 @@ void Brick::render(SDL_Renderer * renderer)
 bool Brick::isInteractable() const
 {
 	return this->interactable;
+}
+
+BrickType Brick::getBrickType() const
+{
+	return this->brickType;
 }
 
 void Brick::setInteractable(bool value)
@@ -73,15 +83,19 @@ int Brick::handleHit()
 		// Set returning value to defined break score value
 		hitResult = this->breakScore;
 
-		// play sound
-
 		if (this->hitpoints == 0)
 		{
 			this->removeTexture();
 			this->interactable = false;
+
+			// play break sound
+			SoundManager::playSFX(brickType.breakSound);
 		}
 		else
 		{
+			// play hit sound
+			SoundManager::playSFX(brickType.hitSound);
+
 			std::string damagedBrickFilename = DAMAGED_BRICK_PREFIX;
 			damagedBrickFilename.append(this->brickType.id).append(DAMAGED_BRICK_SUFFIX);
 			if (!Util::loadPng(damagedBrickFilename.c_str(), this->surface))
@@ -95,6 +109,10 @@ int Brick::handleHit()
 				this->texture = nullptr;
 			}
 		}
+	}
+	else
+	{
+		SoundManager::playSFX(brickType.hitSound);
 	}
 
 	return hitResult;

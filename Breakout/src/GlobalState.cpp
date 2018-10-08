@@ -82,13 +82,15 @@ bool GlobalState::reduceLife()
 	return false;
 }
 
-void GlobalState::nextLevel()
+bool GlobalState::nextLevel()
 {
 	if (++level > NUMBER_OF_LEVELS)
 	{
 		level = 1;
-		score = 0;
+		return false;
 	}
+
+	return true;
 }
 
 // A quirk of C++, static member variables need to be instantiated outside of the class

@@ -10,6 +10,7 @@
 #include "Constants.h"
 #include "GlobalState.h"
 #include "Input.h"
+#include "SoundManager.h"
 #include "Util.h"
 
 

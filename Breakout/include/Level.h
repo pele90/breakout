@@ -61,7 +61,7 @@ private:
 	std::vector< std::vector<std::string> > bricks;
 	bool uiChanged;
 	bool isBallFollowingPlayer;
-	int numOfDestroyableBricks;
+	int numOfDestroyableBricks; // number of times ball has to hit bricks to finish level 
 };
 
 #endif // !LEVEL_H

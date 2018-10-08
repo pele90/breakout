@@ -1,11 +1,12 @@
 #ifndef SCENE_MANAGER_H
 #define SCENE_MANAGER_H
 
-#include "Scene.h"
+#include "EndGameScene.h"
 #include "GlobalState.h"
 #include "MainMenuScene.h"
 #include "PlayScene.h"
-#include "EndGameScene.h"
+#include "Scene.h"
+#include "SoundManager.h"
 
 class SceneManager
 {

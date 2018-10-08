@@ -14,7 +14,14 @@ MainMenuScene::~MainMenuScene()
 
 bool MainMenuScene::initialize()
 {
-	this->setBackground(MAIN_MENU_SCENE_BACKGROUND_TEXTURE_PATH);
+	if (!this->setBackground(MAIN_MENU_SCENE_BACKGROUND_TEXTURE_PATH))
+	{
+		return false;
+	}
+
+	SoundManager::addMusic(MENU_MUSIC_NAME);
+	SoundManager::playMusic(MENU_MUSIC_NAME);
+	SoundManager::addSound(BUTTON_CLICK_SOUND);
 
 	this->ui = new UI();
 	this->ui->initialize(MAIN_MENU_SCENE_LAYOUT_NAME);

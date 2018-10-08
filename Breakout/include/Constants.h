@@ -3,8 +3,8 @@
 
 // PLAYER
 #define PLAYER_MOVEMENT_SPEED 500.f
-#define PLAYER_STARTING_POSITION { 400, 650, 200, 20 }
-#define PLAYER_TEXTURE_NAME "player"
+#define PLAYER_STARTING_POSITION { 400, 650, 150, 20 }
+#define PLAYER_TEXTURE_NAME "ui/player"
 
 // SCREEN
 #define DEFAULT_SCREEN_WIDTH 1024.f
@@ -27,7 +27,7 @@ constexpr float screen_ticks_per_frame = 1000.f / FPS;
 #define BALL_MOVEMENT_SPEED 600.f
 #define BALL_STARTING_POSITION { 450, 600, 15, 15 }
 #define BALL_STARTING_DIRECTION {2, -12}
-#define BALL_TEXTURE_NAME "ball"
+#define BALL_TEXTURE_NAME "ui/ball"
 
 // LEVEL
 #define NUMBER_OF_LEVELS 5
@@ -50,10 +50,11 @@ constexpr float screen_ticks_per_frame = 1000.f / FPS;
 #define BRICK_TYPE_HIT_SOUND "HitSound"
 #define BRICK_TYPE_BREAK_SOUND "BreakSound"
 #define BRICK_TYPE_BREAK_SCORE "BreakScore"
+#define INFINITE_BRICK_TYPE "Infinite"
 
 // PLAY SCENE
 #define PLAY_SCENE_BACKGROUND_TEXTURE_PATH "background/game_background"
-#define SCORE_LABEL_NAME "score_value_label"
+#define SCORE_LABEL_NAME "game_score_value_label"
 #define LEVEL_LABEL_NAME "level_value_label"
 #define LIVES_LABEL_NAME "heart_"
 #define LEVEL_PREFIX "Level_"
@@ -63,14 +64,23 @@ constexpr float screen_ticks_per_frame = 1000.f / FPS;
 #define MAIN_MENU_SCENE_BACKGROUND_TEXTURE_PATH "background/wall_background"
 #define MAIN_MENU_SCENE_LAYOUT_NAME "main_menu"
 
+// END GAME SCENE
+#define END_GAME_SCENE_BACKGROUND_TEXTURE_PATH "background/wall_background"
+#define END_GAME_SCENE_LAYOUT_NAME "end_game_menu"
+#define END_GAME_MESSAGE_LABEL_NAME "game_over_label"
+#define END_GAME_SCORE_VALUE_LABEL_NAME "score_value_label"
+#define GAME_OVER_TEXTURE_NAME "game_over"
+
 // BUTTONS
-#define CONTINUE_BUTTON_NAME "continue_button"
+#define MENU_BUTTON_NAME "menu_button"
 #define PLAY_BUTTON_NAME "play_button"
 #define EXIT_BUTTON_NAME "exit_button"
+#define RESTART_BUTTON_NAME "restart_button"
 #define HOVERED_BUTTON_ALPHA 200
 #define FULL_ALPHA 255
 #define HOVER_BUTTON_POSITION_VALUE 3
 #define HOVER_BUTTON_SCALE_VALUE 6
+#define BUTTON_CLICK_SOUND "button_click"
 
 // DATASET DEFINITIONS
 #define BUTTON_ELEMENT "Button"
@@ -88,5 +98,10 @@ constexpr float screen_ticks_per_frame = 1000.f / FPS;
 #define VISIBLE_FALSE_VALUE "0"
 #define VISIBLE_TRUE_VALUE "1"
 
+// MUSIC
+#define MENU_MUSIC_NAME "menu_music"
+#define GAME_MUSIC_NAME "game_music"
+#define BALL_PLAYER_HIT "ball_player_hit"
+#define MUSIC_VOLUME_MODIFIER 0.75f
 
 #endif // !CONSTANTS_H

@@ -37,6 +37,7 @@
     <ClCompile Include="src\Player.cpp" />
     <ClCompile Include="src\PlayScene.cpp" />
     <ClCompile Include="src\SceneManager.cpp" />
+    <ClCompile Include="src\SoundManager.cpp" />
     <ClCompile Include="src\UI.cpp" />
     <ClCompile Include="src\Scene.cpp" />
     <ClCompile Include="src\UIObject.cpp" />
@@ -61,6 +62,7 @@
     <ClInclude Include="include\PlayScene.h" />
     <ClInclude Include="include\Resources.h" />
     <ClInclude Include="include\SceneManager.h" />
+    <ClInclude Include="include\SoundManager.h" />
     <ClInclude Include="include\UI.h" />
     <ClInclude Include="include\Scene.h" />
     <ClInclude Include="include\UIObject.h" />
@@ -125,11 +127,11 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)lib\TinyXML2;$(ProjectDir)lib\SDL2_image-2.0.2\include;$(ProjectDir)lib\SDL2_ttf-2.0.14\include;$(ProjectDir)include;$(ProjectDir)lib\SDL2-development\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)lib\TinyXML2;$(ProjectDir)lib\SDL2_image-2.0.2\include;$(ProjectDir)lib\SDL2_ttf-2.0.14\include;$(ProjectDir)include;$(ProjectDir)lib\SDL2-development\include;$(ProjectDir)lib\SDL2_mixer-2.0.2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>$(ProjectDir)lib\SDL2_image-2.0.2\lib\x86;$(ProjectDir)lib\SDL2_ttf-2.0.14\lib\x86;$(ProjectDir)lib\SDL2-development\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_ttf.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)lib\SDL2_image-2.0.2\lib\x86;$(ProjectDir)lib\SDL2_ttf-2.0.14\lib\x86;$(ProjectDir)lib\SDL2-development\lib\x86;$(ProjectDir)lib\SDL2_mixer-2.0.2\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_ttf.lib;SDL2_image.lib;SDL2_mixer.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
     </Link>

@@ -18,6 +18,9 @@ bool Level::initialize(std::string levelName)
 		return false;
 	}
 
+	// add sound for player and ball collision
+	SoundManager::addSound(BALL_PLAYER_HIT);
+
 	// BALL
 	this->ball = new Ball(BALL_TEXTURE_NAME);
 	if (!ball->initialize())
@@ -248,7 +251,11 @@ bool Level::createLevel(LevelDefinition levelDefinition)
 				brick->setBrickType(*type);
 				brick->setTextureFilename(type->texture);
 				brick->setInteractable(true);
-				this->numOfDestroyableBricks++;
+
+				if (type->hitPoints != INFINITE_BRICK_TYPE)
+				{
+					this->numOfDestroyableBricks += std::stoi(type->hitPoints);
+				}
 			}
 
 			SDL_Rect rect = { ((rowCounter * offsetX) + columnSpacingOffset) + boardXOffset, ((columnCounter * offsetY) + rowSpacingOffset) + boardYOffset, w, h };
@@ -421,24 +428,24 @@ void Level::checkBallBrickCollision(Ball* ball, Brick* brick, float deltaTime)
 			if (xSize > ySize) {
 				if (ballCenterY > brickCenterY) {
 					// Bottom
-					ballRect.y += ySize + 0.01f; // Move out of collision
+					ballRect.y += ySize + 1.f; // Move out of collision
 					this->ballBrickResponse(Brick::BrickCollisionResponse::Bottom, ball, deltaTime);
 				}
 				else {
 					// Top
-					ballRect.y -= ySize + 0.01f; // Move out of collision
+					ballRect.y -= ySize + 1.f; // Move out of collision
 					this->ballBrickResponse(Brick::BrickCollisionResponse::Top, ball, deltaTime);
 				}
 			}
 			else {
 				if (ballCenterX < brickCenterX) {
 					// Left
-					ballRect.x -= xSize + 0.01f; // Move out of collision
+					ballRect.x -= xSize + 1.f; // Move out of collision
 					this->ballBrickResponse(Brick::BrickCollisionResponse::Left, ball, deltaTime);
 				}
 				else {
 					// Right
-					ballRect.x += xSize + 0.01f; // Move out of collision
+					ballRect.x += xSize + 1.f; // Move out of collision
 					this->ballBrickResponse(Brick::BrickCollisionResponse::Right, ball, deltaTime);
 				}
 			}
@@ -534,6 +541,8 @@ void Level::checkBallPaddleCollision(float deltaTime)
 	// Check paddle bounding box against ball bounding box
 	if (SDL_HasIntersection(&ballRect, &playerRect))
 	{
+		SoundManager::playSFX(BALL_PLAYER_HIT);
+
 		this->setDirection(this->ball, this->getCollisionReflection(ballCenterX - this->player->getTransform().x), -1, deltaTime);
 	}
 }

@@ -12,6 +12,7 @@ public:
 		ShowSplash,
 		ShowMenu,
 		Play,
+		Paused,
 		NextLevel,
 		Restart,
 		Exit,
@@ -37,7 +38,7 @@ public:
 
 	static void addScore(int value);
 	static bool reduceLife();
-	static void nextLevel();
+	static bool nextLevel();
 
 private:
 	GlobalState() {};

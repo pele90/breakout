@@ -46,6 +46,9 @@ bool Game::initialize()
 				// Set color of renderer to white
 				SDL_SetRenderDrawColor(this->renderer, 255, 255, 255, 255);
 
+				// SOUND MANAGER
+				SoundManager::initialize();
+
 				// SCENE MANAGER
 				sceneManager = new SceneManager();
 				sceneManager->initialize();
@@ -83,7 +86,7 @@ void Game::run()
 			deltaTime = (frame / (SDL_GetTicks() / 1000.f)) * 0.001;
 
 			this->update(timeDifference * 0.001);
-
+			
 			this->render();
 
 			frame++;
@@ -108,7 +111,7 @@ void Game::update(float deltaTime)
 	else
 	{
 		this->sceneManager->update(deltaTime);
-	}
+	}	
 }
 
 void Game::render()
@@ -125,6 +128,8 @@ void Game::destroy()
 	this->sceneManager->destroy();
 	delete this->sceneManager;
 	this->sceneManager = NULL;
+
+	SoundManager::destroy();
 
 	SDL_DestroyWindow(this->window);
 	this->window = NULL;

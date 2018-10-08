@@ -17,9 +17,8 @@ bool Button::initialize()
 	}
 	else
 	{
-		this->onClick = nullptr;
-
 		dirty = true;
+		this->onClick = nullptr;
 	}
 
 	return true;
@@ -51,7 +50,8 @@ void Button::update()
 		{
 			if (this->onClick != NULL)
 			{
-				onClick();	
+				SoundManager::playSFX(BUTTON_CLICK_SOUND);
+				onClick();
 			}
 		}
 	}

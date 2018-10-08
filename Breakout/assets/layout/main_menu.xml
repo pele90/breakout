@@ -1,5 +1,7 @@
 <Layout>
-	<Label name="welcome_label" text="Breakout" font_name="Lato-Regular" font_color="255,255,255,255" font_size="92" rect="212,34,600,300"/>
-	<Button name="play_button" texture_name="playButton" rect="462,434,100,100" />
-	<Button name="exit_button" texture_name="exitButton" rect="462,584,100,100" />
+	<Image name="splatter" texture_name="ui/color_splatter" rect="0,0,1024,400" />
+	<Label name="welcome_label" text="Breakout" font_name="SedgwickAveDisplay-Regular" font_color="88,193,232,255" font_size="190" rect="160,180,600,300"/>
+	<Button name="play_button" texture_name="ui/play_button" rect="362,500,100,100" />
+	<Button name="exit_button" texture_name="ui/exit_button" rect="562,500,100,100" />
+	<Label name="author_label" text="By Goran Petkovich" font_name="SedgwickAveDisplay-Regular" font_color="88,193,232,255" font_size="56" rect="550,680,10,10"/>
 </Layout>
