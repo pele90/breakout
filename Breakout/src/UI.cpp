@@ -90,6 +90,13 @@ void UI::destroy()
 	TTF_Quit();
 }
 
+void UI::changeLabelVisibility(std::string labelName, bool value)
+{
+	std::map<std::string, Label*> labels = this->dataset->getLabels();
+	std::map<std::string, Label*>::iterator it = labels.find(labelName);
+	(*it).second->setVisibility(value);
+}
+
 void UI::setButtonCallback(std::string buttonName, void(*fptr)())
 {
 	std::map<std::string, Button*> buttons = this->dataset->getButtons();

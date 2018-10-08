@@ -41,13 +41,6 @@ void PlayScene::update(float deltaTime)
 	{
 		GlobalState::setCurrentState(GlobalState::GameState::NextLevel);
 	}
-	else if (Input::isEscButtonPressed())
-	{
-		if (GlobalState::getCurrentState() != GlobalState::GameState::Paused)
-		{
-			GlobalState::setCurrentState(GlobalState::GameState::Paused);
-		}
-	}
 	else
 	{
 		this->level->update(deltaTime);

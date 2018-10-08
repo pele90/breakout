@@ -3,7 +3,7 @@
 
 // PLAYER
 #define PLAYER_MOVEMENT_SPEED 500.f
-#define PLAYER_STARTING_POSITION { 400, 650, 150, 20 }
+#define PLAYER_STARTING_POSITION { 450, 700, 150, 20 }
 #define PLAYER_TEXTURE_NAME "ui/player"
 
 // SCREEN
@@ -59,6 +59,7 @@ constexpr float screen_ticks_per_frame = 1000.f / FPS;
 #define LIVES_LABEL_NAME "heart_"
 #define LEVEL_PREFIX "Level_"
 #define PLAY_SCENE_LAYOUT_NAME "game_gui"
+#define PLAY_PAUSE_LABEL_NAME "pause_label"
 
 // MAIN MENU SCENE
 #define MAIN_MENU_SCENE_BACKGROUND_TEXTURE_PATH "background/wall_background"

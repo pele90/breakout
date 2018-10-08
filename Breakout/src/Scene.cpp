@@ -29,6 +29,11 @@ void Scene::destroy()
 	this->backgroundTexture = nullptr;
 }
 
+void Scene::changeLabelVisibility(std::string labelName, bool value)
+{
+	this->ui->changeLabelVisibility(labelName, value);
+}
+
 bool Scene::setBackground(std::string filename)
 {
 	if (!Util::loadPng(filename.c_str(), this->backgroundSurface))

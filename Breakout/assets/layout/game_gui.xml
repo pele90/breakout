@@ -6,4 +6,5 @@
 	<Label name="game_score_value_label" text="" font_name="Lato-Regular" font_color="255,255,255,255" font_size="22" rect="215,10,50,20"/>
 	<Label name="level_label" text="Level: " font_name="Lato-Regular" font_color="255,255,255,255" font_size="22" rect="860,15,100,20"/>
 	<Label name="level_value_label" text="00" font_name="Lato-Regular" font_color="255,255,255,255" font_size="22" rect="925,15,20,20"/>
+	<Label name="pause_label" text="Paused" font_name="Lato-Regular" font_color="255,255,255,255" font_size="76" rect="390,300,20,20" visible="0" />
 </Layout>

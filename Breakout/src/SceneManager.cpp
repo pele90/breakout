@@ -17,91 +17,97 @@ void SceneManager::initialize()
 void SceneManager::update(float deltaTime)
 {
 	GlobalState::GameState state = GlobalState::getCurrentState();
-	if (this->previousState != state && this->previousState != GlobalState::GameState::Paused && state != GlobalState::GameState::Paused)
+	if (this->previousState != state)
 	{
-		this->currentState = state;
-		this->previousState = state;
-		this->activeScene->destroy();
-		delete this->activeScene;
+		// Don't delete active scene if current state is paused, so we can continue to play
+		if (state != GlobalState::GameState::Paused && this->previousState != GlobalState::GameState::Paused)
+		{
+			this->activeScene->destroy();
+			delete this->activeScene;
 
-		switch (state)
-		{
-		case GlobalState::GameState::ShowMenu:
-		{
-			this->activeScene = new MainMenuScene();
-			this->activeScene->initialize();
-			break;
-		}
-		case GlobalState::GameState::Play:
-		{
-			this->activeScene = new PlayScene();
-			this->activeScene->initialize();
-			break;
-		}
-		case GlobalState::GameState::NextLevel:
-		{
-			
-			if (GlobalState::nextLevel())
+			switch (state)
+			{
+			case GlobalState::GameState::ShowMenu:
+			{
+				this->activeScene = new MainMenuScene();
+				this->activeScene->initialize();
+				break;
+			}
+			case GlobalState::GameState::Play:
 			{
 				this->activeScene = new PlayScene();
 				this->activeScene->initialize();
-				GlobalState::setCurrentState(GlobalState::GameState::Play);
+				break;
 			}
-			else
+			case GlobalState::GameState::NextLevel:
+			{
+
+				if (GlobalState::nextLevel())
+				{
+					this->activeScene = new PlayScene();
+					this->activeScene->initialize();
+					GlobalState::setCurrentState(GlobalState::GameState::Play);
+				}
+				else
+				{
+					this->activeScene = new EndGameScene();
+					this->activeScene->initialize();
+				}
+
+				break;
+			}
+			case GlobalState::GameState::ShowEndScreen:
 			{
 				this->activeScene = new EndGameScene();
 				this->activeScene->initialize();
+				break;
 			}
-			
-			break;
+			case GlobalState::GameState::Restart:
+			{
+				this->activeScene = new PlayScene();
+				this->activeScene->initialize();
+				break;
+			}
+			case GlobalState::GameState::Paused:
+			{
+				break;
+			}
+			case GlobalState::GameState::Exit:
+			{
+				break;
+			}
+			default:
+				break;
+			}
 		}
-		case GlobalState::GameState::ShowEndScreen:
-		{
-			this->activeScene = new EndGameScene();
-			this->activeScene->initialize();
-			break;
-		}
-		case GlobalState::GameState::Restart:
-		{
-			this->activeScene = new PlayScene();
-			this->activeScene->initialize();
-			break;
-		}
-		case GlobalState::GameState::Paused:
-		{
-			break;
-		}
-		case GlobalState::GameState::Exit:
-		{
-			break;
-		}
-		default:
-			break;
-		}
+
+		this->currentState = state;
+		this->previousState = state;
 	}
 	else
 	{
 		if (Input::isEscButtonPressed())
 		{
-			/*if (this->previousState == GlobalState::GameState::Paused)
+
+			if (state == GlobalState::GameState::Paused)
 			{
-				this->currentState = GlobalState::GameState::Play;
-				this->previousState = GlobalState::GameState::Play;
+				GlobalState::setCurrentState(GlobalState::GameState::Play);
+				this->activeScene->changeLabelVisibility(PLAY_PAUSE_LABEL_NAME, false);
 			}
 			else
-			{*/
-				this->currentState = GlobalState::GameState::Paused;
-			//}
+			{
+				if (state == GlobalState::GameState::Play)
+				{
+					GlobalState::setCurrentState(GlobalState::GameState::Paused);
+					this->activeScene->changeLabelVisibility(PLAY_PAUSE_LABEL_NAME, true);
+				}
+			}
 		}
 
 		if (this->currentState != GlobalState::GameState::Paused)
 		{
 			this->activeScene->update(deltaTime);
 		}
-		/*else if (this->previousState != GlobalState::GameState::Paused)
-		{
-			this->previousState = GlobalState::GameState::Paused;
-		}*/
 	}
 }
 

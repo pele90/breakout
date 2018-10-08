@@ -18,6 +18,7 @@ public:
 	virtual void render(SDL_Renderer* renderer);
 	virtual void destroy();
 
+	void changeLabelVisibility(std::string labelName, bool value);
 	bool setBackground(std::string filename);
 	void renderBackground(SDL_Renderer* renderer);
 

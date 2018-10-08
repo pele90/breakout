@@ -22,6 +22,7 @@ public:
 	void render(SDL_Renderer* renderer);
 	void destroy();
 
+	void changeLabelVisibility(std::string labelName, bool value);
 	void setButtonCallback(std::string buttonName, void(*fptr)());
 	void changeLabelText(std::string labelName, std::string text);
 	void hideImage(std::string imageName);

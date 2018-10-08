@@ -123,7 +123,7 @@ void Dataset::extractLabelAttributes(tinyxml2::XMLNode* root)
 
 		label->setName(pElement->Attribute(NAME_ATTRIBUTE));
 
-		const char* value = pElement->Attribute(VISIBLE_ATTRIBUTE) == NULL ? VISIBLE_TRUE_VALUE : VISIBLE_FALSE_VALUE;
+		const char* value = pElement->Attribute(VISIBLE_ATTRIBUTE) == NULL ? VISIBLE_TRUE_VALUE : pElement->Attribute(VISIBLE_ATTRIBUTE);
 		visible = std::strcmp(value, VISIBLE_FALSE_VALUE) == 0 ? false : true;
 		label->setVisibility(visible);
 
