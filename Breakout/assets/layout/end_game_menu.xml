@@ -1,5 +1,6 @@
 <Layout>
-	<Image name="game_over_image" texture_name="ui/game_over" rect="300,80,400,200" />
+	<Image name="game_over_image" texture_name="ui/game_over" rect="300,80,400,200" visible="0"/>
+	<Label name="game_complete_label" text="Game completed!" font_name="SedgwickAveDisplay-Regular" font_color="230,0,18,255" font_size="112" rect="140,100,400,200" visible="0" />
 	<Label name="score_label" text="Your score:" font_name="PG_Roof_Runners_active" font_color="230,0,18,255" font_size="86" rect="212,370,300,100" />
 	<Label name="score_value_label" text="" font_name="PG_Roof_Runners_active" font_color="230,0,18,255" font_size="76" rect="700,382,200,70" />
 	
